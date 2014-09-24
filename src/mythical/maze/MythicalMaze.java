@@ -16,5 +16,6 @@ public class MythicalMaze {
     public static void main(String[] args) {
         MainMenu m = new MainMenu();
         m.start();
+        System.out.print("Done");
     }
 }
