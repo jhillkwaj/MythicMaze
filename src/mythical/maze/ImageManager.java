@@ -29,7 +29,7 @@ public class ImageManager {
     
     public static Image getImage(int slot)
     {
-        if(slot<images.size())
+        if(slot<images.size()&&images.get(slot)!=null)
         {
             return images.get(slot);
         }
