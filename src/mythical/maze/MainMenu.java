@@ -177,7 +177,7 @@ public class MainMenu extends JPanel {
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         Graphics2D g2d = (Graphics2D)g; 
         
-        moveDot(g);
+       
         try {
             Thread.sleep(30);
         } catch (InterruptedException ex) {
@@ -189,20 +189,7 @@ public class MainMenu extends JPanel {
     int[] xPoints = new int[50];
     int[] yPoints = new int[50];
     
-   private void moveDot(Graphics g)
-   {
-       g.setColor(new Color(0, 0, 0));
-       for(int i = 0; i < 50; i++)
-       {
-            g.drawLine(xPoints[i], yPoints[i], xPoints[i]+frame.getWidth()/20,  yPoints[i]+frame.getHeight()/10);
-            xPoints[i]+=(int)(Math.random()*frame.getWidth()/160)-((Math.random()*frame.getWidth()/160));
-            yPoints[i]+=(int)(Math.random()*frame.getHeight()/130)-((Math.random()*frame.getHeight()/130));
-            if(xPoints[i]<0)
-            {xPoints[i]= 0;}
-            if(yPoints[i]<0)
-            {yPoints[i]= 0;}
-       }
-   }
+  
    
  
 
