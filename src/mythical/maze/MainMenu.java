@@ -48,7 +48,7 @@ public class MainMenu extends JPanel {
         
         frame.setSize((int)width, (int)height);
         
-        frame.setTitle("Mythic Maze");
+        frame.setTitle("Mythical Maze");
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setExtendedState(frame.MAXIMIZED_BOTH);  
         
@@ -79,7 +79,8 @@ public class MainMenu extends JPanel {
         play.setFont(font);
         play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                            
+                            GameRunner g = new GameRunner();
+                            g.start(frame);
 			}
 		});
                 
