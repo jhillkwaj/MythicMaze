@@ -25,6 +25,7 @@ import javax.swing.JPanel;
  */
 public class MainMenu extends JPanel {
     private static JFrame frame = new JFrame();
+    JPanel thisPanel;
     
  
     private JButton play;
@@ -38,6 +39,7 @@ public class MainMenu extends JPanel {
   
     public void start()
     {
+        thisPanel = this;
         this.removeAll();
         frame = new JFrame();
         
@@ -51,10 +53,11 @@ public class MainMenu extends JPanel {
         frame.setTitle("Mythical Maze");
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setExtendedState(frame.MAXIMIZED_BOTH);  
+      
         
         addButtons();
        
-        frame.add(this);
+        frame.getContentPane().add(this);
         frame.setVisible(true);
          
         frame.repaint();
@@ -77,9 +80,11 @@ public class MainMenu extends JPanel {
         play.setHorizontalTextPosition(JButton.CENTER);
         play.setVerticalTextPosition(JButton.CENTER);
         play.setFont(font);
+        final JPanel p = this;
         play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                             GameRunner g = new GameRunner();
+                            frame.remove(thisPanel);
                             g.start(frame);
 			}
 		});
@@ -167,15 +172,8 @@ public class MainMenu extends JPanel {
     {
         g.setColor(new Color(255, 255, 255));
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        Graphics2D g2d = (Graphics2D)g; 
-        
        
-        try {
-            Thread.sleep(30);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.repaint();
+
     }
    
     int[] xPoints = new int[50];
