@@ -5,6 +5,7 @@
 package mythical.maze;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,7 +25,7 @@ import javax.swing.Timer;
  * @author 100032528
  */
 public class GameRunner extends JPanel implements KeyListener {
-    
+    Frame frame;
     private static Timer timer;
     private int timerSpeed = 60;
     
@@ -35,24 +36,21 @@ public class GameRunner extends JPanel implements KeyListener {
     
     public void start(JFrame frame)
     {
-        frame.removeAll();
+        this.frame = frame;
+        frame.getContentPane().removeAll();
         startTime = System.currentTimeMillis();
-        frame.setVisible(false);
-        frame.setTitle("Mythical Maze");
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setExtendedState(frame.MAXIMIZED_BOTH);  
-        frame.isFocused();
-        frame.add(this);
-        frame.setVisible(true); 
+        
+        frame.getContentPane().add(this);
+        
+        //frame.setVisible(true); 
         frame.repaint();
         
        timer = new Timer(timerSpeed, timerListener);
        timer.start();
+       
+       frame.addKeyListener(this);
         
-      
-
-        frame.addKeyListener(this);
-        
+       frame.repaint();
    
     }
     
@@ -82,7 +80,11 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void paintComponent(Graphics g)
     {
-        //fade to black in then back in on start
+        g.setColor(Color.red);
+        g.drawRect(0, 0, this.getWidth(), this.getHeight());
+        
+       // this.repaint();
+       /* //fade to black in then back in on start
         System.out.println((System.currentTimeMillis()-startTime)/60);
         //fade out
         if((System.currentTimeMillis()-startTime)/60<100)
@@ -98,7 +100,7 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             
             
-        }
+        }*/
     }
    
 
