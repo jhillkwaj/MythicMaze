@@ -5,6 +5,7 @@
 package mythical.maze;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -35,8 +36,10 @@ public class MainMenu extends JPanel {
     private JButton exit;
     
    
-
+    Color blackStartFilter = new Color(0.0f,0.0f,0.0f,1.0f);
   
+    double draws = 0;
+    
     public void start()
     {
         thisPanel = this;
@@ -55,14 +58,15 @@ public class MainMenu extends JPanel {
         frame.setExtendedState(frame.MAXIMIZED_BOTH);  
       
         
-        addButtons();
+        //addButtons();
        
         frame.getContentPane().add(this);
+        frame.repaint();
         frame.setVisible(true);
          
         frame.repaint();
         
-        
+        BackgroundMusic b = new BackgroundMusic(1);
   
     }
    
@@ -73,6 +77,7 @@ public class MainMenu extends JPanel {
     
         
         Font font = new Font("Algerian", Font.BOLD, 52);
+        Color buttonColor = Color.RED;
         
         play = new JButton("Play");
         play.setBorder(BorderFactory.createEmptyBorder());
@@ -80,6 +85,7 @@ public class MainMenu extends JPanel {
         play.setHorizontalTextPosition(JButton.CENTER);
         play.setVerticalTextPosition(JButton.CENTER);
         play.setFont(font);
+        play.setForeground(buttonColor);
         final JPanel p = this;
         play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -96,6 +102,7 @@ public class MainMenu extends JPanel {
         tutorial.setHorizontalTextPosition(JButton.CENTER);
         tutorial.setVerticalTextPosition(JButton.CENTER);
         tutorial.setFont(font);
+        tutorial.setForeground(buttonColor);
         tutorial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -108,6 +115,7 @@ public class MainMenu extends JPanel {
        highScore.setHorizontalTextPosition(JButton.CENTER);
        highScore.setVerticalTextPosition(JButton.CENTER);
        highScore.setFont(font);
+       highScore.setForeground(buttonColor);
        highScore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -122,6 +130,7 @@ public class MainMenu extends JPanel {
        credits.setHorizontalTextPosition(JButton.CENTER);
        credits.setVerticalTextPosition(JButton.CENTER);
        credits.setFont(font);
+       credits.setForeground(buttonColor);
        credits.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                             
@@ -135,6 +144,7 @@ public class MainMenu extends JPanel {
         exit.setHorizontalTextPosition(JButton.CENTER);
         exit.setVerticalTextPosition(JButton.CENTER);
         exit.setFont(font);
+        exit.setForeground(buttonColor);
         exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                                System.exit(1);
@@ -170,14 +180,41 @@ public class MainMenu extends JPanel {
     @Override
     public void paintComponent(Graphics g)
     {
-        g.setColor(new Color(255, 255, 255));
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        try {
+            
+           // System.out.println(this.getComponentCount());
+            g.setColor(new Color(0,0,0));
+            
+            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+            g.drawImage(ImageManager.getImage(10),0,0, this.getWidth(), this.getHeight(), this);
+           
+ 
+          
+            
+            g.setColor(blackStartFilter);
+            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+           
+            if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)
+            {
+               
+                blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
+            }
+            if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f&&this.getComponentCount()==0)
+            {
+                addButtons();
+            }
+            
+            Thread.sleep(20);
+            draws++;
+            repaint();
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
 
     }
    
-    int[] xPoints = new int[50];
-    int[] yPoints = new int[50];
     
   
    
