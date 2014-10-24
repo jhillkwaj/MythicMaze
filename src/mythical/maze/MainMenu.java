@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -105,7 +106,7 @@ public class MainMenu extends JPanel {
         tutorial.setForeground(buttonColor);
         tutorial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				 JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
 			}
 		});
                 
@@ -118,8 +119,7 @@ public class MainMenu extends JPanel {
        highScore.setForeground(buttonColor);
        highScore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-                                
+				 JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
 			}
 		});
                 
@@ -133,7 +133,7 @@ public class MainMenu extends JPanel {
        credits.setForeground(buttonColor);
        credits.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                            
+                             JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
 			}
 		});
                 
@@ -158,19 +158,15 @@ public class MainMenu extends JPanel {
         this.add(play);
         
         tutorial.setBounds(frame.getWidth()/4, frame.getHeight()/4+(3*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.setLayout(null);
         this.add(tutorial);
         
         highScore.setBounds(frame.getWidth()/4, frame.getHeight()/4+(4*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.setLayout(null);
         this.add(highScore);
         
         credits.setBounds(frame.getWidth()/4, frame.getHeight()/4+(5*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.setLayout(null);
         this.add(credits);
         
         exit.setBounds((int)(frame.getWidth()/4), frame.getHeight()/4+(6*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.setLayout(null);
         this.add(exit); 
         
   
