@@ -189,15 +189,38 @@ public class MainMenu extends JPanel {
             
             g.setColor(blackStartFilter);
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
-           
+            if(draws<100)
+           {
+               g.setFont(new Font("Arial", Font.PLAIN, 50));
+                g.setColor(new Color(255,144,0));
+               
+                g.drawString("Developed by", this.getWidth()/2 - 100, this.getHeight()/2);
+                g.drawString("The TECHS", this.getWidth()/2 -85, this.getHeight()/2 + 70);
+           }
+            else if(draws<200)
+           {
+               g.setFont(new Font("Arial", Font.PLAIN, 50));
+                g.setColor(new Color(255,144,0));
+               
+                g.drawString("Contracted by", this.getWidth()/2 - 100, this.getHeight()/2);
+                g.drawString("Cognative Thought Media", this.getWidth()/2 -250, this.getHeight()/2 + 70);
+           }
             if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)
             {
                
                 blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
             }
-            if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f&&this.getComponentCount()==0)
+            if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)
             {
+                g.setFont(new Font("Arial", Font.PLAIN, 50));
+                g.setColor(new Color(100,0,0));
+               
+                g.drawString("Mythical Maze", this.getWidth()/2 - 200, this.getHeight()/16);
+                
+                if(this.getComponentCount()==0)
                 addButtons();
+                
+                
             }
             
             Thread.sleep(20);
