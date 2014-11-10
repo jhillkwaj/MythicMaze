@@ -39,13 +39,10 @@ public class GameRunner extends JPanel implements KeyListener {
         startTime = System.currentTimeMillis();
         frame.getContentPane().add(this);
         
-        //frame.setVisible(true); 
-       // frame.repaint();
         frame.addKeyListener(this);
        timer = new Timer(timerSpeed, timerListener);
        timer.start();
-       
-       //frame.repaint();
+       frame.repaint();
     }
     
     ActionListener timerListener = new ActionListener() 
