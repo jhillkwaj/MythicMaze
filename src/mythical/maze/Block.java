@@ -11,9 +11,21 @@ package mythical.maze;
  */
 public class Block {
     
-    private int xPos, yPos;
-    private boolean north, south, west, east;
+    private int xPos, yPos, width, height;
+    private boolean north, south, west, east, active;
     
+    public Block(int x, int y, boolean n, boolean  w, boolean s, boolean e)
+    {
+        xPos = x;
+        yPos = y;
+        north = n;
+        south = s;
+        west = w;
+        east = e;
+        width = 50;
+        height = 50;
+        active = true;
+    }
     public void setX(int x)
     {
         xPos = x;
@@ -38,6 +50,10 @@ public class Block {
     {
         west = b;
     }
+    public void setActive(boolean b)
+    {
+        active = b;
+    }
     
     
     
@@ -48,6 +64,14 @@ public class Block {
     public int getY()
     {
         return yPos;
+    }
+    public int getWidth()
+    {
+        return width;
+    }
+    public int getHeight()
+    {
+        return height;
     }
     public boolean getNorth()
     {
@@ -65,6 +89,25 @@ public class Block {
     {
         return west;
     }
-    
+    public boolean getActive()
+    {
+        return active;
+    }
+    public void rotateClockwise()
+    {
+       boolean temp = north;
+       north = west;
+       west = south;
+       south = east;
+       east = temp;
+    }
+    public void rotateCounterClockWise()
+    {
+        boolean temp = north;
+        north = east;
+        east = south;
+        south = west;
+        west = temp;
+    }
     
 }
