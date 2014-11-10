@@ -27,18 +27,14 @@ public class GameRunner extends JPanel implements KeyListener {
     Frame frame;
     private static Timer timer;
     private int timerSpeed = 60;
-    
-    long startTime;
-    
-    
-    Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
+    private long startTime;
+    private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     
     public void start(JFrame frame)
     {
         this.frame = frame;
         frame.getContentPane().removeAll();
         startTime = System.currentTimeMillis();
-        
         frame.getContentPane().add(this);
         
         //frame.setVisible(true); 
@@ -46,12 +42,8 @@ public class GameRunner extends JPanel implements KeyListener {
         
        timer = new Timer(timerSpeed, timerListener);
        timer.start();
-       
        frame.addKeyListener(this);
-        
        frame.repaint();
-        
-   
     }
     
     ActionListener timerListener = new ActionListener() 
@@ -62,27 +54,25 @@ public class GameRunner extends JPanel implements KeyListener {
                     //fade to black in then back in
                     long time = System.currentTimeMillis();
                     
-          
-                    
                     repaint();
-                    
-                    
                     //check how long code is takeing to run
                     //int timeGap = (int)(System.currentTimeMillis() - time);
-                    //System.out.println(timeGap + "    " + timer.getDelay());
-                    
-                    
-                  
+                    //System.out.println(timeGap + "    " + timer.getDelay()) 
    		}
 
    	};
     
     @Override
+    public void update(Graphics g)
+    {
+        paintComponent(g);
+    }
+    @Override
     public void paintComponent(Graphics g)
     {
-        g.setColor(Color.red);
-        g.drawRect(0, 0, this.getWidth(), this.getHeight());
-        
+        System.out.println("reached");
+        g.setColor(Color.YELLOW);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
        // this.repaint();
        /* //fade to black in then back in on start
         System.out.println((System.currentTimeMillis()-startTime)/60);
@@ -101,6 +91,7 @@ public class GameRunner extends JPanel implements KeyListener {
             
             
         }*/
+        
     }
    
 
