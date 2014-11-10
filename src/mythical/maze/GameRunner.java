@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private int timerSpeed = 60;
     private long startTime;
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
+    private BufferedImage back;
     
     public void start(JFrame frame)
     {
@@ -65,14 +67,22 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void update(Graphics g)
     {
-        paintComponent(g);
+        paint(g);
     }
     @Override
-    public void paintComponent(Graphics g)
+    public void paint(Graphics g)
     {
-        System.out.println("reached");
-        g.setColor(Color.YELLOW);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        System.out.println("gah");
+        if(back==null)
+            {
+                back=(BufferedImage)createImage(getWidth(),getHeight());   
+            }
+            Graphics2D twoDGraph = (Graphics2D)g;
+            Graphics graphToBack= back.createGraphics();
+            
+            graphToBack.fillRect(0,0,100,100);
+            //to draw item use: abc.drawImage(graphToBack);
+            twoDGraph.drawImage(back,0,0,null); 
        // this.repaint();
        /* //fade to black in then back in on start
         System.out.println((System.currentTimeMillis()-startTime)/60);
