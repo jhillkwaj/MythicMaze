@@ -5,16 +5,20 @@
  */
 package mythical.maze;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author Richard
  */
 public class Block {
     
-    private int xPos, yPos, width, height;
+    private int xPos, yPos; 
+    public static int width = 50;
+    public static int height = 50;
     private boolean north, south, west, east, active;
     
-    public Block(int x, int y, boolean n, boolean  w, boolean s, boolean e)
+    public Block(int x, int y, boolean n, boolean  e, boolean s, boolean w)
     {
         xPos = x;
         yPos = y;
@@ -22,8 +26,6 @@ public class Block {
         south = s;
         west = w;
         east = e;
-        width = 50;
-        height = 50;
         active = true;
     }
     public void setX(int x)
@@ -101,7 +103,7 @@ public class Block {
        south = east;
        east = temp;
     }
-    public void rotateCounterClockWise()
+    public void rotateCounterClockwise()
     {
         boolean temp = north;
         north = east;
@@ -109,5 +111,8 @@ public class Block {
         south = west;
         west = temp;
     }
-    
+    public void drawBlock(Graphics g)
+    {
+        //drawBlock
+    }
 }
