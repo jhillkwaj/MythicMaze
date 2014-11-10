@@ -40,12 +40,12 @@ public class GameRunner extends JPanel implements KeyListener {
         frame.getContentPane().add(this);
         
         //frame.setVisible(true); 
-        frame.repaint();
-        
+       // frame.repaint();
+        frame.addKeyListener(this);
        timer = new Timer(timerSpeed, timerListener);
        timer.start();
-       frame.addKeyListener(this);
-       frame.repaint();
+       
+       //frame.repaint();
     }
     
     ActionListener timerListener = new ActionListener() 
@@ -64,11 +64,7 @@ public class GameRunner extends JPanel implements KeyListener {
 
    	};
     
-    @Override
-    public void update(Graphics g)
-    {
-        paint(g);
-    }
+    
     @Override
     public void paint(Graphics g)
     {
