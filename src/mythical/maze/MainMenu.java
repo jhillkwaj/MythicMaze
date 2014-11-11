@@ -41,6 +41,9 @@ public class MainMenu extends JPanel {
   
     double draws = 0;
     
+    double mythicPos = 0;
+    double mazePos = 0;
+    
     public void start()
     {
         thisPanel = this;
@@ -195,16 +198,17 @@ public class MainMenu extends JPanel {
                g.setFont(new Font("Arial", Font.PLAIN, 50));
                 g.setColor(new Color(255,144,0));
                
-                g.drawString("Developed by", this.getWidth()/2 - 100, this.getHeight()/2);
-                g.drawString("The TECHS", this.getWidth()/2 -85, this.getHeight()/2 + 70);
+                g.drawImage(ImageManager.getImage(2), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
+                g.drawImage(ImageManager.getImage(3), this.getWidth()/4, this.getHeight()/2, this.getWidth()/2, this.getWidth()/10, null);
+                
            }
             else if(draws<200)
            {
                g.setFont(new Font("Arial", Font.PLAIN, 50));
                 g.setColor(new Color(255,144,0));
                
-                g.drawString("Contracted by", this.getWidth()/2 - 100, this.getHeight()/2);
-                g.drawString("Cognative Thought Media", this.getWidth()/2 -250, this.getHeight()/2 + 70);
+                g.drawImage(ImageManager.getImage(1), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
+                g.drawImage(ImageManager.getImage(0), this.getWidth()/3, (int)(this.getHeight()/2.5f), this.getWidth()/3, (int)(((this.getWidth()/3.0f)/800.0f)*600.0f), null);
            }
             if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)
             {
@@ -216,12 +220,63 @@ public class MainMenu extends JPanel {
                 g.setFont(new Font("Arial", Font.PLAIN, 50));
                 g.setColor(new Color(100,0,0));
                
-                g.drawString("Mythical Maze", this.getWidth()/2 - 200, this.getHeight()/16);
+                g.drawImage(ImageManager.getImage(6) , this.getWidth()/4 + (int)mythicPos, this.getHeight()/20, this.getWidth()/3, this.getWidth()/10, null);
+                g.drawImage(ImageManager.getImage(5), this.getWidth()/4 + this.getWidth()/3 + (int)mazePos, this.getHeight()/20, this.getWidth()/4, this.getWidth()/10, null);
+                
+                
+            
+                if(Math.random()*(2400-(draws%2400))<7)
+                {
+                    if(Math.random()<.333f)
+                g.drawImage(ImageManager.getImage(7), (int)(this.getWidth()/1.1), (int)(this.getHeight()/1.3), this.getWidth()/20, this.getWidth()/20, null);
+                    else if(Math.random() < .5f)
+                g.drawImage(ImageManager.getImage(7), (int)(this.getWidth()/3), (int)(this.getHeight()/1.5), this.getWidth()/20, this.getWidth()/20, null);
+                    else
+                       g.drawImage(ImageManager.getImage(7), (int)(this.getWidth()/8), (int)(this.getHeight()/1.2), this.getWidth()/20, this.getWidth()/20, null); 
+                }
                 
                 if(this.getComponentCount()==0)
                 addButtons();
                 
-                
+                if(draws%2000<=400)
+                {
+                if(draws%400 <= 100)
+                {
+                    mythicPos+=this.getWidth()/120.0f;
+                    mazePos-=this.getWidth()/120.0f;
+                }
+                if(draws%400 >= 200 && draws%400 < 300)
+                {
+                    mythicPos-=this.getWidth()/120.0f;
+                    mazePos+=this.getWidth()/120.0f;
+                }
+                }
+                else if(draws%2000>1200&&draws%2000>1600)
+                {
+                if(draws%400 <= 100)
+                {
+                    mythicPos-=this.getWidth()/320.0f;
+                    mazePos+=this.getWidth()/320.0f;
+                }
+                if(draws%400 >= 200 && draws%400 < 300)
+                {
+                    mythicPos+=this.getWidth()/320.0f;
+                    mazePos-=this.getWidth()/320.0f;
+                }
+                }
+                else
+                {
+                    if(draws%400 <= 100)
+                {
+                    mythicPos+=this.getWidth()/350.0f;
+                    mazePos-=this.getWidth()/300.0f;
+                }
+                if(draws%400 >= 200 && draws%400 < 300)
+                {
+                    mythicPos-=this.getWidth()/350.0f;
+                    mazePos+=this.getWidth()/300.0f;
+                }
+                }
             }
             
             Thread.sleep(20);
