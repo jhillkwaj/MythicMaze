@@ -32,10 +32,12 @@ public class GameRunner extends JPanel implements KeyListener {
     private long startTime;
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;
+    public LShape test;
     
     public void start()
     {
         this.frame = new JFrame();
+        this.removeAll();
         startTime = System.currentTimeMillis();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -50,8 +52,13 @@ public class GameRunner extends JPanel implements KeyListener {
        timer = new Timer(timerSpeed, timerListener);
        timer.start();
        frame.repaint();
+       frame.add(this);
+       createBlock();//this is purely to demonstrate movement
     }
-    
+    public void createBlock()
+    {
+        test = new LShape(200,100);
+    }
     ActionListener timerListener = new ActionListener() 
    	{
                    @Override
@@ -59,7 +66,6 @@ public class GameRunner extends JPanel implements KeyListener {
    		{
                     //fade to black in then back in
                     long time = System.currentTimeMillis();
-                    
                     repaint();
                     //check how long code is takeing to run
                     //int timeGap = (int)(System.currentTimeMillis() - time);
@@ -80,7 +86,7 @@ public class GameRunner extends JPanel implements KeyListener {
             Graphics2D twoDGraph = (Graphics2D)g;
             Graphics graphToBack= back.createGraphics();
             
-            graphToBack.fillRect(0,0,100,100);
+            test.drawShape(graphToBack);
             //to draw item use: abc.drawImage(graphToBack);
             twoDGraph.drawImage(back,0,0,null); 
        // this.repaint();
