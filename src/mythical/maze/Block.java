@@ -113,6 +113,6 @@ public class Block {
     }
     public void drawBlock(Graphics g)
     {
-        //drawBlock
+        g.fillRect(xPos, yPos, width, height);//temporary drawing method
     }
 }
