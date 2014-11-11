@@ -44,7 +44,11 @@ public abstract class Shape {
         if(active)
         {
             //check for collision, else, move down
-            yPos+=10;
+            yPos+=1;
+            for(Block b:blockList)
+            {
+                b.setY(b.getY()+1);
+            }
         }
     }
     public abstract void rotateClockwise();
