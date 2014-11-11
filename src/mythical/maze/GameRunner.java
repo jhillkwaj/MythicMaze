@@ -85,8 +85,11 @@ public class GameRunner extends JPanel implements KeyListener {
             }
             Graphics2D twoDGraph = (Graphics2D)g;
             Graphics graphToBack= back.createGraphics();
-            
+            graphToBack.setColor(Color.BLACK);
+            graphToBack.fillRect(0,0,1000,1000);
+            graphToBack.setColor(Color.YELLOW);
             test.drawShape(graphToBack);
+            test.moveDown();
             //to draw item use: abc.drawImage(graphToBack);
             twoDGraph.drawImage(back,0,0,null); 
        // this.repaint();
