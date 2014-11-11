@@ -92,7 +92,8 @@ public class MainMenu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
                             GameRunner g = new GameRunner();
                             frame.remove(thisPanel);
-                            g.start(frame);
+                            g.start();
+                            frame.dispose();
 			}
 		});
                 
