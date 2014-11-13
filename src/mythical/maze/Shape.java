@@ -47,7 +47,7 @@ public abstract class Shape {
             yPos+=1;
             for(Block b:blockList)
             {
-                b.setY(b.getY()+1);
+                b.setY(b.getY()+50);
             }
         }
     }

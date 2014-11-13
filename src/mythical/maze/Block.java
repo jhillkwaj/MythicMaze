@@ -5,6 +5,7 @@
  */
 package mythical.maze;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -17,6 +18,7 @@ public class Block {
     public static int width = 50;
     public static int height = 50;
     private boolean north, south, west, east, active;
+    public Color c = new Color(250,250,0);
     
     public Block(int x, int y, boolean n, boolean  e, boolean s, boolean w)
     {
@@ -113,6 +115,33 @@ public class Block {
     }
     public void drawBlock(Graphics g)
     {
-        g.fillRect(xPos, yPos, width, height);//temporary drawing method
+        g.setColor(c);
+        g.fillRect(xPos, yPos, width, height);
+        
+        int xStart = 0;
+        int yStart = 0;
+        int xSize = 0;
+        int ySize = 0;
+        
+        if(west)
+        { 
+            xStart+=3;
+            xSize-=3;
+        }
+        if(east)
+        { 
+            xSize-=3;
+        }
+        if(north)
+        { 
+            yStart+=3;
+            ySize-=3;
+        }
+        if(south)
+        { 
+            ySize-=3;
+        }
+        g.setColor(new Color(40,40,40));
+        g.fillRect(xPos + xStart, yPos + yStart, width + xSize, height + ySize);
     }
 }

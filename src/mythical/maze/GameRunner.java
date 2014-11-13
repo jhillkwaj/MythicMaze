@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,6 +31,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private static Timer timer;
     private int timerSpeed = 60;
     private long startTime;
+    private long updateTime = 0;
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;
     public LShape test;
@@ -39,6 +41,7 @@ public class GameRunner extends JPanel implements KeyListener {
         this.frame = new JFrame();
         this.removeAll();
         startTime = System.currentTimeMillis();
+        updateTime = startTime;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
@@ -65,14 +68,19 @@ public class GameRunner extends JPanel implements KeyListener {
    		public void actionPerformed(ActionEvent e)
    		{
                     //fade to black in then back in
-                    long time = System.currentTimeMillis();
-                    repaint();
+                    
                     //check how long code is takeing to run
                     //int timeGap = (int)(System.currentTimeMillis() - time);
                     //System.out.println(timeGap + "    " + timer.getDelay()) 
    		}
 
    	};
+    
+    public void update()
+    {
+       updateTime += 1000;
+       test.moveDown();
+    }
     
     
     @Override
@@ -89,27 +97,16 @@ public class GameRunner extends JPanel implements KeyListener {
             graphToBack.fillRect(0,0,1000,1000);
             graphToBack.setColor(Color.YELLOW);
             test.drawShape(graphToBack);
-            test.moveDown();
-            //to draw item use: abc.drawImage(graphToBack);
+            
             twoDGraph.drawImage(back,0,0,null); 
-       // this.repaint();
-       /* //fade to black in then back in on start
-        System.out.println((System.currentTimeMillis()-startTime)/60);
-        //fade out
-        if((System.currentTimeMillis()-startTime)/60<100)
-        {
-            g.setColor(blackStartFilter);
-            g.drawRect(0, 0, this.getWidth(), this.getHeight());
-            blackStartFilter = new Color(0.0f,0.0f,0.0f,(System.currentTimeMillis()-startTime)/60000);
             
-        }
-        
-        //draw game stuff
-        if((System.currentTimeMillis()-startTime)/60>100)
-        {
+            if(System.currentTimeMillis()-updateTime >= 1000)
+            {
+                update();
+            }
             
-            
-        }*/
+            repaint();
+      
         
     }
    
