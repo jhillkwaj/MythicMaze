@@ -5,11 +5,9 @@
 package mythical.maze;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -238,35 +236,9 @@ public class MainMenu extends JPanel {
                 if(this.getComponentCount()==0)
                 addButtons();
                 
-                if(draws%2000<=400)
-                {
+                
+                
                 if(draws%400 <= 100)
-                {
-                    mythicPos+=this.getWidth()/120.0f;
-                    mazePos-=this.getWidth()/120.0f;
-                }
-                if(draws%400 >= 200 && draws%400 < 300)
-                {
-                    mythicPos-=this.getWidth()/120.0f;
-                    mazePos+=this.getWidth()/120.0f;
-                }
-                }
-                else if(draws%2000>1200&&draws%2000>1600)
-                {
-                if(draws%400 <= 100)
-                {
-                    mythicPos-=this.getWidth()/320.0f;
-                    mazePos+=this.getWidth()/320.0f;
-                }
-                if(draws%400 >= 200 && draws%400 < 300)
-                {
-                    mythicPos+=this.getWidth()/320.0f;
-                    mazePos-=this.getWidth()/320.0f;
-                }
-                }
-                else
-                {
-                    if(draws%400 <= 100)
                 {
                     mythicPos+=this.getWidth()/350.0f;
                     mazePos-=this.getWidth()/300.0f;
@@ -276,7 +248,7 @@ public class MainMenu extends JPanel {
                     mythicPos-=this.getWidth()/350.0f;
                     mazePos+=this.getWidth()/300.0f;
                 }
-                }
+                
             }
             
             Thread.sleep(20);
