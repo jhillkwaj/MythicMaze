@@ -11,6 +11,8 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -18,12 +20,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 /**
  *
  * @author 100032528
  */
-public class MainMenu extends JPanel {
+public class MainMenu extends JPanel implements KeyListener {
     private static JFrame frame = new JFrame();
     JPanel thisPanel;
     
@@ -69,6 +73,8 @@ public class MainMenu extends JPanel {
         frame.repaint();
         
         BackgroundMusic b = new BackgroundMusic(1);
+        
+        frame.addKeyListener(this);
   
     }
    
@@ -77,7 +83,8 @@ public class MainMenu extends JPanel {
     public void addButtons()
     {
     
-        
+        UIManager.put("OptionPane.messageFont", new FontUIResource(
+                new Font("Monaco", Font.BOLD, 14)));
         Font font = new Font("Algerian", Font.BOLD, 52);
         Color buttonColor = Color.RED;
         
@@ -135,7 +142,20 @@ public class MainMenu extends JPanel {
        credits.setForeground(buttonColor);
        credits.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                             JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
+                             JOptionPane.showMessageDialog(null, "                                                Credits\n"
+                                     + "                                Developed By The Techs\n"
+                                     + "Project Manager:                Justin Hill\n"
+                                     + "Lead Developer:                 Richard Dong\n"
+                                     + "Richard Wu:                         Graphics Manager\n"
+                                     + "Abhijeet Venkataraman:     Documentation Manager\n\n"
+                                     + "               Contracted By Congative Though Media\n\n"
+                                     + "            Developed Using\n"
+                                     + "Netbeans:                             Development Enviroment\n"
+                                     + "Photoshop:                           Graphics Production\n"
+                                     + "Paint Dot Net:                       Graphics Producation\n"
+                                     + "BFXR Studios:                      Sound Production\n"
+                                     + "BitBucket:                             Group Code Collaberation\n"
+                                     + "Google Drive:                       Group Documentation Collaberation\n","Credits",JOptionPane.PLAIN_MESSAGE);
 			}
 		});
                 
@@ -179,8 +199,6 @@ public class MainMenu extends JPanel {
     public void paintComponent(Graphics g)
     {
         try {
-            
-           // System.out.println(this.getComponentCount());
             g.setColor(new Color(0,0,0));
             
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -260,6 +278,22 @@ public class MainMenu extends JPanel {
         }
        
 
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        draws = 302;
+        blackStartFilter = new Color(0.0f,0.0f,0.0f,0.4f);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
     }
    
     
