@@ -6,7 +6,6 @@ package mythical.maze;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -15,8 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -35,6 +32,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;
     public LShape test;
+    private Grid gameGrid = new Grid();
     
     public void start()
     {
@@ -60,7 +58,7 @@ public class GameRunner extends JPanel implements KeyListener {
     }
     public void createBlock()
     {
-        test = new LShape(200,100);
+        test = new LShape(5,5);
     }
     ActionListener timerListener = new ActionListener() 
    	{
@@ -86,19 +84,21 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g)
     {
-        System.out.println("gah");
-        if(back==null)
+            if(back==null)
             {
-                back=(BufferedImage)createImage(getWidth(),getHeight());   
+                back=(BufferedImage)createImage(1920,1070);
             }
             Graphics2D twoDGraph = (Graphics2D)g;
             Graphics graphToBack= back.createGraphics();
-            graphToBack.setColor(Color.BLACK);
-            graphToBack.fillRect(0,0,1000,1000);
-            graphToBack.setColor(Color.YELLOW);
-            test.drawShape(graphToBack);
+           
             
-            twoDGraph.drawImage(back,0,0,null); 
+            
+            gameGrid.draw(graphToBack,1200,1070,200);
+            
+            graphToBack.setColor(Color.YELLOW);
+            test.drawShape(graphToBack,1200,1070,200);
+            
+            twoDGraph.drawImage(back,0,0,getWidth(),getHeight(),null); 
             
             if(System.currentTimeMillis()-updateTime >= 1000)
             {

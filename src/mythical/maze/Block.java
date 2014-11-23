@@ -14,9 +14,8 @@ import java.awt.Graphics;
  */
 public class Block {
     
+    //x is 10 y is 22 but only 20 are on screen
     private int xPos, yPos; 
-    public static int width = 50;
-    public static int height = 50;
     private boolean north, south, west, east, active;
     public Color c = new Color(250,250,0);
     
@@ -69,14 +68,6 @@ public class Block {
     {
         return yPos;
     }
-    public int getWidth()
-    {
-        return width;
-    }
-    public int getHeight()
-    {
-        return height;
-    }
     public boolean getNorth()
     {
         return north;
@@ -113,10 +104,12 @@ public class Block {
         south = west;
         west = temp;
     }
-    public void drawBlock(Graphics g)
+    public void drawBlock(Graphics g, int gridSizeX, int gridSizeY, int offSetX)
     {
         g.setColor(c);
-        g.fillRect(xPos, yPos, width, height);
+        g.fillRect((int)(((xPos)*(gridSizeX/10.0)))+offSetX,
+                (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)),
+                (int)(gridSizeX/10.0), (int)(gridSizeY/20.0));
         
         int xStart = 0;
         int yStart = 0;
@@ -142,6 +135,8 @@ public class Block {
             ySize-=3;
         }
         g.setColor(new Color(40,40,40));
-        g.fillRect(xPos + xStart, yPos + yStart, width + xSize, height + ySize);
+        g.fillRect((int)(((xPos)*(gridSizeX/10.0)))+xStart+offSetX, 
+                (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
+                (int)(gridSizeX/10.0)+xSize, (int)(gridSizeY/20.0)+ySize);
     }
 }

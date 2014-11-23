@@ -32,11 +32,11 @@ public abstract class Shape {
     {
         active = false;
     }
-    public void drawShape(Graphics g)
+    public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX)
     {
         for(Block b:blockList)
         {
-            b.drawBlock(g);
+            b.drawBlock(g,boardSizeX,boardSizeY,offsetX);
         }
     }
     public void moveDown()
@@ -47,7 +47,7 @@ public abstract class Shape {
             yPos+=1;
             for(Block b:blockList)
             {
-                b.setY(b.getY()+50);
+                b.setY(b.getY()+1);
             }
         }
     }

@@ -19,10 +19,10 @@ public class LShape extends Shape{
     public LShape(int x, int y)
     {
         super(x,y);
-        blockList.add(new Block(x-Block.width,y-Block.height,false,true,false,true));
-        blockList.add(new Block(x-Block.width,y,false,true,false,true));
-        blockList.add(new Block(x-Block.width,y+Block.height,false,false,true,true));
-        blockList.add(new Block(x,y+Block.height,true,false,true,false));        
+        blockList.add(new Block(x-1,y-1,false,true,false,true));
+        blockList.add(new Block(x-1,y,false,true,false,true));
+        blockList.add(new Block(x-1,y+1,false,false,true,true));
+        blockList.add(new Block(x,y+1,true,false,true,false));        
     }
 
     public void rotateClockwise() {
