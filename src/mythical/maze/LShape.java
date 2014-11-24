@@ -14,35 +14,12 @@ import java.util.ArrayList;
  */
 public class LShape extends Shape{
     
-    
-    
     public LShape(int x, int y)
     {
         super(x,y);
+        blockList.add(new Block(x-1,y-2,false,true,false,true));
         blockList.add(new Block(x-1,y-1,false,true,false,true));
-        blockList.add(new Block(x-1,y,false,true,false,true));
-        blockList.add(new Block(x-1,y+1,false,false,true,true));
-        blockList.add(new Block(x,y+1,true,false,true,false));        
-    }
-
-    public void rotateClockwise() {
-        //check for rotation
-        //rotate
-        for(Block b:blockList)
-        {
-            b.rotateClockwise();
-        }
-        
-    }
-
-    public void rotateCounterClockwise() {
-        for(Block b:blockList)
-        {
-            b.rotateCounterClockwise();
-        }        
-    }
-    
-    
-    
-    
+        blockList.add(new Block(x-1,y,false,false,true,true));
+        blockList.add(new Block(x,y,true,false,true,false));        
+    }  
 }
