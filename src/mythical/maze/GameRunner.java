@@ -78,6 +78,8 @@ public class GameRunner extends JPanel implements KeyListener {
     {
        updateTime += 1000;
        test.moveDown();
+       test.rotateClockwise();
+       test.rotateCounterClockwise();
     }
     
     
