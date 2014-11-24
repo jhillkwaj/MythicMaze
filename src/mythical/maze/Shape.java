@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Richard
  */
-public abstract class Shape {
+public class Shape {
    
     public int xPos, yPos;
     public boolean active;
@@ -51,6 +51,29 @@ public abstract class Shape {
             }
         }
     }
-    public abstract void rotateClockwise();
-    public abstract void rotateCounterClockwise();
+    public void rotateClockwise() {
+        //check for rotation
+        //rotate
+        
+        for(Block b:blockList)
+        {
+            int xDistance = b.getX()-xPos;
+            int yDistance = b.getY()-yPos;
+            b.setX(xPos-yDistance-1);
+            b.setY(yPos+xDistance);
+            b.rotateClockwise();
+        }
+        
+    }
+
+    public void rotateCounterClockwise() {
+        for(Block b:blockList)
+        {
+            int xDistance = b.getX()-xPos;
+            int yDistance = b.getY()-yPos;
+            b.setX(xPos+yDistance);
+            b.setY(yPos-xDistance-1);
+            b.rotateCounterClockwise();
+        }        
+    }
 }
