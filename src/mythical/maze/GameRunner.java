@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import static java.lang.Character.toUpperCase;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -25,6 +27,7 @@ import javax.swing.Timer;
  */
 public class GameRunner extends JPanel implements KeyListener {
     JFrame frame;
+    private boolean[] keys = new boolean[10];
     private static Timer timer;
     private int timerSpeed = 60;
     private long startTime;
@@ -33,6 +36,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private BufferedImage back;
     public Shape test;
     private Grid gameGrid = new Grid();
+    private ArrayList<Block>allBlocks = new ArrayList<>();
     
     public void start()
     {
@@ -77,11 +81,16 @@ public class GameRunner extends JPanel implements KeyListener {
     public void update()
     {
        updateTime += 1000;
+       
        test.moveDown();
        //test.rotateClockwise();
        test.rotateCounterClockwise();
     }
-    
+    public ArrayList<Block> getAllBlocks()
+    {
+        //merge all blocks from blockLists of Shapes
+        return allBlocks;
+    }
     
     @Override
     public void paint(Graphics g)
@@ -120,12 +129,28 @@ public class GameRunner extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent ke) {
+        switch(toUpperCase(ke.getKeyChar()))
+            {
+                case KeyEvent.VK_W : keys[0]=true; break; //counterclockwise
+                case KeyEvent.VK_A : keys[1]=true; break; //left
+                case KeyEvent.VK_D : keys[2]=true; break; //right
+                case KeyEvent.VK_S : keys[3]=true; break; //clockwise 
+                case KeyEvent.VK_SPACE : keys[4]=true; break; //down
 
+            }
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
-    
+        switch(toUpperCase(ke.getKeyChar()))
+            {
+                case KeyEvent.VK_W : keys[0]=false; break; //counterclockwise
+                case KeyEvent.VK_A : keys[1]=false; break; //left
+                case KeyEvent.VK_D : keys[2]=false; break; //right
+                case KeyEvent.VK_S : keys[3]=false; break; //clockwise 
+                case KeyEvent.VK_SPACE : keys[4]=false; break; //down
+
+            }
     }
 
         

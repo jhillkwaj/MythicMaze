@@ -51,6 +51,31 @@ public class Shape {
             }
         }
     }
+    public void moveRight()
+    {
+        if(active)
+        {
+            //check for collision, else, move right
+            xPos+=1;
+            for(Block b:blockList)
+            {
+                b.setX(b.getX()+1);
+            }
+        }
+            
+    }
+    public void moveLeft()
+    {
+        if(active)
+        {
+            //check for collision, else, move left
+            xPos-=1;
+            for(Block b:blockList)
+            {
+                b.setX(b.getX()-1);
+            }
+        }
+    }
     public void rotateClockwise() {
         //check for rotation
         //rotate
@@ -75,5 +100,9 @@ public class Shape {
             b.setY(yPos-xDistance-1);
             b.rotateCounterClockwise();
         }        
+    }
+    public ArrayList<Block> getBlockList()
+    {
+        return blockList;
     }
 }
