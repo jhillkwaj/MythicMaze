@@ -9,6 +9,12 @@ package mythical.maze;
  *
  * @author Richard
  */
-public class MiniLShape {
-    
+public class MiniLShape extends Shape{
+    public MiniLShape(int x, int y)
+    {
+        super(x,y);
+        blockList.add(new Block(x-1,y-1,false,true,false,true));
+        blockList.add(new Block(x-1,y,false,false,true,true));
+        blockList.add(new Block(x,y,true,false,true,false));
+    }
 }

@@ -9,6 +9,13 @@ package mythical.maze;
  *
  * @author Richard
  */
-public class MiniJShape {
+public class MiniJShape extends Shape{
     
+    public MiniJShape(int x, int y)
+    {
+        super(x,y);
+        blockList.add(new Block(x,y-1,false,true,false,true));
+        blockList.add(new Block(x-1,y,true,false,true,false));
+        blockList.add(new Block(x,y,false,true,true,false));  
+    }
 }

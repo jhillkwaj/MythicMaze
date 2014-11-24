@@ -31,7 +31,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private long updateTime = 0;
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;
-    public LShape test;
+    public Shape test;
     private Grid gameGrid = new Grid();
     
     public void start()
@@ -58,7 +58,7 @@ public class GameRunner extends JPanel implements KeyListener {
     }
     public void createBlock()
     {
-        test = new LShape(5,5);
+        test = new JShape(5,5);
     }
     ActionListener timerListener = new ActionListener() 
    	{
@@ -78,7 +78,7 @@ public class GameRunner extends JPanel implements KeyListener {
     {
        updateTime += 1000;
        test.moveDown();
-       test.rotateClockwise();
+       //test.rotateClockwise();
        test.rotateCounterClockwise();
     }
     

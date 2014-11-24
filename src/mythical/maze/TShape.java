@@ -9,6 +9,15 @@ package mythical.maze;
  *
  * @author Richard
  */
-public class TShape {
+public class TShape extends Shape {
+    
+    public TShape(int x, int y)
+    {
+        super(x,y);
+        blockList.add(new Block(x-1,y-1,true,false,true,false));
+        blockList.add(new Block(x,y-1,true,false,false,false));
+        blockList.add(new Block(x+1,y-1,true,false,true,false));
+        blockList.add(new Block(x,y,false,true,false,true));        
+    }
     
 }

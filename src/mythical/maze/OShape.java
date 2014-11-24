@@ -9,6 +9,13 @@ package mythical.maze;
  *
  * @author Richard
  */
-public class OShape {
-    
+public class OShape extends Shape{
+    public OShape(int x, int y)
+    {
+        super(x,y);
+        blockList.add(new Block(x-1,y-1,false,false,false,true));
+        blockList.add(new Block(x,y-1,false,true,false,false));
+        blockList.add(new Block(x-1,y,false,false,false,true));
+        blockList.add(new Block(x,y,false,true,false,false));    
+    }
 }
