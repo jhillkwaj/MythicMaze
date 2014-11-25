@@ -14,10 +14,10 @@ public class IShape extends Shape{
     public IShape(int x, int y)
     {
         super(x,y);
-        blockList.add(new Block(x,y-2,false,true,false,true));
-        blockList.add(new Block(x,y-1,false,true,false,true));
-        blockList.add(new Block(x,y,false,true,false,true));
-        blockList.add(new Block(x,y+1,false,true,false,true));    
+        this.getBlockList().add(new Block(x,y-2,false,true,false,true));
+        this.getBlockList().add(new Block(x,y-1,false,true,false,true));
+        this.getBlockList().add(new Block(x,y,false,true,false,true));
+        this.getBlockList().add(new Block(x,y+1,false,true,false,true));    
     }
     
 }

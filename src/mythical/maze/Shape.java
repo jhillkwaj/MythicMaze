@@ -14,9 +14,9 @@ import java.util.ArrayList;
  */
 public class Shape {
    
-    public int xPos, yPos;
-    public boolean active;
-    public ArrayList<Block>blockList = new ArrayList<>();
+    private int xPos, yPos;
+    private boolean active;
+    private ArrayList<Block>blockList = new ArrayList<>();
     
     public Shape(int x, int y)
     {

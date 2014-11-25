@@ -32,9 +32,10 @@ public class GameRunner extends JPanel implements KeyListener {
     private int timerSpeed = 60;
     private long startTime;
     private long updateTime = 0;
+    private int eventTime = 900;
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;
-    public Shape test;
+
     private Grid gameGrid = new Grid();
     private ArrayList<Block>allBlocks = new ArrayList<>();
     
@@ -58,12 +59,9 @@ public class GameRunner extends JPanel implements KeyListener {
        timer.start();
        frame.repaint();
        frame.add(this);
-       createBlock();//this is purely to demonstrate movement
+       
     }
-    public void createBlock()
-    {
-        test = new JShape(5,5);
-    }
+   
     ActionListener timerListener = new ActionListener() 
    	{
                    @Override
@@ -80,10 +78,10 @@ public class GameRunner extends JPanel implements KeyListener {
     
     public void update()
     {
-       updateTime += 1000;
-       test.moveDown();
+       updateTime += eventTime;
+       gameGrid.moveDown();
        //test.rotateClockwise();
-       test.rotateCounterClockwise();
+       //test.rotateCounterClockwise();
     }
     public ArrayList<Block> getAllBlocks()
     {
@@ -106,11 +104,11 @@ public class GameRunner extends JPanel implements KeyListener {
             gameGrid.draw(graphToBack,1200,1070,200);
             
             graphToBack.setColor(Color.YELLOW);
-            test.drawShape(graphToBack,1200,1070,200);
+            
             
             twoDGraph.drawImage(back,0,0,getWidth(),getHeight(),null); 
             
-            if(System.currentTimeMillis()-updateTime >= 1000)
+            if(System.currentTimeMillis()-updateTime >= eventTime)
             {
                 update();
             }
@@ -123,31 +121,45 @@ public class GameRunner extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent ke) {
-        
+       
     }
 
     @Override
     public void keyPressed(KeyEvent ke) {
-        switch(toUpperCase(ke.getKeyChar()))
-            {
-                case KeyEvent.VK_W : keys[0]=true; break; //counterclockwise
-                case KeyEvent.VK_A : keys[1]=true; break; //left
-                case KeyEvent.VK_D : keys[2]=true; break; //right
-                case KeyEvent.VK_S : keys[3]=true; break; //clockwise 
-                case KeyEvent.VK_SPACE : keys[4]=true; break; //down
-
-            }
+        if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_S)
+	{
+            updateTime -= (eventTime)/3;
+	}
+        
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
+        
+        if (ke.getKeyCode() == KeyEvent.VK_UP)
+	{
+            gameGrid.rotateRight();
+	}
+        if (ke.getKeyCode() == KeyEvent.VK_SHIFT)
+	{
+            gameGrid.rotateLeft();
+	}
+        if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
+	{
+            gameGrid.moveRight();
+	}
+        if (ke.getKeyCode() == KeyEvent.VK_LEFT)
+	{
+            gameGrid.moveLeft();
+	}
+        
         switch(toUpperCase(ke.getKeyChar()))
             {
-                case KeyEvent.VK_W : keys[0]=false; break; //counterclockwise
-                case KeyEvent.VK_A : keys[1]=false; break; //left
-                case KeyEvent.VK_D : keys[2]=false; break; //right
-                case KeyEvent.VK_S : keys[3]=false; break; //clockwise 
-                case KeyEvent.VK_SPACE : keys[4]=false; break; //down
+                case KeyEvent.VK_W : gameGrid.rotateRight(); break; //clockwise
+                case KeyEvent.VK_A : gameGrid.moveLeft(); break; //left
+                case KeyEvent.VK_D : gameGrid.moveRight(); break; //right
+                case KeyEvent.VK_R : gameGrid.rotateLeft(); break; //counterclockwise
+                //case KeyEvent.VK_SPACE : keys[4]=true; break; //down
 
             }
     }
