@@ -85,7 +85,7 @@ public class GameRunner extends JPanel implements KeyListener {
     }
     public ArrayList<Block> getAllBlocks()
     {
-        //merge all blocks from blockLists of Shapes
+        allBlocks=gameGrid.getAllBlocks();
         return allBlocks;
     }
     

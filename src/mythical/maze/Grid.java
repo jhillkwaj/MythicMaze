@@ -9,33 +9,84 @@ package mythical.maze;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
  * @author justi_000
  */
 public class Grid {
-    private ArrayList<Block> blocks = new ArrayList<Block>();
+    private ArrayList<Block> allBlocks = new ArrayList<>();
     private Shape fallingShape;
+    private int rightBound = 9;
+    private int leftBound = 0;
+    private int bottomBound = 21;
     
     public Grid()
     {
         addShape();
     }
-    
+    public ArrayList<Block>getAllBlocks()
+    {
+        return allBlocks;
+    }
     public void addShape()
     {
         fallingShape = randomShape();
         
         for(Block b : fallingShape.getBlockList())
         {
-            blocks.add(b);
+            allBlocks.add(b);
         }
     }
     
     public Shape randomShape()
     {
-        return new LShape(5,2);
+        int randNum = (int)(Math.random()*11);
+        if(randNum==0)
+        {
+            return new LShape(5,2);
+        }
+        else if(randNum==1)
+        {
+            return new JShape(5,2);
+        }
+        else if(randNum==2)
+        {
+            return new SShape(5,2);
+        }
+        else if(randNum==3)
+        {
+            return new ZShape(5,2);
+        }
+        else if(randNum==4)
+        {
+            return new IShape(5,2);
+        }
+        else if(randNum==5)
+        {
+            return new OShape(5,2);
+        }
+        else if(randNum==6)
+        {
+            return new TShape(5,2);
+        }
+        else if(randNum==7)
+        {
+            return new MiniLShape(5,2);
+        }
+        else if(randNum==8)
+        {
+            return new MiniJShape(5,2);
+        }
+        else if(randNum==9)
+        {
+            return new MiniIShape(5,2);
+        }
+        else
+        {
+            return new MiniOShape(5,2);
+        }
     }
     
     public void rotateRight()
@@ -50,17 +101,57 @@ public class Grid {
     
     public void moveRight()
     {
-        fallingShape.moveRight();
+        //check for collision with wall
+        boolean canMove = true;
+        for(Block b:fallingShape.getBlockList())
+        {
+            if(b.getX()+1>rightBound)
+            {
+                canMove = false;
+            }
+        }
+        if(canMove)
+        {
+            fallingShape.moveRight();
+        }
     }
     
     public void moveLeft()
     {
-        fallingShape.moveLeft();
+        boolean canMove = true;
+        for(Block b:fallingShape.getBlockList())
+        {
+            if(b.getX()-1<leftBound)
+            {
+                canMove = false;
+            }
+        }
+        if(canMove)
+        {
+            fallingShape.moveLeft();
+        }
     }
     
     public void moveDown()
     {
-        fallingShape.moveDown();
+        //check for collision with walls
+        boolean canMove = true;
+        for(Block b:fallingShape.getBlockList())
+        {
+            if(b.getY()+1>bottomBound)
+            {
+                canMove = false;
+            }
+        }
+        if(canMove)
+        {
+            fallingShape.moveDown();
+        }
+        else
+        {
+            addShape();
+        }
+        //check for collision with other blocks
     }
     
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int offsetX)
@@ -83,7 +174,7 @@ public class Grid {
         
         
         
-        for(Block b : blocks)
+        for(Block b : allBlocks)
         {
             b.drawBlock(g, gridSizeX, gridSizeY, offsetX);
         }
