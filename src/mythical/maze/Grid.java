@@ -16,7 +16,7 @@ import java.util.Random;
  * @author justi_000
  */
 public class Grid {
-    private ArrayList<Block> allBlocks = new ArrayList<>();
+    private ArrayList<Block> deadBlocks = new ArrayList<>();
     private Shape fallingShape;
     private int rightBound = 9;
     private int leftBound = 0;
@@ -26,18 +26,13 @@ public class Grid {
     {
         addShape();
     }
-    public ArrayList<Block>getAllBlocks()
+    public ArrayList<Block>getDeadBlocks()
     {
-        return allBlocks;
+        return deadBlocks;
     }
     public void addShape()
     {
         fallingShape = randomShape();
-        
-        for(Block b : fallingShape.getBlockList())
-        {
-            allBlocks.add(b);
-        }
     }
     
     public Shape randomShape()
@@ -91,23 +86,67 @@ public class Grid {
     
     public void rotateRight()
     {
-        fallingShape.rotateClockwise();
+        //method in Shape class returns rotation locations
+        boolean canMove = true;
+        for(Block b:fallingShape.getClockwiseOccupied())
+        {
+            for(Block d:deadBlocks)
+            {
+                if(b.getX()==d.getX()&&b.getY()==d.getY())
+                {
+                    canMove = false;
+                }
+            }
+            if(b.getX()<leftBound||b.getX()>rightBound||b.getY()>bottomBound)
+            {
+                canMove = false;
+            }
+        }
+        if(canMove)
+        {
+            fallingShape.rotateClockwise();
+        }  
     }
     
     public void rotateLeft()
     {
-        fallingShape.rotateCounterClockwise();
+        //method in Shape class returns rotation locations
+        boolean canMove = true;
+        for(Block b:fallingShape.getCounterClockwiseOccupied())
+        {
+            for(Block d:deadBlocks)
+            {
+                if(b.getX()==d.getX()&&b.getY()==d.getY())
+                {
+                    canMove = false;
+                }
+            }
+            if(b.getX()<leftBound||b.getX()>rightBound||b.getY()>bottomBound)
+            {
+                canMove = false;
+            }
+        }
+        if(canMove)
+        {
+            fallingShape.rotateCounterClockwise();
+        } 
     }
     
     public void moveRight()
     {
-        //check for collision with wall
         boolean canMove = true;
         for(Block b:fallingShape.getBlockList())
         {
             if(b.getX()+1>rightBound)
             {
                 canMove = false;
+            }
+            for(Block d :deadBlocks)
+            {
+                if(b.getX()+1==d.getX()&&b.getY()==d.getY())
+                {
+                    canMove = false;
+                }
             }
         }
         if(canMove)
@@ -124,6 +163,13 @@ public class Grid {
             if(b.getX()-1<leftBound)
             {
                 canMove = false;
+            }
+            for(Block d :deadBlocks)
+            {
+                if(b.getX()-1==d.getX()&&b.getY()==d.getY())
+                {
+                    canMove = false;
+                }
             }
         }
         if(canMove)
@@ -142,6 +188,14 @@ public class Grid {
             {
                 canMove = false;
             }
+            for(Block d :deadBlocks)
+            {
+                if(b.getX()==d.getX()&&b.getY()+1==d.getY())
+                {
+                    canMove = false;
+                }
+            }
+            
         }
         if(canMove)
         {
@@ -149,10 +203,15 @@ public class Grid {
         }
         else
         {
+            for(Block b : fallingShape.getBlockList())
+            {
+                deadBlocks.add(b);
+            }
             addShape();
         }
         //check for collision with other blocks
     }
+
     
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int offsetX)
     {
@@ -174,7 +233,11 @@ public class Grid {
         
         
         
-        for(Block b : allBlocks)
+        for(Block b : deadBlocks)
+        {
+            b.drawBlock(g, gridSizeX, gridSizeY, offsetX);
+        }
+        for(Block b : fallingShape.getBlockList())
         {
             b.drawBlock(g, gridSizeX, gridSizeY, offsetX);
         }

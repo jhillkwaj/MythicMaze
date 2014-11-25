@@ -16,9 +16,14 @@ public class Block {
     
     //x is 10 y is 22 but only 20 are on screen
     private int xPos, yPos; 
-    private boolean north, south, west, east, active;
+    private boolean north, south, west, east;
     public Color c = new Color(250,250,0);
     
+    public Block(int x, int y)
+    {
+        xPos = x;
+        yPos = y;
+    }
     public Block(int x, int y, boolean n, boolean  e, boolean s, boolean w)
     {
         xPos = x;
@@ -27,7 +32,6 @@ public class Block {
         south = s;
         west = w;
         east = e;
-        active = true;
     }
     public void setX(int x)
     {
@@ -52,10 +56,6 @@ public class Block {
     public void setWest(boolean b)
     {
         west = b;
-    }
-    public void setActive(boolean b)
-    {
-        active = b;
     }
     
     
@@ -83,10 +83,6 @@ public class Block {
     public boolean getWest()
     {
         return west;
-    }
-    public boolean getActive()
-    {
-        return active;
     }
     public void rotateClockwise()
     {

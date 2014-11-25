@@ -83,11 +83,6 @@ public class GameRunner extends JPanel implements KeyListener {
        //test.rotateClockwise();
        //test.rotateCounterClockwise();
     }
-    public ArrayList<Block> getAllBlocks()
-    {
-        allBlocks=gameGrid.getAllBlocks();
-        return allBlocks;
-    }
     
     @Override
     public void paint(Graphics g)

@@ -5,6 +5,8 @@
  */
 package mythical.maze;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Richard
@@ -31,5 +33,19 @@ public class MiniOShape extends Shape{
         {
             b.rotateCounterClockwise();
         }
+    }
+    @Override
+    public ArrayList<Block> getClockwiseOccupied()
+    {
+        ArrayList<Block>blockList = new ArrayList<>();
+        blockList.add(new Block(xPos,yPos));
+        return blockList;   
+    }
+    @Override
+    public ArrayList<Block> getCounterClockwiseOccupied()
+    {
+        ArrayList<Block>blockList = new ArrayList<>();
+        blockList.add(new Block(xPos,yPos));
+        return blockList;
     }
 }

@@ -14,9 +14,10 @@ import java.util.ArrayList;
  */
 public class Shape {
    
-    private int xPos, yPos;
+    public int xPos, yPos;
     private boolean active;
     private ArrayList<Block>blockList = new ArrayList<>();
+    private ArrayList<Block>occupy;
     
     public Shape(int x, int y)
     {
@@ -41,45 +42,29 @@ public class Shape {
     }
     public void moveDown()
     {
-        if(active)
+        yPos+=1;
+        for(Block b:blockList)
         {
-            //check for collision, else, move down
-            yPos+=1;
-            for(Block b:blockList)
-            {
-                b.setY(b.getY()+1);
-            }
+            b.setY(b.getY()+1);
         }
     }
     public void moveRight()
     {
-        if(active)
+        xPos+=1;
+        for(Block b:blockList)
         {
-            //check for collision, else, move right
-            xPos+=1;
-            for(Block b:blockList)
-            {
-                b.setX(b.getX()+1);
-            }
-        }
-            
+            b.setX(b.getX()+1);
+        }     
     }
     public void moveLeft()
     {
-        if(active)
+        xPos-=1;
+        for(Block b:blockList)
         {
-            //check for collision, else, move left
-            xPos-=1;
-            for(Block b:blockList)
-            {
-                b.setX(b.getX()-1);
-            }
+            b.setX(b.getX()-1);
         }
     }
     public void rotateClockwise() {
-        //check for rotation
-        //rotate
-        
         for(Block b:blockList)
         {
             int xDistance = b.getX()-xPos;
@@ -100,6 +85,28 @@ public class Shape {
             b.setY(yPos-xDistance-1);
             b.rotateCounterClockwise();
         }        
+    }
+    public ArrayList<Block>getClockwiseOccupied()
+    {
+        occupy = new ArrayList<>();
+        for(Block b:blockList)
+        {
+            int xDistance = b.getX()-xPos;
+            int yDistance = b.getY()-yPos;
+            occupy.add(new Block(xPos-yDistance-1,yPos+xDistance));
+        }
+        return occupy;
+    }
+    public ArrayList<Block>getCounterClockwiseOccupied()
+    {
+        occupy = new ArrayList<>();
+        for(Block b:blockList)
+        {
+            int xDistance = b.getX()-xPos;
+            int yDistance = b.getY()-yPos;
+            occupy.add(new Block(xPos+yDistance,yPos-xDistance-1));
+        }
+        return occupy;
     }
     public ArrayList<Block> getBlockList()
     {
