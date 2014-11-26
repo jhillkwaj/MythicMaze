@@ -18,9 +18,10 @@ import java.util.Random;
 public class Grid {
     private ArrayList<Block> deadBlocks = new ArrayList<>();
     private Shape fallingShape;
-    private int rightBound = 9;
-    private int leftBound = 0;
-    private int bottomBound = 21;
+    private final int rightBound = 9;
+    private final int leftBound = 0;
+    private final int bottomBound = 21;
+    private final int upperBound = 3;
     
     public Grid()
     {
@@ -34,7 +35,18 @@ public class Grid {
     {
         fallingShape = randomShape();
     }
-    
+    public boolean levelEnd()
+    {
+        for(Block b:deadBlocks)
+        {
+            if(b.getY()<upperBound)
+            {
+                System.out.println("dead");
+                return true;
+            }
+        }
+        return false;
+    }
     public Shape randomShape()
     {
         int randNum = (int)(Math.random()*11);
@@ -209,6 +221,7 @@ public class Grid {
             }
             checkRow();
             addShape();
+            
         }
         //check for collision with other blocks
     }
@@ -245,7 +258,7 @@ public class Grid {
     }
     public void checkRow()
     {
-        for(int y=0;y<=bottomBound;y++)
+        for(int y=upperBound;y<=bottomBound;y++)
         {
             int count = 0;
             for(Block b:deadBlocks)
@@ -273,7 +286,6 @@ public class Grid {
         }
         if(toRemove != null)
         {
-            System.out.println(toRemove.getX()+","+toRemove.getY());
             deadBlocks.remove(toRemove);
             removeRow(y);
         }
