@@ -279,7 +279,6 @@ public class Grid {
         }
         else
         {
-            System.out.println("shifted");
             for(Block b:deadBlocks)
             {
                 if(b.getY()<y)
