@@ -207,6 +207,7 @@ public class Grid {
             {
                 deadBlocks.add(b);
             }
+            checkRow();
             addShape();
         }
         //check for collision with other blocks
@@ -240,6 +241,52 @@ public class Grid {
         for(Block b : fallingShape.getBlockList())
         {
             b.drawBlock(g, gridSizeX, gridSizeY, offsetX);
+        }
+    }
+    public void checkRow()
+    {
+        for(int y=0;y<=bottomBound;y++)
+        {
+            int count = 0;
+            for(Block b:deadBlocks)
+            {
+                if(b.getY()==y)
+                {
+                    count++;
+                }
+            }
+            if(count == rightBound - leftBound + 1)
+            {
+                removeRow(y);
+            }
+        }
+    }
+    public void removeRow(int y)
+    {
+        Block toRemove = null;
+        for(Block b:deadBlocks)
+        {
+            if(b.getY() == y)
+            {
+                toRemove = b;
+            }
+        }
+        if(toRemove != null)
+        {
+            System.out.println(toRemove.getX()+","+toRemove.getY());
+            deadBlocks.remove(toRemove);
+            removeRow(y);
+        }
+        else
+        {
+            System.out.println("shifted");
+            for(Block b:deadBlocks)
+            {
+                if(b.getY()<y)
+                {
+                    b.setY(b.getY()+1);
+                }
+            }
         }
     }
 }
