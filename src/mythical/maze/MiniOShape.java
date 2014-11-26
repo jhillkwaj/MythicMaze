@@ -18,6 +18,15 @@ public class MiniOShape extends Shape{
         this.getBlockList().add(new Block(x,y,false,true,false,true));
          
     }
+    public MiniOShape(int x, int y,int version)
+    {
+        super(x,y);
+        if(version == 2)
+            this.getBlockList().add(new Block(x,y,false,false,false,false));
+        else
+            this.getBlockList().add(new Block(x,y,false,true,false,true));
+         
+    }
     @Override
     public void rotateClockwise()
     {
