@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Shape {
    
     public int xPos, yPos;
-    private boolean active;
     private ArrayList<Block>blockList = new ArrayList<>();
     private ArrayList<Block>occupy;
     
@@ -23,15 +22,6 @@ public class Shape {
     {
         xPos = x;
         yPos = y;
-        active = true;
-    }
-    public boolean getActive()
-    {
-        return active;
-    }
-    public void setInActive()
-    {
-        active = false;
     }
     public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX)
     {
