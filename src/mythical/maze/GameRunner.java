@@ -37,7 +37,6 @@ public class GameRunner extends JPanel implements KeyListener {
     private BufferedImage back;
 
     private Grid gameGrid = new Grid();
-    private ArrayList<Block>allBlocks = new ArrayList<>();
     
     public void start()
     {
@@ -79,9 +78,9 @@ public class GameRunner extends JPanel implements KeyListener {
     public void update()
     {
        updateTime += eventTime;
-       gameGrid.moveDown();
-       //test.rotateClockwise();
-       //test.rotateCounterClockwise();
+
+           gameGrid.moveDown();
+
     }
     
     @Override
