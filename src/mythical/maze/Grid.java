@@ -260,11 +260,12 @@ public class Grid {
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int offsetX)
     {
         //draw the background image
-        g.setColor(Color.red);
-        g.fillRect(0, 0, gridSizeX+(2*offsetX),1070);
+        g.setColor(Color.white);
+        g.fillRect(0, 0, 2000,2000);
+        g.drawImage(ImageManager.getImage(10), 0, 0, gridSizeX+2*offsetX, gridSizeY, null);
         
         //draw the grid
-        g.setColor(new Color(0f,0f,0f,.3f));
+        g.setColor(new Color(1f,1f,1f,.3f));
         for(int i = 0; i < rightBound; i++)
         {
             for(int j = 0; j < 22; j++)
