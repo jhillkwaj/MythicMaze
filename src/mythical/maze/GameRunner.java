@@ -36,7 +36,10 @@ public class GameRunner extends JPanel implements KeyListener {
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;
 
-    private Grid gameGrid = new Grid();
+    private final int rightBound = 12;
+    private final int bottomBound = 21;
+    
+    private Grid gameGrid;
     
     public void start()
     {
@@ -50,7 +53,8 @@ public class GameRunner extends JPanel implements KeyListener {
          frame.setSize((int)width, (int)height);
         
         frame.setTitle("Mythical Maze");
-        frame.setExtendedState(frame.MAXIMIZED_BOTH);  
+        frame.setSize((int)(width/2), (int) height);
+        frame.setLocation((int)(width/4), 0);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.addKeyListener(this);
@@ -58,6 +62,8 @@ public class GameRunner extends JPanel implements KeyListener {
        timer.start();
        frame.repaint();
        frame.add(this);
+       
+       gameGrid = new Grid(rightBound, bottomBound);
        
     }
    
@@ -86,6 +92,18 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g)
     {
+            int boardSizeX = 1200;
+            int boardSizeY = 1070;
+            
+            if(((boardSizeX*this.getWidth())/1920.0f)/((float)rightBound)<((boardSizeY*this.getHeight())/1070.0f)/((float)bottomBound))
+            {
+                boardSizeY = (int)((((boardSizeX*this.getWidth())/1920.0f)/((float)rightBound))*bottomBound);  
+            }
+            else if(((boardSizeX*this.getWidth())/1920.0f)/((float)rightBound)>((boardSizeY*this.getHeight())/1070.0f)/((float)bottomBound))
+            {
+                boardSizeX = (int)((((boardSizeY*this.getHeight())/1070.0f)/((float)bottomBound))*rightBound);
+            }
+        
             if(back==null)
             {
                 back=(BufferedImage)createImage(1920,1070);
@@ -95,7 +113,7 @@ public class GameRunner extends JPanel implements KeyListener {
            
             
             
-            gameGrid.draw(graphToBack,1200,1070,200);
+            gameGrid.draw(graphToBack,boardSizeX,boardSizeY,200);
             
             graphToBack.setColor(Color.YELLOW);
             

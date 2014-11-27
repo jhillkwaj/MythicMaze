@@ -20,17 +20,19 @@ import java.util.Random;
 public class Grid {
     private ArrayList<Block> deadBlocks = new ArrayList<>();
     private Shape fallingShape;
-    private final int rightBound = 9;
+    private int rightBound = 12;
     private final int leftBound = 0;
-    private final int bottomBound = 21;
+    private int bottomBound = 21;
     private final int upperBound = 3;
     
    
     int startY = 20;
     int endY = 18;
     
-    public Grid()
+    public Grid(int rightBound, int bottomBound)
     {
+        this.rightBound = rightBound;
+        this.bottomBound = bottomBound;
         addShape();
     }
     public ArrayList<Block>getDeadBlocks()
@@ -55,7 +57,7 @@ public class Grid {
     }
     public Shape randomShape()
     {
-        int randNum = (int)(Math.random()*15);
+        int randNum = (int)(Math.random()*16);
         if(randNum==0)
         {
             return new LShape(5,2);
@@ -76,29 +78,29 @@ public class Grid {
         {
             return new IShape(5,2);
         }
-        else if(randNum==5)
+        else if(randNum<=6)
         {
             if(Math.random()<.7f)
                 return new OShape(5,2);
             else
                 return new OShape(5,2,2);
         }
-        else if(randNum==6)
+        else if(randNum==7)
         {
             if(Math.random()<.5f)
                 return new TShape(5,2);
             else
                 return new TShape(5,2,2);
         }
-        else if(randNum<=8)
+        else if(randNum<=9)
         {
             return new MiniLShape(5,2);
         }
-        else if(randNum<=10)
+        else if(randNum<=11)
         {
              return new MiniJShape(5,2);
         }
-        else if(randNum<=12)
+        else if(randNum<=13)
         {
             if(Math.random()<.5f)
                 return new MiniIShape(5,2);
@@ -169,7 +171,7 @@ public class Grid {
         boolean canMove = true;
         for(Block b:fallingShape.getBlockList())
         {
-            if(b.getX()+1>rightBound)
+            if(b.getX()+2>rightBound)
             {
                 canMove = false;
             }
@@ -240,7 +242,7 @@ public class Grid {
                 deadBlocks.add(b);
             }
             
-            if(findPath(0, startY, 9, endY))
+            if(findPath(0, startY, rightBound-1, endY))
             {
                 
             }
@@ -259,37 +261,37 @@ public class Grid {
     {
         //draw the background image
         g.setColor(Color.red);
-        g.fillRect(0, 0, gridSizeX+offsetX, gridSizeY);
+        g.fillRect(0, 0, gridSizeX+(2*offsetX),1070);
         
         //draw the grid
         g.setColor(new Color(0f,0f,0f,.3f));
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < rightBound; i++)
         {
             for(int j = 0; j < 22; j++)
             {
-                g.fillRect((int)(((i)*(gridSizeX/10.0)))+5+offsetX,
+                g.fillRect((int)(((i)*(gridSizeX/((float)rightBound))))+5+offsetX,
                 (int)(((j)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/10.0) - 10, (int)(gridSizeY/20.0) - 10);
+                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
             }
         }
         
         g.setColor(new Color(0f,1f,1f,.3f));
         
-        g.fillRect((int)(((-1)*(gridSizeX/10.0)))+5+offsetX,
+        g.fillRect((int)(((-1)*(gridSizeX/((float)rightBound))))+5+offsetX,
                 (int)(((startY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/10.0) - 10, (int)(gridSizeY/20.0) - 10);
+                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
         
-        g.fillRect((int)(((10)*(gridSizeX/10.0)))+5+offsetX,
+        g.fillRect((int)(((rightBound)*(gridSizeX/((float)rightBound))))+5+offsetX,
                 (int)(((endY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/10.0) - 10, (int)(gridSizeY/20.0) - 10);
+                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
         
         for(Block b : deadBlocks)
         {
-            b.drawBlock(g, gridSizeX, gridSizeY, offsetX);
+            b.drawBlock(g, gridSizeX, gridSizeY, offsetX, rightBound);
         }
         for(Block b : fallingShape.getBlockList())
         {
-            b.drawBlock(g, gridSizeX, gridSizeY, offsetX);
+            b.drawBlock(g, gridSizeX, gridSizeY, offsetX, rightBound);
         }
     }
     public void checkRow()

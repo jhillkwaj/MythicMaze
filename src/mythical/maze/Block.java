@@ -100,12 +100,12 @@ public class Block {
         south = west;
         west = temp;
     }
-    public void drawBlock(Graphics g, int gridSizeX, int gridSizeY, int offSetX)
+    public void drawBlock(Graphics g, int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
         g.setColor(c);
-        g.fillRect((int)(((xPos)*(gridSizeX/10.0)))+offSetX,
+        g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX,
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)),
-                (int)(gridSizeX/10.0), (int)(gridSizeY/20.0));
+                (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0));
         
         int xStart = 0;
         int yStart = 0;
@@ -131,8 +131,8 @@ public class Block {
             ySize-=3;
         }
         g.setColor(new Color(40,40,40));
-        g.fillRect((int)(((xPos)*(gridSizeX/10.0)))+xStart+offSetX, 
+        g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
-                (int)(gridSizeX/10.0)+xSize, (int)(gridSizeY/20.0)+ySize);
+                (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize);
     }
 }

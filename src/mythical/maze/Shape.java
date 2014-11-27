@@ -23,11 +23,11 @@ public class Shape {
         xPos = x;
         yPos = y;
     }
-    public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX)
+    public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX, int rightBound)
     {
         for(Block b:blockList)
         {
-            b.drawBlock(g,boardSizeX,boardSizeY,offsetX);
+            b.drawBlock(g,boardSizeX,boardSizeY,offsetX, rightBound);
         }
     }
     public void moveDown()
