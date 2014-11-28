@@ -37,7 +37,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private BufferedImage back;
    
 
-    private final int rightBound = 12;
+    private final int rightBound = 11;
     private final int bottomBound = 21;
     
     private Grid gameGrid;
