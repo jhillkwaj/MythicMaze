@@ -24,6 +24,7 @@ public class Grid {
     private final int leftBound = 0;
     private int bottomBound = 21;
     private final int upperBound = 3;
+    boolean isOver;
     
    
     int startY = 20;
@@ -35,9 +36,7 @@ public class Grid {
         this.bottomBound = bottomBound;
         addShape();
         rightBound = 9;
-        leftBound = 0;
         bottomBound = 21;
-        upperBound = 3;
         startY = 18;
         endY = 18;
         isOver = false;
@@ -269,7 +268,7 @@ public class Grid {
         //draw the background image
         g.setColor(Color.white);
         g.fillRect(0, 0, 2000,2000);
-        g.drawImage(ImageManager.getImage(10), 0, 0, gridSizeX+2*offsetX, gridSizeY, null);
+        g.drawImage(ImageManager.getImage(10), 0, 0, gridSizeX+offsetX+offsetX, gridSizeY, null);
         
         //draw the grid
         g.setColor(new Color(1f,1f,1f,.3f));
