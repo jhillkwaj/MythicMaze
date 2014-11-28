@@ -78,8 +78,7 @@ public class GameRunner extends JPanel implements KeyListener {
     public void update()
     {
        updateTime += eventTime;
-
-           gameGrid.moveDown();
+       gameGrid.moveDown();
 
     }
     
@@ -97,6 +96,8 @@ public class GameRunner extends JPanel implements KeyListener {
             
             gameGrid.draw(graphToBack,1200,1070,200);
             
+            //check if character is active or not
+            //if active, then enable movement and updating graphics
             graphToBack.setColor(Color.YELLOW);
             
             
@@ -120,6 +121,8 @@ public class GameRunner extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent ke) {
+        
+        //put in if statement for character.
         if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_S)
 	{
             updateTime -= (eventTime)/3;

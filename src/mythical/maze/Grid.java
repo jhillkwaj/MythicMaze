@@ -26,7 +26,7 @@ public class Grid {
     private final int upperBound = 3;
     
    
-    int startY = 20;
+    int startY = 18;
     int endY = 18;
     
     public Grid()
