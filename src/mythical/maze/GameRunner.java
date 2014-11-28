@@ -98,18 +98,23 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g)
     {
-            int boardSizeX = 1200;
-            int boardSizeY = 1070;
             
-            if(((boardSizeX*this.getWidth())/1920.0f)/((float)rightBound)<((boardSizeY*this.getHeight())/1070.0f)/((float)bottomBound))
+            int boardSizeY = this.getHeight();
+            int boardSizeX = (int)(boardSizeY/(float)(bottomBound-2))*(rightBound);
+            
+            float ratio = (float)boardSizeY/(float)boardSizeX;
+            
+            if(this.getWidth()*boardSizeX*ratio<this.getHeight()*boardSizeY)
             {
-                boardSizeY = (int)((((boardSizeX*this.getWidth())/1920.0f)/((float)rightBound))*bottomBound);  
+                boardSizeX=this.getWidth()-(this.getWidth()/5);
+                boardSizeY = (int)(boardSizeX/(float)(rightBound))*(bottomBound-2);
             }
-            else if(((boardSizeX*this.getWidth())/1920.0f)/((float)rightBound)>((boardSizeY*this.getHeight())/1070.0f)/((float)bottomBound))
-            {
-                boardSizeX = (int)((((boardSizeY*this.getHeight())/1070.0f)/((float)bottomBound))*rightBound);
-            }
-        
+            
+            System.out.println(boardSizeX + "   " + boardSizeY);
+            
+            
+           
+            System.out.println((float)boardSizeY/(float)boardSizeX);
             if(back==null)
             {
                 back=(BufferedImage)createImage(1920,1070);
@@ -120,7 +125,7 @@ public class GameRunner extends JPanel implements KeyListener {
             
             
 
-            gameGrid.draw(graphToBack,boardSizeX,boardSizeY,200);
+            gameGrid.draw(graphToBack,boardSizeX,boardSizeY,boardSizeX/5);
 
             
             //check if character is active or not
