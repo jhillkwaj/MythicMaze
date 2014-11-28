@@ -20,25 +20,16 @@ import java.util.Random;
 public class Grid {
     private ArrayList<Block> deadBlocks = new ArrayList<>();
     private Shape fallingShape;
-    private int rightBound = 12;
-    private final int leftBound = 0;
-    private int bottomBound = 21;
-    private final int upperBound = 3;
+    private int upperBound,bottomBound,rightBound,leftBound,startY,endY;
+    private boolean isOver;
     
-   
-    int startY = 20;
-    int endY = 18;
-    
-    public Grid(int rightBound, int bottomBound)
+    public Grid(int right, int bottom)
     {
-        this.rightBound = rightBound;
-        this.bottomBound = bottomBound;
+        rightBound = right;
+        bottomBound = bottom;
         addShape();
-        rightBound = 9;
         leftBound = 0;
-        bottomBound = 21;
-        upperBound = 3;
-        startY = 18;
+        startY = 18; //for now
         endY = 18;
         isOver = false;
     }
@@ -138,7 +129,7 @@ public class Grid {
                     canMove = false;
                 }
             }
-            if(b.getX()<leftBound||b.getX()>rightBound||b.getY()>bottomBound)
+            if(b.getX()<leftBound||b.getX()>=rightBound||b.getY()>bottomBound)
             {
                 canMove = false;
             }
@@ -162,7 +153,7 @@ public class Grid {
                     canMove = false;
                 }
             }
-            if(b.getX()<leftBound||b.getX()>rightBound||b.getY()>bottomBound)
+            if(b.getX()<leftBound||b.getX()>=rightBound||b.getY()>bottomBound)
             {
                 canMove = false;
             }
