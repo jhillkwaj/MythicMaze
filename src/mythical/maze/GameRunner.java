@@ -37,6 +37,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private BufferedImage back;
 
     private Grid gameGrid = new Grid();
+    private Character character;
     
     public void start()
     {
@@ -58,6 +59,7 @@ public class GameRunner extends JPanel implements KeyListener {
        timer.start();
        frame.repaint();
        frame.add(this);
+       character.setStart(gameGrid.leftBound-1,gameGrid.startY);
        
     }
    
@@ -95,6 +97,7 @@ public class GameRunner extends JPanel implements KeyListener {
             
             
             gameGrid.draw(graphToBack,1200,1070,200);
+            character.draw(graphToBack,1200,1070,200);
             
             //check if character is active or not
             //if active, then enable movement and updating graphics
@@ -132,35 +135,65 @@ public class GameRunner extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        
-        if (ke.getKeyCode() == KeyEvent.VK_UP)
-	{
-            gameGrid.rotateRight();
-	}
-        if (ke.getKeyCode() == KeyEvent.VK_SHIFT)
-	{
-            gameGrid.rotateLeft();
-	}
-        if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
-	{
-            gameGrid.moveRight();
-	}
-        if (ke.getKeyCode() == KeyEvent.VK_LEFT)
-	{
-            gameGrid.moveLeft();
-	}
-        
-        switch(toUpperCase(ke.getKeyChar()))
+        if(!gameGrid.isOver())
+        {
+            if (ke.getKeyCode() == KeyEvent.VK_UP)
             {
-                case KeyEvent.VK_W : gameGrid.rotateRight(); break; //clockwise
-                case KeyEvent.VK_A : gameGrid.moveLeft(); break; //left
-                case KeyEvent.VK_D : gameGrid.moveRight(); break; //right
-                case KeyEvent.VK_R : gameGrid.rotateLeft(); break; //counterclockwise
-                //case KeyEvent.VK_SPACE : keys[4]=true; break; //down
-
+                gameGrid.rotateRight();
             }
-    }
+            if (ke.getKeyCode() == KeyEvent.VK_SHIFT)
+            {
+                gameGrid.rotateLeft();
+            }
+            if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
+            {
+                gameGrid.moveRight();
+            }
+            if (ke.getKeyCode() == KeyEvent.VK_LEFT)
+            {
+                gameGrid.moveLeft();
+            }
 
-        
-    
-}
+            switch(toUpperCase(ke.getKeyChar()))
+                {
+                    case KeyEvent.VK_W : gameGrid.rotateRight(); break; //clockwise
+                    case KeyEvent.VK_A : gameGrid.moveLeft(); break; //left
+                    case KeyEvent.VK_D : gameGrid.moveRight(); break; //right
+                    case KeyEvent.VK_R : gameGrid.rotateLeft(); break; //counterclockwise
+                    //case KeyEvent.VK_SPACE : keys[4]=true; break; //down
+
+                }
+            }
+        else
+        {
+            int x = character.getX();
+            int y = character.getY();
+            if (ke.getKeyCode() == KeyEvent.VK_UP)
+            {
+                gameGrid.moveCharacterUp(x,y,character);
+            }
+            if (ke.getKeyCode() == KeyEvent.VK_DOWN)
+            {
+                gameGrid.moveCharacterDown(x,y,character);
+            }
+            if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
+            {
+                gameGrid.moveCharacterRight(x,y,character);
+            }
+            if (ke.getKeyCode() == KeyEvent.VK_LEFT)
+            {
+                gameGrid.moveCharacterLeft(x,y,character);
+            }
+
+            switch(toUpperCase(ke.getKeyChar()))
+                {
+                    case KeyEvent.VK_W : gameGrid.moveCharacterUp(x,y,character); break; //clockwise
+                    case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y,character); break; //left
+                    case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y,character); break; //right
+                    case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y,character); break; //counterclockwise
+                    //case KeyEvent.VK_SPACE : keys[4]=true; break; //down
+
+                }
+            }
+        }
+    }

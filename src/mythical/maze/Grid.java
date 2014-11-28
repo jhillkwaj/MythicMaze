@@ -20,18 +20,19 @@ import java.util.Random;
 public class Grid {
     private ArrayList<Block> deadBlocks = new ArrayList<>();
     private Shape fallingShape;
-    private final int rightBound = 9;
-    private final int leftBound = 0;
-    private final int bottomBound = 21;
-    private final int upperBound = 3;
-    
-   
-    int startY = 18;
-    int endY = 18;
+    public int rightBound,leftBound,upperBound,bottomBound,startY,endY;
+    private boolean isOver;
     
     public Grid()
     {
         addShape();
+        rightBound = 9;
+        leftBound = 0;
+        bottomBound = 21;
+        upperBound = 3;
+        startY = 18;
+        endY = 18;
+        isOver = false;
     }
     public ArrayList<Block>getDeadBlocks()
     {
@@ -291,6 +292,7 @@ public class Grid {
         {
             b.drawBlock(g, gridSizeX, gridSizeY, offsetX);
         }
+        
     }
     public void checkRow()
     {
@@ -416,10 +418,104 @@ public class Grid {
         {
             if(blocks.containsKey(b) && findPath(b, endBlock, blocks))
             {
+                isOver = true;
                 return true;
+                
             }
         }
         
         return false;
+    }
+    public boolean isOver()
+    {
+        return isOver;
+    }
+    public void moveCharacterDown(int x, int y,Character c)
+    {
+        for(Block b:deadBlocks)
+        {
+            if(b.getX()==x&&b.getY()==y)
+            {
+                if(!b.getSouth())
+                {
+                    for(Block d:deadBlocks)
+                    {
+                        if(d.getX()==x&&d.getY()==y+1)
+                        {
+                            if(!d.getNorth())
+                            {
+                                c.setY(c.getY()+1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void moveCharacterUp(int x, int y,Character c)
+    {
+        for(Block b:deadBlocks)
+        {
+            if(b.getX()==x&&b.getY()==y)
+            {
+                if(!b.getNorth())
+                {
+                    for(Block d:deadBlocks)
+                    {
+                        if(d.getX()==x&&d.getY()==y-1)
+                        {
+                            if(!d.getSouth())
+                            {
+                                c.setY(c.getY()-1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void moveCharacterLeft(int x, int y,Character c)
+    {
+        for(Block b:deadBlocks)
+        {
+            if(b.getX()==x&&b.getY()==y)
+            {
+                if(!b.getWest())
+                {
+                    for(Block d:deadBlocks)
+                    {
+                        if(d.getX()==x-1&&d.getY()==y)
+                        {
+                            if(!d.getEast())
+                            {
+                                c.setX(c.getX()-1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void moveCharacterRight(int x, int y,Character c)
+    {
+        for(Block b:deadBlocks)
+        {
+            if(b.getX()==x&&b.getY()==y)
+            {
+                if(!b.getEast())
+                {
+                    for(Block d:deadBlocks)
+                    {
+                        if(d.getX()==x+1&&d.getY()==y)
+                        {
+                            if(!d.getWest())
+                            {
+                                c.setX(c.getX()+1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
