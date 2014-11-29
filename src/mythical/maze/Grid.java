@@ -25,6 +25,7 @@ public class Grid {
 
     private int upperBound,bottomBound,rightBound,leftBound,startY,endY;
     private boolean isOver;
+    private boolean isDead;
 
     
     public Grid(int right, int bottom)
@@ -33,8 +34,7 @@ public class Grid {
         bottomBound = bottom;
         addShape();
 
-        rightBound = 9;
-        bottomBound = 21;
+        upperBound = 2;
         startY = 18;
 
         leftBound = 0;
@@ -42,6 +42,7 @@ public class Grid {
 
         endY = 18;
         isOver = false;
+        isDead = false;
     }
     public ArrayList<Block>getDeadBlocks()
     {
@@ -51,17 +52,15 @@ public class Grid {
     {
         fallingShape = randomShape();
     }
-    public boolean levelEnd()
+    public void levelEnd()
     {
         for(Block b:deadBlocks)
         {
             if(b.getY()<upperBound)
             {
-                System.out.println("dead");
-                return true;
+                isDead = true;
             }
         }
-        return false;
     }
     public Shape randomShape()
     {
@@ -249,19 +248,28 @@ public class Grid {
             {
                 deadBlocks.add(b);
             }
-            
-            if(findPath(0, startY, rightBound-1, endY))
+            levelEnd();
+            if(isDead)
             {
-                
+                   //level is over, do something
+                    System.out.println("you lose");   
             }
-            else
+            else //if not dead
             {
-                checkRow();
-                addShape();
+                if(findPath(0, startY, rightBound-1, endY)||isOver) //if won
+                {
+                    isOver = true;
+                    //jump to next level?
+                }
+                else //if not any above, keep going
+                {
+                    checkRow(); 
+                    addShape();
+                }
+                   
             }
             
         }
-        //check for collision with other blocks
     }
 
     
@@ -319,6 +327,7 @@ public class Grid {
             if(count == rightBound - leftBound + 1)
             {
                 removeRow(y);
+                System.out.println("row removed");
             }
         }
     }

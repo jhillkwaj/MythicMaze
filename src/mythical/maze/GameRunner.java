@@ -70,7 +70,7 @@ public class GameRunner extends JPanel implements KeyListener {
 
        
        gameGrid = new Grid(rightBound, bottomBound);
-
+       character = new Character();
        
     }
    
@@ -110,11 +110,11 @@ public class GameRunner extends JPanel implements KeyListener {
                 boardSizeY = (int)(boardSizeX/(float)(rightBound))*(bottomBound-2);
             }
             
-            System.out.println(boardSizeX + "   " + boardSizeY);
+           // System.out.println(boardSizeX + "   " + boardSizeY);
             
             
            
-            System.out.println((float)boardSizeY/(float)boardSizeX);
+           // System.out.println((float)boardSizeY/(float)boardSizeX);
             if(back==null)
             {
                 back=(BufferedImage)createImage(1920,1070);
