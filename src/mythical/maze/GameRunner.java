@@ -133,7 +133,7 @@ public class GameRunner extends JPanel implements KeyListener {
             graphToBack.setColor(Color.YELLOW);
             
             
-            twoDGraph.drawImage(back,0,0,getWidth(),getHeight(),null); 
+            twoDGraph.drawImage(back,0,0,null); 
             
             if(System.currentTimeMillis()-updateTime >= eventTime)
             {

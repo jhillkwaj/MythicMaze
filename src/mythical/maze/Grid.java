@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  *
@@ -324,7 +323,7 @@ public class Grid {
                     count++;
                 }
             }
-            if(count == rightBound - leftBound + 1)
+            if(count == rightBound - leftBound)
             {
                 removeRow(y);
                 System.out.println("row removed");
