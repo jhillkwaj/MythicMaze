@@ -9,20 +9,39 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
- *
+ * Parent class for the shape objects of the game.
  * @author Richard
  */
 public class Shape {
    
-    public int xPos, yPos;
+    public int xPos,
+
+    /**
+     *
+     */
+    yPos;
     private ArrayList<Block>blockList = new ArrayList<>();
     private ArrayList<Block>occupy;
     
+    /**
+     *
+     * @param x the x coordinate
+     * @param y
+     */
     public Shape(int x, int y)
     {
         xPos = x;
         yPos = y;
     }
+
+    /**
+     *
+     * @param g
+     * @param boardSizeX
+     * @param boardSizeY
+     * @param offsetX
+     * @param rightBound
+     */
     public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX, int rightBound)
     {
         for(Block b:blockList)
@@ -30,6 +49,10 @@ public class Shape {
             b.drawBlock(g,boardSizeX,boardSizeY,offsetX, rightBound);
         }
     }
+
+    /**
+     *
+     */
     public void moveDown()
     {
         yPos+=1;
@@ -38,6 +61,10 @@ public class Shape {
             b.setY(b.getY()+1);
         }
     }
+
+    /**
+     *
+     */
     public void moveRight()
     {
         xPos+=1;
@@ -46,6 +73,10 @@ public class Shape {
             b.setX(b.getX()+1);
         }     
     }
+
+    /**
+     *
+     */
     public void moveLeft()
     {
         xPos-=1;
@@ -54,6 +85,10 @@ public class Shape {
             b.setX(b.getX()-1);
         }
     }
+
+    /**
+     *
+     */
     public void rotateClockwise() {
         for(Block b:blockList)
         {
@@ -66,6 +101,9 @@ public class Shape {
         
     }
 
+    /**
+     *
+     */
     public void rotateCounterClockwise() {
         for(Block b:blockList)
         {
@@ -76,6 +114,11 @@ public class Shape {
             b.rotateCounterClockwise();
         }        
     }
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<Block>getClockwiseOccupied()
     {
         occupy = new ArrayList<>();
@@ -87,6 +130,11 @@ public class Shape {
         }
         return occupy;
     }
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<Block>getCounterClockwiseOccupied()
     {
         occupy = new ArrayList<>();
@@ -98,6 +146,11 @@ public class Shape {
         }
         return occupy;
     }
+
+    /**
+     *
+     * @return
+     */
     public ArrayList<Block> getBlockList()
     {
         return blockList;
