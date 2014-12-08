@@ -218,7 +218,7 @@ public class Grid {
         }
     }
     
-    public void moveDown()
+    public boolean moveDown()
     {
         //check for collision with walls
         boolean canMove = true;
@@ -269,6 +269,7 @@ public class Grid {
             }
             
         }
+        return canMove;
     }
 
     
@@ -356,6 +357,14 @@ public class Grid {
             }
         }
     }
+    
+    //Drops the tile
+    public void drop()
+    {
+        while(moveDown())
+        {} 
+    }
+    
     //returns true if a path exists
     public boolean findPath(int xStart, int yStart, int xEnd, int yEnd)
     {

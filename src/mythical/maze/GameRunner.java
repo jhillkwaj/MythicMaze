@@ -109,12 +109,7 @@ public class GameRunner extends JPanel implements KeyListener {
                 boardSizeX=this.getWidth()-(this.getWidth()/5);
                 boardSizeY = (int)(boardSizeX/(float)(rightBound))*(bottomBound-2);
             }
-            
-           // System.out.println(boardSizeX + "   " + boardSizeY);
-            
-            
-           
-           // System.out.println((float)boardSizeY/(float)boardSizeX);
+         
             if(back==null)
             {
                 back=(BufferedImage)createImage(1920,1070);
@@ -182,6 +177,10 @@ public class GameRunner extends JPanel implements KeyListener {
             {
                 gameGrid.moveLeft();
             }
+            if(ke.getKeyCode() == KeyEvent.VK_SPACE)
+            {
+                gameGrid.drop();
+            }
 
             switch(toUpperCase(ke.getKeyChar()))
                 {
@@ -220,7 +219,7 @@ public class GameRunner extends JPanel implements KeyListener {
                     case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y,character); break; //left
                     case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y,character); break; //right
                     case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y,character); break; //counterclockwise
-                    //case KeyEvent.VK_SPACE : keys[4]=true; break; //down
+            
 
                 }
             }
