@@ -19,11 +19,24 @@ public class Block {
     private boolean north, south, west, east;
     public Color c = new Color(250,250,0);
     
+    /*
+    * @param x an integer that represents the x coordinate of the position
+    * @param y an integer that represents the y coordinate of the position
+    */
     public Block(int x, int y)
     {
         xPos = x;
         yPos = y;
     }
+    
+    /*
+    * @param x an integer that represents the x coordinate of the position
+    * @param y an integer that represents the y coordinate of the position
+    * @param n 
+    * @param e
+    * @param s
+    * @param w
+    */
     public Block(int x, int y, boolean n, boolean  e, boolean s, boolean w)
     {
         xPos = x;
