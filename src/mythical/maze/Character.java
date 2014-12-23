@@ -17,8 +17,8 @@ public class Character {
     
     /**
     *
-    * @param x an integer for the x coordinate
-    * @param y an integer for the y coordinate
+    * @param x an integer for the x coordinate of the position
+    * @param y an integer for the y coordinate of the position
     */
     public void setStart(int x, int y)
     {
@@ -36,6 +36,7 @@ public class Character {
     
     /**
     *
+    * @return xPos an integer for the x coordinate of the character's position
     */
     public int getX()
     {
@@ -44,6 +45,7 @@ public class Character {
     
     /**
     *
+    * @return yPos an integer for the y coordinate of the character's position
     */
     public int getY()
     {
@@ -51,7 +53,7 @@ public class Character {
     }
     
     /**
-    * @param x an integer for the x coordinate
+    * @param x an integer for the x coordinate of the position
     */
     public void setX(int x)
     {
@@ -59,7 +61,7 @@ public class Character {
     }
     
     /**
-    * @param y an integer for the y coordinate
+    * @param y an integer for the y coordinate of the position
     */
     public void setY(int y)
     {
