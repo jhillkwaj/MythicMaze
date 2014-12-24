@@ -19,29 +19,33 @@ import java.util.HashMap;
 public class Grid {
     private ArrayList<Block> deadBlocks = new ArrayList<>();
     private Shape fallingShape;
-
+    private Character character;
     
 
-    private int upperBound,bottomBound,rightBound,leftBound,startY,endY;
+    private final int upperBound,bottomBound,rightBound,leftBound,startY,endY;
     private boolean isOver;
     private boolean isDead;
 
     
-    public Grid(int right, int bottom)
+    public Grid(int right, int bottom, int start, int end)
     {
         rightBound = right;
         bottomBound = bottom;
         addShape();
 
         upperBound = 2;
-        startY = 18;
 
         leftBound = 0;
-        startY = 18; //for now
+        startY = start; //for now
 
-        endY = 18;
+        endY = end;
         isOver = false;
         isDead = false;
+        character  = new Character(-1,startY);
+    }
+    public Character getCharacter()
+    {
+        return character;
     }
     public ArrayList<Block>getDeadBlocks()
     {
@@ -60,6 +64,10 @@ public class Grid {
                 isDead = true;
             }
         }
+    }
+    public void setStatus(boolean b)
+    {
+        isOver = b;
     }
     public Shape randomShape()
     {
@@ -251,7 +259,7 @@ public class Grid {
             if(isDead)
             {
                    //level is over, do something
-                    System.out.println("you lose");   
+                    System.exit(0);
             }
             else //if not dead
             {
@@ -310,6 +318,8 @@ public class Grid {
         {
             b.drawBlock(g, gridSizeX, gridSizeY, offsetX, rightBound);
         }
+        character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);
+        
         
     }
     public void checkRow()
@@ -327,7 +337,6 @@ public class Grid {
             if(count == rightBound - leftBound)
             {
                 removeRow(y);
-                System.out.println("row removed");
             }
         }
     }
@@ -375,17 +384,17 @@ public class Grid {
         {
             if(block.getX()==xStart&&block.getY()==yStart && !block.getWest())
             {
-                System.out.println("Start");
                 startBlock = block;
             }
             if(block.getX()==xEnd&&block.getY()==yEnd && !block.getEast())
             {
-                System.out.println("end");
                 endBlock = block;
             }
         }
         if(startBlock==null||endBlock==null)
-        { System.out.println("No Start or end"); return false; }
+        { 
+            return false; 
+        }
         
         //set up a map linking blocks to the blocks they are connected to
         
@@ -421,7 +430,6 @@ public class Grid {
             }
             blocks.put(block, linkedBlocks);
         }
-        System.out.println(blocks.size());
         //check for a solution
         return findPath(startBlock, endBlock, blocks);
     }
@@ -457,7 +465,7 @@ public class Grid {
     {
         return isOver;
     }
-    public void moveCharacterDown(int x, int y,Character c)
+    public void moveCharacterDown(int x, int y)
     {
         for(Block b:deadBlocks)
         {
@@ -471,7 +479,7 @@ public class Grid {
                         {
                             if(!d.getNorth())
                             {
-                                c.setY(c.getY()+1);
+                                character.setY(character.getY()+1);
                             }
                         }
                     }
@@ -479,7 +487,7 @@ public class Grid {
             }
         }
     }
-    public void moveCharacterUp(int x, int y,Character c)
+    public void moveCharacterUp(int x, int y)
     {
         for(Block b:deadBlocks)
         {
@@ -493,7 +501,7 @@ public class Grid {
                         {
                             if(!d.getSouth())
                             {
-                                c.setY(c.getY()-1);
+                                character.setY(character.getY()-1);
                             }
                         }
                     }
@@ -501,7 +509,7 @@ public class Grid {
             }
         }
     }
-    public void moveCharacterLeft(int x, int y,Character c)
+    public void moveCharacterLeft(int x, int y)
     {
         for(Block b:deadBlocks)
         {
@@ -515,7 +523,7 @@ public class Grid {
                         {
                             if(!d.getEast())
                             {
-                                c.setX(c.getX()-1);
+                                character.setX(character.getX()-1);
                             }
                         }
                     }
@@ -523,24 +531,37 @@ public class Grid {
             }
         }
     }
-    public void moveCharacterRight(int x, int y,Character c)
+    public void moveCharacterRight(int x, int y)
     {
         for(Block b:deadBlocks)
         {
-            if(b.getX()==x&&b.getY()==y)
+            if(x==-1)//initial start outside grid, moves into grid
+            {
+                character.setX(0);
+            }
+            else if(b.getX()==x&&b.getY()==y)
             {
                 if(!b.getEast())
                 {
-                    for(Block d:deadBlocks)
+                    if(character.getX()==rightBound-1)
                     {
-                        if(d.getX()==x+1&&d.getY()==y)
+                        character.setX(character.getX()+1);
+                        //LEVEL WON
+                    }
+                    else
+                    {
+                        for(Block d:deadBlocks)
                         {
-                            if(!d.getWest())
+                            if(d.getX()==x+1&&d.getY()==y)
                             {
-                                c.setX(c.getX()+1);
+                                if(!d.getWest())
+                                {
+                                    character.setX(character.getX()+1);
+                                }
                             }
                         }
                     }
+                    
                 }
             }
         }

@@ -5,6 +5,7 @@
  */
 package mythical.maze;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -20,7 +21,7 @@ public class Character {
     * @param x an integer for the x coordinate of the position
     * @param y an integer for the y coordinate of the position
     */
-    public void setStart(int x, int y)
+    public Character(int x, int y)
     {
         xPos = x;
         yPos = y;
@@ -29,9 +30,12 @@ public class Character {
     /**
     *
     */
-    public void draw(Graphics g,int gridSizeX, int gridSizeY, int offsetX)
+    public void draw(Graphics g,int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
-        //draw the character in the grid block
+        g.setColor(Color.GREEN);
+        g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX, 
+                (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)), 
+                (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0));
     }
     
     /**

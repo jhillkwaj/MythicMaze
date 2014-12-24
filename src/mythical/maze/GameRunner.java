@@ -26,7 +26,8 @@ import javax.swing.Timer;
  * @author 100032528
  */
 public class GameRunner extends JPanel implements KeyListener {
-    JFrame frame;
+    
+    private JFrame frame;
     private boolean[] keys = new boolean[10];
     private static Timer timer;
     private int timerSpeed = 60;
@@ -39,11 +40,9 @@ public class GameRunner extends JPanel implements KeyListener {
 
     private final int rightBound = 11;
     private final int bottomBound = 21;
+    private int startY, endY;
     
     private Grid gameGrid;
-
-   
-    private Character character;
 
     
     public void start()
@@ -63,17 +62,29 @@ public class GameRunner extends JPanel implements KeyListener {
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.addKeyListener(this);
-       timer = new Timer(timerSpeed, timerListener);
-       timer.start();
-       frame.repaint();
-       frame.add(this);
-
-       
-       gameGrid = new Grid(rightBound, bottomBound);
-       character = new Character();
+        startY = 18; //basic level
+        endY = 18; //basic level
+        startLevel();
        
     }
-   
+    public void startLevel()
+    {
+        timer = new Timer(timerSpeed, timerListener);
+        timer.start();
+        frame.repaint();
+        frame.add(this); 
+        
+        //system for determining start/end Y value based on difficulty
+        gameGrid = new Grid(rightBound, bottomBound, startY, endY);
+        gameGrid.setStatus(false);//blocks can move 
+         
+    }
+    public void endLevel()
+    {
+        //prompt save
+        //change background, calls for new level
+        
+    }
     ActionListener timerListener = new ActionListener() 
    	{
                    @Override
@@ -91,8 +102,10 @@ public class GameRunner extends JPanel implements KeyListener {
     public void update()
     {
        updateTime += eventTime;
-       gameGrid.moveDown();
-
+       if(!gameGrid.isOver())
+       {
+           gameGrid.moveDown();
+       }
     }
     
     @Override
@@ -194,31 +207,31 @@ public class GameRunner extends JPanel implements KeyListener {
             }
         else
         {
-            int x = character.getX();
-            int y = character.getY();
+            int x = gameGrid.getCharacter().getX();
+            int y = gameGrid.getCharacter().getY();
             if (ke.getKeyCode() == KeyEvent.VK_UP)
             {
-                gameGrid.moveCharacterUp(x,y,character);
+                gameGrid.moveCharacterUp(x,y);
             }
             if (ke.getKeyCode() == KeyEvent.VK_DOWN)
             {
-                gameGrid.moveCharacterDown(x,y,character);
+                gameGrid.moveCharacterDown(x,y);
             }
             if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
             {
-                gameGrid.moveCharacterRight(x,y,character);
+                gameGrid.moveCharacterRight(x,y);
             }
             if (ke.getKeyCode() == KeyEvent.VK_LEFT)
             {
-                gameGrid.moveCharacterLeft(x,y,character);
+                gameGrid.moveCharacterLeft(x,y);
             }
 
             switch(toUpperCase(ke.getKeyChar()))
                 {
-                    case KeyEvent.VK_W : gameGrid.moveCharacterUp(x,y,character); break; //clockwise
-                    case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y,character); break; //left
-                    case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y,character); break; //right
-                    case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y,character); break; //counterclockwise
+                    case KeyEvent.VK_W : gameGrid.moveCharacterUp(x,y); break;
+                    case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y); break;
+                    case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y); break;
+                    case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y); break; 
             
 
                 }
