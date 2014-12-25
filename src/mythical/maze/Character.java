@@ -33,9 +33,9 @@ public class Character {
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
         g.setColor(Color.GREEN);
-        g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX, 
+        g.drawImage(ImageManager.getImage(7),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX, 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)), 
-                (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0));
+                (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0),null);
     }
     
     /**

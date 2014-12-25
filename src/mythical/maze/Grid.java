@@ -286,7 +286,7 @@ public class Grid {
         //draw the background image
         g.setColor(Color.white);
         g.fillRect(0, 0, 2000,2000);
-        g.drawImage(ImageManager.getImage(10), 0, 0, gridSizeX+offsetX+offsetX, gridSizeY, null);
+        g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX+offsetX+offsetX, gridSizeY, null);//draw background, needs to change with level
         
         //draw the grid
         g.setColor(new Color(1f,1f,1f,.3f));

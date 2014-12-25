@@ -196,9 +196,8 @@ public class Block {
         { 
             ySize-=3;
         }
-        g.setColor(new Color(40,40,40));
-        g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
+        g.drawImage(ImageManager.getImage(8),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
-                (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize);
+                (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);//needs to change with level
     }
 }
