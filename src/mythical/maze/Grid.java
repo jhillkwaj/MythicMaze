@@ -288,9 +288,10 @@ public class Grid {
         //draw the background image
         g.setColor(Color.white);
         g.fillRect(0, 0, 2000,2000);
-        g.drawImage(ImageManager.getImage(10), 0, 0, gridSizeX, gridSizeY, null);
+        g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
         
         gridSizeX-=uiArea;
+        gridSizeY-=70;
         
         float idealRatio = 1.7f;
         if(gridSizeY/gridSizeX!=idealRatio)
