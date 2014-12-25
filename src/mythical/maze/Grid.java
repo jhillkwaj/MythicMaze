@@ -265,12 +265,22 @@ public class Grid {
     }
 
     
-    public void draw(Graphics g,int gridSizeX, int gridSizeY, int offsetX)
+    public void draw(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
+        int offsetX = 200;
+        
         //draw the background image
         g.setColor(Color.white);
         g.fillRect(0, 0, 2000,2000);
-        g.drawImage(ImageManager.getImage(10), 0, 0, gridSizeX+offsetX+offsetX, gridSizeY, null);
+        g.drawImage(ImageManager.getImage(10), 0, 0, gridSizeX, gridSizeY, null);
+        
+        gridSizeX-=uiArea;
+        
+        float idealRatio = 1.7f;
+        if(gridSizeY/gridSizeX!=idealRatio)
+        {
+            gridSizeX=(int)(gridSizeY/idealRatio);
+        }
         
         //draw the grid
         g.setColor(new Color(1f,1f,1f,.3f));

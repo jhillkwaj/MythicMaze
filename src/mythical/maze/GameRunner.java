@@ -6,6 +6,7 @@ package mythical.maze;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -56,9 +57,9 @@ public class GameRunner extends JPanel implements KeyListener {
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
          frame.setSize((int)width, (int)height);
-        
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setTitle("Mythical Maze");
-        frame.setSize((int)(width/2), (int) height);
+        
         frame.setLocation((int)(width/4), 0);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -99,22 +100,16 @@ public class GameRunner extends JPanel implements KeyListener {
     public void paint(Graphics g)
     {
             
-            int boardSizeY = this.getHeight();
-            int boardSizeX = (int)(boardSizeY/(float)(bottomBound-2))*(rightBound);
+            //int boardSizeY = this.getHeight();
+            //int boardSizeX = (int)(boardSizeY/(float)(bottomBound-2))*(rightBound);
             
-            float ratio = (float)boardSizeY/(float)boardSizeX;
+            //float ratio = (float)boardSizeY/(float)boardSizeX;
             
-            if(this.getWidth()*boardSizeX*ratio<this.getHeight()*boardSizeY)
-            {
-                boardSizeX=this.getWidth()-(this.getWidth()/5);
-                boardSizeY = (int)(boardSizeX/(float)(rightBound))*(bottomBound-2);
-            }
             
-            System.out.println(boardSizeX + "   " + boardSizeY);
             
             
            
-            System.out.println((float)boardSizeY/(float)boardSizeX);
+            //System.out.println((float)boardSizeY/(float)boardSizeX);
             if(back==null)
             {
                 back=(BufferedImage)createImage(1920,1070);
@@ -125,7 +120,7 @@ public class GameRunner extends JPanel implements KeyListener {
             
             
 
-            gameGrid.draw(graphToBack,boardSizeX,boardSizeY,boardSizeX/5);
+            gameGrid.draw(graphToBack,1920,1070,700);
 
             
             //check if character is active or not
