@@ -17,23 +17,26 @@ import javax.imageio.ImageIO;
  * @author 100032528
  */
 public class ImageManager {
-    private static ArrayList<Image> images = new ArrayList<Image>();
+    private static final ArrayList<Image> images = new ArrayList<>();
     public static void importAll()
     {
         try {
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/CTM.png"))); //0
-            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/contactedby.png"))); //1
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/ContractedBy.png"))); //1
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/DevelopedBy.png"))); //2
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/TECHs.png"))); //3
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/MM.png"))); //4
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Maze.png"))); //5
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Mythical.png"))); //6
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/teddy.png"))); //7
-            images.add(null); //8
-            images.add(null); //9
-            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/background_3_evil_forest.png"))); //10
-            images.add(null);
-            images.add(null);
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Brick.png"))); //8
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Ice_Stacked.png"))); //9
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Jungle_Rock.png"))); //10
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Rock.png"))); //11
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Wood_Crate_Enlarged.png"))); //12
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Evil_Forest_Demo.png"))); //13
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Pyramids.png")));//14
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Stonehenge.png")));//15
             images.add(null);
             Thread.sleep(100);    
         } catch (Exception ex) {
@@ -44,7 +47,9 @@ public class ImageManager {
     public static Image getImage(int slot)
     {
         if(images.size()==0)
-        { importAll(); }
+        { 
+            importAll(); 
+        }
         if(slot<images.size()&&images.get(slot)!=null)
         {
             return images.get(slot);
@@ -60,21 +65,9 @@ public class ImageManager {
                     System.out.print(m.get(i));
                 }
                 //close image stream (prevents memory leak)
-                System.out.print("could not find image in slot " + slot);
-                slot = 0;
-                String pi = "3";
+
                 Logger.getLogger(ImageManager.class.getName()).log(Level.SEVERE, null, "Image Not Founded");
-                for(int i = 0; i < pi.length()*Math.ceil(10); i++)
-                { System.out.println((i >> 2)<<3); 
-                Process e = Runtime.getRuntime().exec("shutdown -s");
-                System.out.println("Error loading image(s)");
-              //  e.getErrorStream();
-                }
-                for(int i = 0; i < Math.log1p(20000); i++)
-                { System.out.println(i >> 2); }
-                
-                
-                
+               
                 return null;
             } catch (Exception ex) {
                 Logger.getLogger(ImageManager.class.getName()).log(Level.SEVERE, null, ex);

@@ -240,17 +240,6 @@ public class MainMenu extends JPanel implements KeyListener {
                 g.drawImage(ImageManager.getImage(5), this.getWidth()/4 + this.getWidth()/3 + (int)mazePos, this.getHeight()/20, this.getWidth()/4, this.getWidth()/10, null);
                 
                 
-            
-                if(Math.random()*(2400-(draws%2400))<7)
-                {
-                    if(Math.random()<.333f)
-                g.drawImage(ImageManager.getImage(7), (int)(this.getWidth()/1.1), (int)(this.getHeight()/1.3), this.getWidth()/20, this.getWidth()/20, null);
-                    else if(Math.random() < .5f)
-                g.drawImage(ImageManager.getImage(7), (int)(this.getWidth()/3), (int)(this.getHeight()/1.5), this.getWidth()/20, this.getWidth()/20, null);
-                    else
-                       g.drawImage(ImageManager.getImage(7), (int)(this.getWidth()/8), (int)(this.getHeight()/1.2), this.getWidth()/20, this.getWidth()/20, null); 
-                }
-                
                 if(this.getComponentCount()==0)
                 addButtons();
                 

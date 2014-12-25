@@ -5,6 +5,7 @@
  */
 package mythical.maze;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -15,42 +16,60 @@ public class Character {
     
     private int xPos,yPos;
     
-    public void setStart(int x, int y)
+    /**
+    *
+    * @param x an integer for the x coordinate of the position
+    * @param y an integer for the y coordinate of the position
+    */
+    public Character(int x, int y)
     {
         xPos = x;
         yPos = y;
     }
-    public void draw(Graphics g,int gridSizeX, int gridSizeY, int offsetX)
+    
+    /**
+    *
+    */
+    public void draw(Graphics g,int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
-        //draw the character in the grid block
+        g.setColor(Color.GREEN);
+        g.drawImage(ImageManager.getImage(7),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX, 
+                (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)), 
+                (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0),null);
     }
+    
+    /**
+    *
+    * @return xPos an integer for the x coordinate of the character's position
+    */
     public int getX()
     {
         return xPos;
     }
+    
+    /**
+    *
+    * @return yPos an integer for the y coordinate of the character's position
+    */
     public int getY()
     {
         return yPos;
     }
+    
+    /**
+    * @param x an integer for the x coordinate of the position
+    */
     public void setX(int x)
     {
         xPos = x;
     }
+    
+    /**
+    * @param y an integer for the y coordinate of the position
+    */
     public void setY(int y)
     {
         yPos = y;
     }
-//instace methods for location, width and height, whether or not he can move (block or character phase)
-    //draw methods, include different graphical versions
     
-    //send over block list, will constitute platforms
-        //platforms will be walls and where can't exit block
-            //always know which block character is in. if leave block, find if next location is a block, if
-            //not, then is a platform.
-    
-    //have a solution spot, return true is past rightBound.
-    
-    
-    //will be called from grid class, will serve like a block, as an object class
-    //movement methods will be called by key commands
 }
