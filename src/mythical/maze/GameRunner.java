@@ -44,6 +44,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private int startY, endY;
     
     private Grid gameGrid;
+    private HUD hud;
 
     
     public void start()
@@ -77,6 +78,9 @@ public class GameRunner extends JPanel implements KeyListener {
         
         //system for determining start/end Y value based on difficulty
         gameGrid = new Grid(rightBound, bottomBound, startY, endY);
+        gameGrid.startLevel();
+        hud = new HUD(rightBound,bottomBound);
+        hud.startTimer();
         gameGrid.setStatus(false);//blocks can move 
          
     }
@@ -134,7 +138,7 @@ public class GameRunner extends JPanel implements KeyListener {
             
 
             gameGrid.draw(graphToBack,1920,1070,700);
-
+            hud.drawHUD(graphToBack,1920,1070,700);
             
             //check if character is active or not
             //if active, then enable movement and updating graphics

@@ -18,7 +18,7 @@ import java.util.HashMap;
  */
 public class Grid {
     private ArrayList<Block> deadBlocks = new ArrayList<>();
-    private Shape fallingShape;
+    private Shape fallingShape,nextShape;
     private Character character;
     
 
@@ -31,7 +31,7 @@ public class Grid {
     {
         rightBound = right;
         bottomBound = bottom;
-        addShape();
+        
 
         upperBound = 2;
 
@@ -43,6 +43,12 @@ public class Grid {
         isDead = false;
         character  = new Character(-1,startY);
     }
+    public void startLevel()
+    {
+        nextShape();//generate random shape
+        addShape();//add random shape
+        nextShape();//prep next shape
+    }
     public Character getCharacter()
     {
         return character;
@@ -51,9 +57,25 @@ public class Grid {
     {
         return deadBlocks;
     }
+    public void nextShape()
+    {
+        nextShape = randomShape();
+        //move to right for HUD
+        for(int i=0;i<8;i++)
+        {
+            nextShape.moveRight();
+            nextShape.moveDown();
+        }
+    }
     public void addShape()
     {
-        fallingShape = randomShape();
+        fallingShape = nextShape;
+        //move back onto grid
+        for(int i=0;i<8;i++)
+        {
+            fallingShape.moveLeft();
+            fallingShape.moveUp();
+        }
     }
     public void levelEnd()
     {
@@ -270,8 +292,11 @@ public class Grid {
                 }
                 else //if not any above, keep going
                 {
-                    checkRow(); 
+                    checkRow();
+                    
+                   
                     addShape();
+                    nextShape();
                 }
                    
             }
@@ -286,7 +311,7 @@ public class Grid {
         int offsetX = 200;
         
         //draw the background image
-        g.setColor(Color.white);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, 2000,2000);
         g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
         
@@ -330,6 +355,7 @@ public class Grid {
             b.drawBlock(g, gridSizeX, gridSizeY, offsetX, rightBound);
         }
         character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);
+        nextShape.drawShape(g, gridSizeX, gridSizeY, offsetX, rightBound);
         
         
     }

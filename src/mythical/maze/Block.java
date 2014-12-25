@@ -198,6 +198,6 @@ public class Block {
         }
         g.drawImage(ImageManager.getImage(8),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
-                (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);//needs to change with level
+                (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);//image needs to change with level
     }
 }

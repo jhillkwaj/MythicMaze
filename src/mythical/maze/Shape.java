@@ -61,7 +61,17 @@ public class Shape {
             b.setY(b.getY()+1);
         }
     }
-
+/**
+     *
+     */
+    public void moveUp()
+    {
+        yPos-=1;
+        for(Block b:blockList)
+        {
+            b.setY(b.getY()-1);
+        }
+    }
     /**
      *
      */
