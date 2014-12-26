@@ -83,19 +83,29 @@ public class GameRunner extends JPanel implements KeyListener {
         gameGrid.startLevel();
         hud = new HUD(rightBound,bottomBound,level,score);//level and score need to change with level
         hud.startTimer();
-        gameGrid.setStatus(false);//blocks can move 
          
     }
     public void endLevel()
     {
+        
         //prompt save
-        level++;//increase level
-        //increase score
-        startY--;//needs to be changed
-        endY--;//needs to be changed
-        score+=500;//needs to be changed
-        timerSpeed+=500;//speeds up blocks
-        startLevel();//level and score need to change with level,change background, calls for new level
+        
+        if(gameGrid.hasWonLevel())//level won
+        {
+            level++;//increase level
+            //increase score
+            startY--;//needs to be changed
+            endY--;//needs to be changed
+            score+=500;//needs to be changed
+            timerSpeed+=500;//speeds up blocks
+            startLevel();//level and score need to change with level,change background, calls for new level
+        }
+        else//level lost
+        {
+            //prompt save, etc.
+            startLevel();
+        }
+        
     }
     ActionListener timerListener = new ActionListener() 
    	{
@@ -114,14 +124,15 @@ public class GameRunner extends JPanel implements KeyListener {
     public void update()
     {
        updateTime += eventTime;
-       if(!gameGrid.isOver())
-       {
-           gameGrid.moveDown();
-       }
-       if(gameGrid.levelWon())
+       if(gameGrid.isDead()||gameGrid.hasWonLevel())
        {
            endLevel();
        }
+       else
+       {
+           gameGrid.moveDown();
+       }
+       
     }
     
     @Override
@@ -187,7 +198,7 @@ public class GameRunner extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        if(!gameGrid.isOver())
+        if(!gameGrid.hasWon())
         {
             if (ke.getKeyCode() == KeyEvent.VK_UP)
             {

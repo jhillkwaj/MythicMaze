@@ -23,8 +23,7 @@ public class Grid {
     
 
     private final int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;
-    private boolean isOver;
-    private boolean isDead;
+    private boolean hasWon,hasWonLevel,isDead;
 
     
     public Grid(int right, int bottom, int start, int end, int l)
@@ -39,9 +38,11 @@ public class Grid {
         startY = start; //for now
 
         endY = end;
-        isOver = false;
+        hasWon = false;
+        hasWonLevel = false;
         isDead = false;
-        character  = new Character(-1,startY);
+        
+        character  = new Character(-1,start);
     }
     public void startLevel()
     {
@@ -77,19 +78,15 @@ public class Grid {
             fallingShape.moveUp();
         }
     }
-    public void levelEnd()
+    public void checkDead()
     {
         for(Block b:deadBlocks)
         {
-            if(b.getY()<upperBound)
+            if(b.getY()<=upperBound)
             {
                 isDead = true;
             }
         }
-    }
-    public void setStatus(boolean b)
-    {
-        isOver = b;
     }
     public Shape randomShape()
     {
@@ -277,35 +274,22 @@ public class Grid {
             {
                 deadBlocks.add(b);
             }
-            levelEnd();
-            if(isDead)
+            checkDead();
+            if(findPath(0, startY, rightBound-1, endY)) //if won
             {
-                   //level is over, do something
-                    System.exit(0);
+                hasWon = true;
             }
-            else //if not dead
+            else //if has not won, has not died
             {
-                if(findPath(0, startY, rightBound-1, endY)||isOver) //if won
-                {
-                    isOver = true;
-                    //jump to next level?
-                }
-                else //if not any above, keep going
-                {
-                    checkRow();
-                    
-                   
-                    addShape();
-                    nextShape();
-                }
-                   
-            }
-            
-        }
+                checkRow();
+                addShape();
+                nextShape();
+            }             
+        } 
         return canMove;
     }
 
-    
+   
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
         int offsetX = 200;
@@ -502,20 +486,16 @@ public class Grid {
         {
             if(blocks.containsKey(b) && findPath(b, endBlock, blocks))
             {
-                isOver = true;
-                return true;
-                
+                return true; 
             }
         }
         
         return false;
     }
-    public boolean isOver()
-    {
-        return isOver;
-    }
+    
     public void moveCharacterDown(int x, int y)
     {
+        boolean hasNotMoved = true;
         for(Block b:deadBlocks)
         {
             if(b.getX()==x&&b.getY()==y)
@@ -526,9 +506,10 @@ public class Grid {
                     {
                         if(d.getX()==x&&d.getY()==y+1)
                         {
-                            if(!d.getNorth())
+                            if(!d.getNorth()&&hasNotMoved)
                             {
                                 character.setY(character.getY()+1);
+                                hasNotMoved = false;
                             }
                         }
                     }
@@ -538,6 +519,7 @@ public class Grid {
     }
     public void moveCharacterUp(int x, int y)
     {
+        boolean hasNotMoved = true;
         for(Block b:deadBlocks)
         {
             if(b.getX()==x&&b.getY()==y)
@@ -548,9 +530,10 @@ public class Grid {
                     {
                         if(d.getX()==x&&d.getY()==y-1)
                         {
-                            if(!d.getSouth())
+                            if(!d.getSouth()&&hasNotMoved)
                             {
                                 character.setY(character.getY()-1);
+                                hasNotMoved = false;
                             }
                         }
                     }
@@ -560,6 +543,7 @@ public class Grid {
     }
     public void moveCharacterLeft(int x, int y)
     {
+        boolean hasNotMoved = true;
         for(Block b:deadBlocks)
         {
             if(b.getX()==x&&b.getY()==y)
@@ -570,9 +554,10 @@ public class Grid {
                     {
                         if(d.getX()==x-1&&d.getY()==y)
                         {
-                            if(!d.getEast())
+                            if(!d.getEast()&&hasNotMoved)
                             {
                                 character.setX(character.getX()-1);
+                                hasNotMoved =false;
                             }
                         }
                     }
@@ -582,6 +567,7 @@ public class Grid {
     }
     public void moveCharacterRight(int x, int y)
     {
+        boolean hasNotMoved = true;
         for(Block b:deadBlocks)
         {
             if(x==-1)//initial start outside grid, moves into grid
@@ -592,10 +578,11 @@ public class Grid {
             {
                 if(!b.getEast())
                 {
-                    if(character.getX()==rightBound-1)
+                    if(character.getX()==rightBound-1&&character.getY()==endY&&hasNotMoved)
                     {
-                        character.setX(character.getX()+1);
-                        //LEVEL WON
+                        character.setX(rightBound);
+                        hasWonLevel=true;
+                        hasNotMoved = false;
                     }
                     else
                     {
@@ -603,9 +590,11 @@ public class Grid {
                         {
                             if(d.getX()==x+1&&d.getY()==y)
                             {
-                                if(!d.getWest())
+                                if(!d.getWest()&&hasNotMoved)
                                 {
                                     character.setX(character.getX()+1);
+                                    hasNotMoved = false;
+                                    
                                 }
                             }
                         }
@@ -615,15 +604,16 @@ public class Grid {
             }
         }
     }
-    public boolean levelWon()
+    public boolean hasWonLevel()
     {
-        if(isOver)
-        {
-            if(character.getX()>=rightBound)
-            {
-                return true;
-            }
-        }
-        return false;
+        return hasWonLevel;
+    }
+    public boolean hasWon()
+    {
+        return hasWon;
+    }
+    public boolean isDead()
+    {
+        return isDead;
     }
 }
