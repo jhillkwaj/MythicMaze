@@ -22,16 +22,16 @@ public class Grid {
     private Character character;
     
 
-    private final int upperBound,bottomBound,rightBound,leftBound,startY,endY;
+    private final int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;
     private boolean isOver;
     private boolean isDead;
 
     
-    public Grid(int right, int bottom, int start, int end)
+    public Grid(int right, int bottom, int start, int end, int l)
     {
         rightBound = right;
         bottomBound = bottom;
-        
+        level = l;
 
         upperBound = 2;
 
@@ -313,7 +313,19 @@ public class Grid {
         //draw the background image
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 2000,2000);
-        g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
+        if(level==1)
+        {
+             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==2)
+        {
+             g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else
+        {
+            g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
+        }
+       
         
         gridSizeX-=uiArea;
         gridSizeY-=70;
@@ -602,5 +614,16 @@ public class Grid {
                 }
             }
         }
+    }
+    public boolean levelWon()
+    {
+        if(isOver)
+        {
+            if(character.getX()>=rightBound)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

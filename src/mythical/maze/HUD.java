@@ -18,13 +18,16 @@ import javax.swing.Timer;
  */
 public class HUD {
     
-    private final int rightBound,bottomBound;
+    private final int rightBound,bottomBound, level, score;
     private double time;
+   
     
-    public HUD(int right,int bottom)
+    public HUD(int right,int bottom, int l, int s)
     {
         rightBound = right;
         bottomBound = bottom;
+        level = l;
+        score = s;
         time = 0.0;
     }
     
@@ -81,5 +84,15 @@ public class HUD {
             }
             g.drawString(displayTime,(int)(((28.5)*(gridSizeX/((float)rightBound))))+200,
                 6*gridSizeY/20);
+            
+            
+            g.drawString("LEVEL:",(int)(((20)*(gridSizeX/((float)rightBound))))+200,
+                3*gridSizeY/20);
+            g.drawString("SCORE:",(int)(((27)*(gridSizeX/((float)rightBound))))+200,
+                3*gridSizeY/20);
+            g.drawString(""+level,(int)(((20)*(gridSizeX/((float)rightBound))))+200,
+                4*gridSizeY/20);
+            g.drawString(""+score,(int)(((27)*(gridSizeX/((float)rightBound))))+200,
+                4*gridSizeY/20);     
     }
 }

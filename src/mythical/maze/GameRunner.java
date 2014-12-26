@@ -41,7 +41,7 @@ public class GameRunner extends JPanel implements KeyListener {
 
     private final int rightBound = 11;
     private final int bottomBound = 21;
-    private int startY, endY;
+    private int startY, endY,level,score;
     
     private Grid gameGrid;
     private HUD hud;
@@ -66,6 +66,8 @@ public class GameRunner extends JPanel implements KeyListener {
         frame.addKeyListener(this);
         startY = 18; //basic level
         endY = 18; //basic level
+        level = 1;//extract from file later
+        score = 0;//extract from file later
         startLevel();
        
     }
@@ -77,9 +79,9 @@ public class GameRunner extends JPanel implements KeyListener {
         frame.add(this); 
         
         //system for determining start/end Y value based on difficulty
-        gameGrid = new Grid(rightBound, bottomBound, startY, endY);
+        gameGrid = new Grid(rightBound, bottomBound, startY, endY,level);
         gameGrid.startLevel();
-        hud = new HUD(rightBound,bottomBound);
+        hud = new HUD(rightBound,bottomBound,level,score);//level and score need to change with level
         hud.startTimer();
         gameGrid.setStatus(false);//blocks can move 
          
@@ -87,8 +89,13 @@ public class GameRunner extends JPanel implements KeyListener {
     public void endLevel()
     {
         //prompt save
-        //change background, calls for new level
-        
+        level++;//increase level
+        //increase score
+        startY--;//needs to be changed
+        endY--;//needs to be changed
+        score+=500;//needs to be changed
+        timerSpeed+=500;//speeds up blocks
+        startLevel();//level and score need to change with level,change background, calls for new level
     }
     ActionListener timerListener = new ActionListener() 
    	{
@@ -110,6 +117,10 @@ public class GameRunner extends JPanel implements KeyListener {
        if(!gameGrid.isOver())
        {
            gameGrid.moveDown();
+       }
+       if(gameGrid.levelWon())
+       {
+           endLevel();
        }
     }
     
