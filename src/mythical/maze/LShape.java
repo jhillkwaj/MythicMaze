@@ -14,9 +14,9 @@ import java.util.ArrayList;
  */
 public class LShape extends Shape{
     
-    public LShape(int x, int y)
+    public LShape(int x, int y,int l)
     {
-        super(x,y);
+        super(x,y,l);
         this.getBlockList().add(new Block(x-1,y-2,false,true,false,true));
         this.getBlockList().add(new Block(x-1,y-1,false,true,false,true));
         this.getBlockList().add(new Block(x-1,y,false,false,true,true));

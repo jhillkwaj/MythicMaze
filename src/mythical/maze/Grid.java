@@ -93,61 +93,61 @@ public class Grid {
         int randNum = (int)(Math.random()*16);
         if(randNum==0)
         {
-            return new LShape(5,2);
+            return new LShape(5,2,level);
         }
         else if(randNum==1)
         {
-            return new JShape(5,2);
+            return new JShape(5,2,level);
         }
         else if(randNum==2)
         {
-            return new SShape(5,2);
+            return new SShape(5,2,level);
         }
         else if(randNum==3)
         {
-            return new ZShape(5,2);
+            return new ZShape(5,2,level);
         }
         else if(randNum==4)
         {
-            return new IShape(5,2);
+            return new IShape(5,2,level);
         }
         else if(randNum<=6)
         {
             if(Math.random()<.7f)
-                return new OShape(5,2);
+                return new OShape(5,2,level);
             else
-                return new OShape(5,2,2);
+                return new OShape(5,2,level,2);
         }
         else if(randNum==7)
         {
             if(Math.random()<.5f)
-                return new TShape(5,2);
+                return new TShape(5,2,level);
             else
-                return new TShape(5,2,2);
+                return new TShape(5,2,level,2);
         }
         else if(randNum<=9)
         {
-            return new MiniLShape(5,2);
+            return new MiniLShape(5,2,level);
         }
         else if(randNum<=11)
         {
-             return new MiniJShape(5,2);
+             return new MiniJShape(5,2,level);
         }
         else if(randNum<=13)
         {
             if(Math.random()<.5f)
-                return new MiniIShape(5,2);
+                return new MiniIShape(5,2,level);
             else if(Math.random()<.5f)
-                return new MiniIShape(5,2,2);
+                return new MiniIShape(5,2,level,2);
             else
-                return new MiniIShape(5,2,3);
+                return new MiniIShape(5,2,level,3);
         }
         else
         {
             if(Math.random()<.5)
-                return new MiniOShape(5,2);
+                return new MiniOShape(5,2,level);
             else
-                return new MiniOShape(5,2,2);
+                return new MiniOShape(5,2,level,2);
         }
     }
     
@@ -344,11 +344,11 @@ public class Grid {
         
         for(Block b : deadBlocks)
         {
-            b.drawBlock(g, gridSizeX, gridSizeY, offsetX, rightBound);
+            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
         }
         for(Block b : fallingShape.getBlockList())
         {
-            b.drawBlock(g, gridSizeX, gridSizeY, offsetX, rightBound);
+            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
         }
         character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);
         nextShape.drawShape(g, gridSizeX, gridSizeY, offsetX, rightBound);

@@ -11,17 +11,17 @@ package mythical.maze;
  */
 public class MiniIShape extends Shape{
     
-    public MiniIShape(int x, int y)
+    public MiniIShape(int x, int y,int l)
     {
-        super(x,y);
+        super(x,y,l);
         this.getBlockList().add(new Block(x,y-1,false,true,false,true));
         this.getBlockList().add(new Block(x,y,false,true,false,true));
         this.getBlockList().add(new Block(x,y+1,false,true,false,true));   
     }
     
-    public MiniIShape(int x, int y, int version)
+    public MiniIShape(int x, int y,int l, int version)
     {
-        super(x,y);
+        super(x,y,l);
         if(version==2)
         {
             this.getBlockList().add(new Block(x,y-1,true,false,false,false));

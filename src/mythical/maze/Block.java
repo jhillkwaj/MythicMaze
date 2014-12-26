@@ -166,7 +166,7 @@ public class Block {
         west = temp;
     }
     
-    public void drawBlock(Graphics g, int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
+    public void drawBlock(Graphics g,int level, int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
         g.setColor(c);
         g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX,
@@ -196,7 +196,9 @@ public class Block {
         { 
             ySize-=3;
         }
-        g.drawImage(ImageManager.getImage(8),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
+        
+        
+        g.drawImage(ImageManager.getImage(level+7),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
                 (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);//image needs to change with level
     }

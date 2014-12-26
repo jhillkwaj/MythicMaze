@@ -12,15 +12,15 @@ import java.util.ArrayList;
  * @author Richard
  */
 public class MiniOShape extends Shape{
-    public MiniOShape(int x, int y)
+    public MiniOShape(int x, int y,int l)
     {
-        super(x,y);
+        super(x,y,l);
         this.getBlockList().add(new Block(x,y,false,true,false,true));
          
     }
-    public MiniOShape(int x, int y,int version)
+    public MiniOShape(int x, int y,int l,int version)
     {
-        super(x,y);
+        super(x,y,l);
         if(version == 2)
             this.getBlockList().add(new Block(x,y,false,false,false,false));
         else

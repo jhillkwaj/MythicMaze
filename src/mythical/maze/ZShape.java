@@ -11,9 +11,9 @@ package mythical.maze;
  */
 public class ZShape extends Shape {
     
-    public ZShape(int x, int y)
+    public ZShape(int x, int y, int l)
     {
-        super(x,y);
+        super(x,y,l);
         this.getBlockList().add(new Block(x-1,y-1,true,false,true,false));
         this.getBlockList().add(new Block(x,y-1,true,true,false,false));
         this.getBlockList().add(new Block(x,y,false,false,true,true));

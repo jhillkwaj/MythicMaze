@@ -11,9 +11,9 @@ package mythical.maze;
  */
 public class JShape extends Shape {
     
-    public JShape(int x, int y)
+    public JShape(int x, int y,int l)
     {
-        super(x,y);
+        super(x,y,l);
         this.getBlockList().add(new Block(x,y-2,false,true,false,true));
         this.getBlockList().add(new Block(x,y-1,false,true,false,true));
         this.getBlockList().add(new Block(x,y,false,true,true,false));

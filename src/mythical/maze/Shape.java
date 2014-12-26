@@ -19,7 +19,7 @@ public class Shape {
     /**
      *
      */
-    yPos;
+    yPos,level;
     private ArrayList<Block>blockList = new ArrayList<>();
     private ArrayList<Block>occupy;
     
@@ -28,10 +28,11 @@ public class Shape {
      * @param x the x coordinate
      * @param y
      */
-    public Shape(int x, int y)
+    public Shape(int x, int y, int l)
     {
         xPos = x;
         yPos = y;
+        level = l;
     }
 
     /**
@@ -46,7 +47,7 @@ public class Shape {
     {
         for(Block b:blockList)
         {
-            b.drawBlock(g,boardSizeX,boardSizeY,offsetX, rightBound);
+            b.drawBlock(g,level,boardSizeX,boardSizeY,offsetX, rightBound);
         }
     }
 

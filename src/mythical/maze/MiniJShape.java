@@ -11,9 +11,9 @@ package mythical.maze;
  */
 public class MiniJShape extends Shape{
     
-    public MiniJShape(int x, int y)
+    public MiniJShape(int x, int y,int l)
     {
-        super(x,y);
+        super(x,y,l);
         this.getBlockList().add(new Block(x,y-1,false,true,false,true));
         this.getBlockList().add(new Block(x-1,y,true,false,true,false));
         this.getBlockList().add(new Block(x,y,false,true,true,false));  
