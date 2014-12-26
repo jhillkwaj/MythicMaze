@@ -68,6 +68,7 @@ public class GameRunner extends JPanel implements KeyListener {
         endY = 18; //basic level
         level = 1;//extract from file later
         score = 0;//extract from file later
+        eventTime = 900 / ((1+level)/2);
         startLevel();
        
     }
@@ -93,6 +94,7 @@ public class GameRunner extends JPanel implements KeyListener {
         if(gameGrid.hasWonLevel())//level won
         {
             level++;//increase level
+            eventTime = 900 / ((1+level)/2);
             //increase score
             startY--;//needs to be changed
             endY--;//needs to be changed
