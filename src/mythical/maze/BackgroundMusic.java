@@ -31,14 +31,21 @@ public class BackgroundMusic implements Runnable {
     private int song;
     Clip clip;
     
+    /*
+    * @param song an integer that represents the choice of which song to play
+    */
     public BackgroundMusic(int song)
     {
         this.song = song;
         start();
     }
     
+    /*
+    * 
+    */
     @Override
-    public void run() {
+    public void run()
+    {
         AudioInputStream audioIn = null;
         try {
             audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/Race_Car_Music.wav"));
