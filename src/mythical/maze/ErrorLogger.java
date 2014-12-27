@@ -20,13 +20,13 @@ public class ErrorLogger {
     
     private static Logger log = Logger.getLogger(MainMenu.class.getName());
     private static SimpleFormatter sf = new SimpleFormatter();
-    private static FileHandler fh; 
+    private static Handler fh; 
     
     private static void setup()
     {
         try 
         {
-            fh = new FileHandler("Error.log");
+            fh = new FileHandler("Error.log",999999,1,true);
             fh.setFormatter(sf);
             log.addHandler(fh);
         } 
@@ -53,14 +53,11 @@ public class ErrorLogger {
         {
             setup();
         }      
+        log.log(Level.SEVERE, "Runtime Exception", e);
         log.warning("Warning Message Displayed:"+message);
-        
+        fh.close();
         JOptionPane.showMessageDialog(null, "A Runtime Exception occurred. Description:" + message,
                 "Error", JOptionPane.WARNING_MESSAGE);
-        
-        log.log(Level.SEVERE, "Runtime Exception", e);
-                
-        logMessage("Error Logged");
     }
      public static void logIOError(String message,Exception e)
     {
@@ -71,14 +68,10 @@ public class ErrorLogger {
         log.log(Level.SEVERE, "IO Exception", e);
         
         log.warning("Warning Message Displayed, IO Exception: "+message);
-        
-        JOptionPane.showMessageDialog(null, "An IO Exception occurred. Description: " + message,
-                "Error", JOptionPane.WARNING_MESSAGE);
-        
-        
-        
         logMessage("NonRecoverableError. Game Exited and Restarted");
         fh.close();
+        JOptionPane.showMessageDialog(null, "An IO Exception occurred. Description: " + message,
+                "Error", JOptionPane.WARNING_MESSAGE);
         System.exit(0);
     }    
 }
