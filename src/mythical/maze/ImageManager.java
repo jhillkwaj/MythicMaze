@@ -21,7 +21,7 @@ public class ImageManager {
     public static void importAll()
     {
         try {
-            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/TM.png"))); //0//removed C
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/CTM.png"))); //0
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/ContractedBy.png"))); //1
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/DevelopedBy.png"))); //2
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/TECHs.png"))); //3

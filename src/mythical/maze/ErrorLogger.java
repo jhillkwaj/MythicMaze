@@ -70,8 +70,6 @@ public class ErrorLogger {
         log.warning("Warning Message Displayed, IO Exception: "+message);
         logMessage("NonRecoverableError. Game Exited and Restarted");
         fh.close();
-        JOptionPane.showMessageDialog(null, "An IO Exception occurred. Description: " + message,
-                "Error", JOptionPane.WARNING_MESSAGE);
         System.exit(0);
     }    
 }
