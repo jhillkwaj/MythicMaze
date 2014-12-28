@@ -22,8 +22,8 @@ public class Block {
     
     /*
     * Gets two integers, x and y, and sets private integers xPos and yPos to these values, respectively.
-    * @param x an integer that represents the x coordinate of the position
-    * @param y an integer that represents the y coordinate of the position
+    * @param x the integer value to be represented by xPos
+    * @param y the integer value to be represented by yPos
     */
     public Block(int x, int y)
     {
