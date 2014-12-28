@@ -6,7 +6,6 @@
 
 package mythical.maze;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class Grid {
 
     private final int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;
     private boolean hasWon,hasWonLevel,isDead;
-
+    private int scoreToAdd;
     
     public Grid(int right, int bottom, int start, int end, int l)
     {
@@ -41,7 +40,7 @@ public class Grid {
         hasWon = false;
         hasWonLevel = false;
         isDead = false;
-        
+        scoreToAdd=0;
         character  = new Character(-1,start);
     }
     public void startLevel()
@@ -62,21 +61,27 @@ public class Grid {
     {
         nextShape = randomShape();
         //move to right for HUD
-        for(int i=0;i<8;i++)
+        for(int i=0;i<4;i++)
         {
+            nextShape.moveRight();
             nextShape.moveRight();
             nextShape.moveDown();
         }
+        nextShape.moveRight();
+        nextShape.moveRight();
     }
     public void addShape()
     {
         fallingShape = nextShape;
         //move back onto grid
-        for(int i=0;i<8;i++)
+        for(int i=0;i<4;i++)
         {
+            fallingShape.moveLeft();
             fallingShape.moveLeft();
             fallingShape.moveUp();
         }
+        fallingShape.moveLeft();
+        fallingShape.moveLeft();
     }
     public void checkDead()
     {
@@ -397,6 +402,7 @@ public class Grid {
                     b.setY(b.getY()+1);
                 }
             }
+            scoreToAdd+=100;//earn points for removing rows
         }
     }
     
@@ -615,5 +621,9 @@ public class Grid {
     public boolean isDead()
     {
         return isDead;
+    }
+    public int getAddedScore()
+    {
+        return scoreToAdd;
     }
 }

@@ -42,6 +42,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private final int rightBound = 11;
     private final int bottomBound = 21;
     private int startY, endY,level,score;
+    private String profile;
     
     private Grid gameGrid;
     private HUD hud;
@@ -68,6 +69,7 @@ public class GameRunner extends JPanel implements KeyListener {
         endY = 18; //basic level
         level = 1;//extract from file later
         score = 0;//extract from file later
+        profile = "BOB";//extract from file later
         eventTime = 900 / ((1+level)/2);
         startLevel();
        
@@ -82,7 +84,7 @@ public class GameRunner extends JPanel implements KeyListener {
         //system for determining start/end Y value based on difficulty
         gameGrid = new Grid(rightBound, bottomBound, startY, endY,level);
         gameGrid.startLevel();
-        hud = new HUD(rightBound,bottomBound,level,score);//level and score need to change with level
+        hud = new HUD(rightBound,bottomBound,level,score,profile);//level and score need to change with level
         hud.startTimer();
          
     }
@@ -98,8 +100,13 @@ public class GameRunner extends JPanel implements KeyListener {
             //increase score
             startY--;//needs to be changed
             endY--;//needs to be changed
-            score+=500;//needs to be changed
-            timerSpeed+=500;//speeds up blocks
+            score+=500*level;//needs to be changed
+            score+=gameGrid.getAddedScore();//add points for removing rows
+            score-=((int)(hud.getElapsedTime()*10));
+            if(score<0)
+            {
+                score = 0;
+            }
             startLevel();//level and score need to change with level,change background, calls for new level
         }
         else//level lost
@@ -125,6 +132,11 @@ public class GameRunner extends JPanel implements KeyListener {
     
     public void update()
     {
+       if(gameGrid.hasWon())
+       {
+           hud.stopTimer();
+           hud.setCharacterPhase();
+       }
        updateTime += eventTime;
        if(gameGrid.isDead()||gameGrid.hasWonLevel())
        {

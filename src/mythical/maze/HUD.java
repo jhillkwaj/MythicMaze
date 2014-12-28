@@ -20,28 +20,37 @@ public class HUD {
     
     private final int rightBound,bottomBound, level, score;
     private double time;
-   
+    private String profile;
+    private Timer timer;
+    private boolean characterPhase;
     
-    public HUD(int right,int bottom, int l, int s)
+    public HUD(int right,int bottom, int l, int s, String p)
     {
         rightBound = right;
         bottomBound = bottom;
         level = l;
         score = s;
         time = 0.0;
+        profile = p;
+        characterPhase = false;
     }
     
     public void startTimer()
     {
         int delay = 100;
-        ActionListener taskPerformer = new ActionListener() 
+        ActionListener task = new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent evt) {
                time=time+0.1;
             }
         };
-        new Timer(delay, taskPerformer).start();
+        timer =new Timer(delay, task);
+        timer.start();
+    }
+    public void stopTimer()
+    {
+        timer.stop();
     }
     public void drawHUD(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
@@ -56,14 +65,14 @@ public class HUD {
         }
         
         
-        Font myFont=new Font("Times New Roman",Font.BOLD, 40);
+        Font myFont=new Font("Times New Roman",Font.BOLD, 50);
             g.setColor(Color.BLACK);
             g.setFont(myFont);
-            g.drawString("NEXT",(int)(((12.5)*(gridSizeX/((float)rightBound))))+200,
-                6*gridSizeY/20);
+            g.drawString("NEXT",(int)(14*(gridSizeX/((float)rightBound)))+200,
+                (int)(1.5*gridSizeY/20));
             
-            g.drawString("TIME:",(int)(((25.5)*(gridSizeX/((float)rightBound))))+200,
-                6*gridSizeY/20);
+            g.drawString("TIME:",(int)(14*(gridSizeX/((float)rightBound)))+200,
+                8*gridSizeY/20);
             
             String displayTime=time+"";
             if(time<10)
@@ -82,17 +91,37 @@ public class HUD {
             {
                 displayTime=displayTime.substring(0,6);
             }
-            g.drawString(displayTime,(int)(((28.5)*(gridSizeX/((float)rightBound))))+200,
-                6*gridSizeY/20);
+            g.drawString(displayTime,(int)(17*(gridSizeX/((float)rightBound)))+200,
+                8*gridSizeY/20);
+            g.drawString("LEVEL:",(int)(((14)*(gridSizeX/((float)rightBound))))+200,
+                10*gridSizeY/20);
+            g.drawString(""+level,(int)(((18)*(gridSizeX/((float)rightBound))))+200,
+                10*gridSizeY/20);
+            g.drawString("SCORE:",(int)(((14)*(gridSizeX/((float)rightBound))))+200,
+                12*gridSizeY/20);
+            g.drawString(""+score,(int)(((18)*(gridSizeX/((float)rightBound))))+200,
+                12*gridSizeY/20);    
             
-            
-            g.drawString("LEVEL:",(int)(((20)*(gridSizeX/((float)rightBound))))+200,
-                3*gridSizeY/20);
-            g.drawString("SCORE:",(int)(((27)*(gridSizeX/((float)rightBound))))+200,
-                3*gridSizeY/20);
-            g.drawString(""+level,(int)(((20)*(gridSizeX/((float)rightBound))))+200,
-                4*gridSizeY/20);
-            g.drawString(""+score,(int)(((27)*(gridSizeX/((float)rightBound))))+200,
-                4*gridSizeY/20);     
+            g.drawString("PROFILE:",(int)(((14)*(gridSizeX/((float)rightBound))))+200,
+                14*gridSizeY/20);
+            g.drawString(profile,(int)(14*(gridSizeX/((float)rightBound)))+200,
+                15*gridSizeY/20);
+            if(characterPhase)
+            {
+                Font newFont=new Font("Times New Roman",Font.BOLD, 100);
+                g.setColor(Color.RED);
+                g.setFont(newFont);
+                g.drawString("GO",(int)(14*(gridSizeX/((float)rightBound)))+200,
+                18*gridSizeY/20);
+                
+            }
+    }
+    public void setCharacterPhase()
+    {
+        characterPhase = true;
+    }
+    public double getElapsedTime()
+    {
+        return time;
     }
 }
