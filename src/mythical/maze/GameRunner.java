@@ -46,7 +46,10 @@ public class GameRunner extends JPanel implements KeyListener {
     private Grid gameGrid;
     private HUD hud;
 
-    
+    /*
+    * Creates a frame for the game to be played in
+    * @see JFrame
+    */
     public void start()
     {
         this.frame = new JFrame();
@@ -72,6 +75,10 @@ public class GameRunner extends JPanel implements KeyListener {
         startLevel();
        
     }
+    
+    /*
+    * Creates a timer and adjusts the game grid based on user's current level
+    */
     public void startLevel()
     {
         timer = new Timer(timerSpeed, timerListener);
@@ -86,6 +93,11 @@ public class GameRunner extends JPanel implements KeyListener {
         hud.startTimer();
          
     }
+    
+    /*
+    * Checks to see if user has won the game and allows user to continue to next level.
+    * Otherwise, it allows the user to save and restart.
+    */
     public void endLevel()
     {
         
@@ -109,6 +121,7 @@ public class GameRunner extends JPanel implements KeyListener {
         }
         
     }
+    
     ActionListener timerListener = new ActionListener() 
    	{
                    @Override
@@ -123,6 +136,10 @@ public class GameRunner extends JPanel implements KeyListener {
 
    	};
     
+    /*
+    * Updates the time and checks to see if the game is over (either won or lost).
+    * If the game is over, it ends the level. Otherwise, it moves the grid down and the game continues.
+    */
     public void update()
     {
        updateTime += eventTime;
@@ -137,6 +154,9 @@ public class GameRunner extends JPanel implements KeyListener {
        
     }
     
+    /*
+    * @param g the <code>Graphics</code> to paint to
+    */
     @Override
     public void paint(Graphics g)
     {
@@ -181,25 +201,35 @@ public class GameRunner extends JPanel implements KeyListener {
         
     }
    
-
+    /*
+    * @param ke
+    */
     @Override
-    public void keyTyped(KeyEvent ke) {
+    public void keyTyped(KeyEvent ke)
+    {
        
     }
-
+    
+    /*
+    * @param ke
+    */
     @Override
-    public void keyPressed(KeyEvent ke) {
+    public void keyPressed(KeyEvent ke)
+    {
         
         //put in if statement for character.
         if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_S)
-	{
+	    {
             updateTime -= (eventTime)/3;
-	}
-        
+	    }
     }
 
+    /*
+    * @param ke
+    */
     @Override
-    public void keyReleased(KeyEvent ke) {
+    public void keyReleased(KeyEvent ke)
+    {
         if(!gameGrid.hasWon())
         {
             if (ke.getKeyCode() == KeyEvent.VK_UP)
