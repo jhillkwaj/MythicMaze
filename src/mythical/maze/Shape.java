@@ -14,19 +14,15 @@ import java.util.ArrayList;
  */
 public class Shape {
    
-    public int xPos,
-
-    /**
-     *
-     */
-    yPos,level;
+    public int xPos,yPos,level;
     private ArrayList<Block>blockList = new ArrayList<>();
     private ArrayList<Block>occupy;
     
     /**
-     *
-     * @param x the x coordinate
-     * @param y
+     * Gets three integer values x, y, l and public integers xPos, yPos and level to these values, respectively.
+     * @param x the integer value to be represented by xPos
+     * @param y the integer value to be represented by yPos
+     * @param l the integer value to be represented by level
      */
     public Shape(int x, int y, int l)
     {
@@ -37,11 +33,11 @@ public class Shape {
 
     /**
      *
-     * @param g
-     * @param boardSizeX
-     * @param boardSizeY
-     * @param offsetX
-     * @param rightBound
+     * @param g the <code>Graphics</code> to paint to
+     * @param boardSizeX an integer that represents the horizonatal length of the grid
+     * @param boardSizeY an integer that represents the vertical length of the grid
+     * @param offsetX an integer that represents the smallest distance between the shape and the y-axis
+     * @param rightBound an integer that represents the length of the x-axis in terms of block size
      */
     public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX, int rightBound)
     {
@@ -52,7 +48,7 @@ public class Shape {
     }
 
     /**
-     *
+     * Moves each block of the shape down and adds one to yPos  
      */
     public void moveDown()
     {
@@ -62,8 +58,9 @@ public class Shape {
             b.setY(b.getY()+1);
         }
     }
-/**
-     *
+    
+    /**
+     * Moves each block of the shape up and subtracts one from yPos
      */
     public void moveUp()
     {
@@ -73,8 +70,9 @@ public class Shape {
             b.setY(b.getY()-1);
         }
     }
+    
     /**
-     *
+     * Moves each block of the shape to the right and adds one to xPos
      */
     public void moveRight()
     {
@@ -86,7 +84,7 @@ public class Shape {
     }
 
     /**
-     *
+     * Moves each block of the shape to the left and subtracts one from xPos
      */
     public void moveLeft()
     {
@@ -98,7 +96,7 @@ public class Shape {
     }
 
     /**
-     *
+     * Rotates each block of the shape clockwise
      */
     public void rotateClockwise() {
         for(Block b:blockList)
@@ -113,7 +111,7 @@ public class Shape {
     }
 
     /**
-     *
+     * Rotates each block of the shape counterclockwise
      */
     public void rotateCounterClockwise() {
         for(Block b:blockList)
@@ -127,8 +125,10 @@ public class Shape {
     }
 
     /**
-     *
-     * @return
+     * Returns the <code>ArrayList</code> of the blocks of the shape rotated counterclockwise
+     * but does not actually rotate the blocks counterclockwise
+     * @return occupy an <code>ArrayList</code> of the blocks of the shape if the shape was 
+     * rotated counterclockwis
      */
     public ArrayList<Block>getClockwiseOccupied()
     {
@@ -143,8 +143,10 @@ public class Shape {
     }
 
     /**
-     *
-     * @return
+     * Returns the <code>ArrayList</code> of the blocks of the shape rotated clockwise
+     * but does not actually rotate the blocks clockwise
+     * @return occupy an <code>ArrayList</code> of the blocks of the shape if the shape was 
+     * rotated rclockwise
      */
     public ArrayList<Block>getCounterClockwiseOccupied()
     {
@@ -159,8 +161,8 @@ public class Shape {
     }
 
     /**
-     *
-     * @return
+     * Returns the <code>ArrayList</code> of the blocks that the shape is composed of
+     * @return blockList an <code>ArrayList</code> of the blocks that shape is composed of
      */
     public ArrayList<Block> getBlockList()
     {
