@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -98,10 +100,10 @@ public class MainMenu extends JPanel implements KeyListener {
         final JPanel p = this;
         play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                            GameRunner g = new GameRunner();
-                            frame.remove(thisPanel);
-                            g.start();
-                            frame.dispose();
+                            //GameRunner g = new GameRunner();
+                            //frame.remove(thisPanel);
+                            SelectPlayer p = new SelectPlayer();
+                            
 			}
 		});
                 
@@ -128,7 +130,15 @@ public class MainMenu extends JPanel implements KeyListener {
        highScore.setForeground(buttonColor);
        highScore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
+                            TreeMap<Integer, String> t = SaveLoad.getHighScores();
+                            String scores = "";
+                            for(int i = 0; i < 4; i++)
+                            {
+                                scores += t.lastEntry().getValue();
+                                scores += " " + t.lastKey() + "\n";
+                                t.pollLastEntry();
+                            }
+                            JOptionPane.showMessageDialog(null,scores, "Highscores" ,JOptionPane.PLAIN_MESSAGE);
 			}
 		});
                 

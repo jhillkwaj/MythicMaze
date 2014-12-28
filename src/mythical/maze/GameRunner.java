@@ -45,9 +45,14 @@ public class GameRunner extends JPanel implements KeyListener {
     
     private Grid gameGrid;
     private HUD hud;
+    
+    private String playerName;
+    private int slot;
+    private int highscore;
+    
 
     
-    public void start()
+    public void start(String name)
     {
         this.frame = new JFrame();
         this.removeAll();
@@ -64,14 +69,31 @@ public class GameRunner extends JPanel implements KeyListener {
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.addKeyListener(this);
-        startY = 18; //basic level
-        endY = 18; //basic level
-        level = 1;//extract from file later
-        score = 0;//extract from file later
-        eventTime = 900 / ((1+level)/2);
+        playerName = name;
+        if(level==0)
+        {
+            startY = 18; //basic level
+            endY = 18; //basic level
+            level = 1;//extract from file later
+            score = 0;//extract from file later
+            eventTime = 900 / ((1+level)/2);
+        }
         startLevel();
        
     }
+    
+    public void start(String[] data, String name)
+    {
+        
+        startY = Integer.parseInt(data[3]);
+        endY = Integer.parseInt(data[4]);
+        highscore = Integer.parseInt(data[2]);
+        level = Integer.parseInt(data[1]);
+        score = Integer.parseInt(data[0]);
+        eventTime = 900 / ((1+level)/2);
+        start(name);
+    }
+    
     public void startLevel()
     {
         timer = new Timer(timerSpeed, timerListener);
@@ -100,11 +122,22 @@ public class GameRunner extends JPanel implements KeyListener {
             endY--;//needs to be changed
             score+=500;//needs to be changed
             timerSpeed+=500;//speeds up blocks
+            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
             startLevel();//level and score need to change with level,change background, calls for new level
+            
         }
         else//level lost
         {
             //prompt save, etc.
+            SaveLoad.saveGlobalHighscore(playerName, score);
+            level = 1;
+            if(score>highscore)
+            { highscore = score+1-1; }
+            score = 0;
+            eventTime = 900 / ((1+level)/2);
+            startY = 18;
+            endY = 18;
+            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
             startLevel();
         }
         
