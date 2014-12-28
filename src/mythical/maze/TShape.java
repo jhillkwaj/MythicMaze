@@ -11,6 +11,15 @@ package mythical.maze;
  */
 public class TShape extends Shape {
     
+    /*
+    * Gets three integers x, y, l.
+    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
+    * Uses l as the integer to represent the level that the user is currently on.
+    * @param x an integer that represents the shape's x coordinate
+    * @param y an integer that represents the shape's y coordinate
+    * @param l an integer that represents the level the user is currently on
+    * @see Shape
+    */
     public TShape(int x, int y, int l)
     {
         super(x,y,l);
@@ -20,6 +29,17 @@ public class TShape extends Shape {
         this.getBlockList().add(new Block(x,y,false,true,false,true));        
     }
     
+    /*
+    * Gets four integers x, y, l and v.
+    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
+    * Uses l as the integer to represent the level that the user is currently on.
+    * Uses v to determine which version of the <code>TShape</code> to create.
+    * @param x an integer that represents the shape's x coordinate
+    * @param y an integer that represents the shape's y coordinate
+    * @param l an integer that represents the level the user is currently on
+    * @param v an integer that represents the version of the <code>TShape</code> to create
+    * @see Shape
+    */
     public TShape(int x, int y, int l, int version)
     {
         super(x,y,l);
