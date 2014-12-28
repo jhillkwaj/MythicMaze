@@ -21,7 +21,14 @@ public class HUD {
     private final int rightBound,bottomBound, level, score;
     private double time;
    
-    
+    /*
+    * Gets four integers right, bottom, l and s and sets private final (constant) integers rightBound, 
+    * bottomBound, level and score to these values, respectively.
+    * @param right the integer value to be represented by rightBound
+    * @param bottom the integer value to be represented by bottomBound
+    * @param l the integer value to be represented by level
+    * @param s the integer value to be represented by score
+    */
     public HUD(int right,int bottom, int l, int s)
     {
         rightBound = right;
@@ -31,6 +38,9 @@ public class HUD {
         time = 0.0;
     }
     
+    /*
+    * Starts the time for the level
+    */
     public void startTimer()
     {
         int delay = 100;
@@ -43,6 +53,13 @@ public class HUD {
         };
         new Timer(delay, taskPerformer).start();
     }
+    
+    /*
+    * @param g the <code>Graphics</code> to paint to
+    * @param gridSizeX an integer that represents the horizonatal length of the grid
+    * @param gridSizeY an integer that represents the vertical length of the grid
+    * @param uiArea an integer that represents 
+    */ 
     public void drawHUD(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
         gridSizeX-=uiArea;
