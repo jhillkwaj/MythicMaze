@@ -45,7 +45,7 @@ public class GameRunner extends JPanel implements KeyListener {
     
     private Grid gameGrid;
     private HUD hud;
-    
+
     private String playerName;
     private int slot;
     private int highscore;
@@ -56,8 +56,8 @@ public class GameRunner extends JPanel implements KeyListener {
     * Creates a frame for the game to be played in
     * @see JFrame
     */
-    public void start(String name)
 
+    public void start(String name)
     {
         this.frame = new JFrame();
         this.removeAll();
@@ -75,11 +75,7 @@ public class GameRunner extends JPanel implements KeyListener {
         frame.setVisible(true);
         frame.addKeyListener(this);
 
-        startY = 18; //basic level
-        endY = 18; //basic level
-        level = 1;//extract from file later
-        score = 0;//extract from file later
-        eventTime = 900 / ((1+level)/2);
+        
         playerName = name;
         if(level==0)
         {
@@ -90,10 +86,14 @@ public class GameRunner extends JPanel implements KeyListener {
             eventTime = 900 / ((1+level)/2);
         }
 
+
+       
+
         startLevel();
        
     }
     
+
 
     /*
     * Creates a timer and adjusts the game grid based on user's current level
@@ -109,6 +109,9 @@ public class GameRunner extends JPanel implements KeyListener {
         eventTime = 900 / ((1+level)/2);
         start(name);
     }
+    
+
+
     
 
     public void startLevel()
@@ -149,6 +152,7 @@ public class GameRunner extends JPanel implements KeyListener {
             {
                 score = 0;
             }
+
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
             startLevel();//level and score need to change with level,change background, calls for new level
             

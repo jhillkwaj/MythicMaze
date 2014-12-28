@@ -176,7 +176,9 @@ public class SelectPlayer extends JPanel {
                 name = JOptionPane.showInputDialog(frame, "No. That's not it. What was his name?");
             }
             SaveLoad.saveNewProfile(name);
+
             g.start(name);
+
         }
     }
     
