@@ -35,6 +35,9 @@ public class HUD {
         characterPhase = false;
     }
     
+    /*
+    * Starts the time for the level
+    */
     public void startTimer()
     {
         int delay = 100;
@@ -52,6 +55,13 @@ public class HUD {
     {
         timer.stop();
     }
+    
+    /*
+    * @param g the <code>Graphics</code> to paint to
+    * @param gridSizeX an integer that represents the horizonatal length of the grid
+    * @param gridSizeY an integer that represents the vertical length of the grid
+    * @param uiArea an integer that represents 
+    */ 
     public void drawHUD(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
         gridSizeX-=uiArea;

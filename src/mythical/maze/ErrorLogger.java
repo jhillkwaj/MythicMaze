@@ -22,6 +22,9 @@ public class ErrorLogger {
     private static SimpleFormatter sf = new SimpleFormatter();
     private static Handler fh; 
     
+    /*
+    * @throws
+    */
     private static void setup()
     {
         try 
@@ -38,6 +41,9 @@ public class ErrorLogger {
         logMessage("Log started\n\n");
     }
     
+    /*
+    *
+    */
     public static void logMessage(String message)
     {
         if(fh == null)
@@ -47,6 +53,9 @@ public class ErrorLogger {
         log.log(Level.INFO, message);
     }
     
+    /*
+    * @throws
+    */
     public static void logRuntimeError(String message,RuntimeException e)
     {
         if(fh == null)
@@ -59,6 +68,10 @@ public class ErrorLogger {
         JOptionPane.showMessageDialog(null, "A Runtime Exception occurred. Description:" + message,
                 "Error", JOptionPane.WARNING_MESSAGE);
     }
+    
+    /*
+    * @throws 
+    */
      public static void logIOError(String message,Exception e)
     {
         if(fh == null)

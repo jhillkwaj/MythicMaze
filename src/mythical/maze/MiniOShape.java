@@ -12,12 +12,34 @@ import java.util.ArrayList;
  * @author Richard
  */
 public class MiniOShape extends Shape{
+
+    /*
+    * Gets three integers x, y, l.
+    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
+    * Uses l as the integer to represent the level that the user is currently on.
+    * @param x an integer that represents the shape's x coordinate
+    * @param y an integer that represents the shape's y coordinate
+    * @param l an integer that represents the level the user is currently on
+    * @see Shape
+    */
     public MiniOShape(int x, int y,int l)
     {
         super(x,y,l);
         this.getBlockList().add(new Block(x,y,false,true,false,true));
          
     }
+    
+    /*
+    * Gets four integers x, y, l and v.
+    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
+    * Uses l as the integer to represent the level that the user is currently on.
+    * Uses v to determine which version of the <code>MiniOShape</code> to create.
+    * @param x an integer that represents the shape's x coordinate
+    * @param y an integer that represents the shape's y coordinate
+    * @param l an integer that represents the level the user is currently on
+    * @param v an integer that represents the version of the <code>MiniOShape</code> to create
+    * @see Shape
+    */
     public MiniOShape(int x, int y,int l,int version)
     {
         super(x,y,l);
@@ -27,6 +49,10 @@ public class MiniOShape extends Shape{
             this.getBlockList().add(new Block(x,y,false,true,false,true));
          
     }
+    
+    /*
+    *
+    */
     @Override
     public void rotateClockwise()
     {
@@ -35,6 +61,10 @@ public class MiniOShape extends Shape{
             b.rotateClockwise();
         }
     }
+    
+    /*
+    *
+    */
     @Override
     public void rotateCounterClockwise()
     {
@@ -43,6 +73,10 @@ public class MiniOShape extends Shape{
             b.rotateCounterClockwise();
         }
     }
+    
+    /*
+    *
+    */
     @Override
     public ArrayList<Block> getClockwiseOccupied()
     {
@@ -50,6 +84,10 @@ public class MiniOShape extends Shape{
         blockList.add(new Block(xPos,yPos));
         return blockList;   
     }
+    
+    /*
+    *
+    */
     @Override
     public ArrayList<Block> getCounterClockwiseOccupied()
     {

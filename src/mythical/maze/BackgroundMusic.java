@@ -32,6 +32,7 @@ public class BackgroundMusic implements Runnable {
     Clip clip;
     
     /*
+    * Gets an integer song and plays a specific song according to this integer
     * @param song an integer that represents the choice of which song to play
     */
     public BackgroundMusic(int song)
@@ -41,7 +42,7 @@ public class BackgroundMusic implements Runnable {
     }
     
     /*
-    * 
+    * @throws 
     */
     @Override
     public void run()
@@ -57,7 +58,10 @@ public class BackgroundMusic implements Runnable {
             Logger.getLogger(BackgroundMusic.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
-    
+   
+   /*
+   * 
+   */
    private void start ()
    {
       if (thread == null)

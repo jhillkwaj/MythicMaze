@@ -10,6 +10,16 @@ package mythical.maze;
  * @author Richard
  */
 public class MiniLShape extends Shape{
+
+    /*
+    * Gets three integers x, y, l.
+    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
+    * Uses l as the integer to represent the level that the user is currently on.
+    * @param x an integer that represents the shape's x coordinate
+    * @param y an integer that represents the shape's y coordinate
+    * @param l an integer that represents the level the user is currently on
+    * @see Shape
+    */
     public MiniLShape(int x, int y,int l)
     {
         super(x,y,l);

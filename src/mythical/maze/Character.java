@@ -17,9 +17,9 @@ public class Character {
     private int xPos,yPos;
     
     /**
-    *
-    * @param x an integer for the x coordinate of the position
-    * @param y an integer for the y coordinate of the position
+    * Gets two integers, x and y, and sets private integers xPos and yPos to these values, respectively.
+    * @param x the integer value to be represented by xPos
+    * @param y the integer value to be represented by yPos
     */
     public Character(int x, int y)
     {
@@ -29,6 +29,11 @@ public class Character {
     
     /**
     *
+    * @param g the <code>Graphics</code> to paint to
+    * @param gridSizeX an integer that represents the horizonatal length of the grid
+    * @param gridSizeY an integer that represents the vertical length of the grid
+    * @param offSetX an integer that represents the smallest distance between the character and the y-axis
+    * @param xBlocks an integer that represents the length of the x-axis in terms of block size
     */
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
@@ -39,8 +44,8 @@ public class Character {
     }
     
     /**
-    *
-    * @return xPos an integer for the x coordinate of the character's position
+    * Returns the value of xPos as an integer.
+    * @return xPos an integer that represents the characters's x coordinate
     */
     public int getX()
     {
@@ -48,8 +53,8 @@ public class Character {
     }
     
     /**
-    *
-    * @return yPos an integer for the y coordinate of the character's position
+    * Returns the value of yPos as an integer.
+    * @return yPos an integer that represents the block's y coordinate
     */
     public int getY()
     {
@@ -57,7 +62,8 @@ public class Character {
     }
     
     /**
-    * @param x an integer for the x coordinate of the position
+    * Gets an integer x and sets private integer xPos to this value.
+    * @param x the integer value to be represented by xPos
     */
     public void setX(int x)
     {
@@ -65,7 +71,8 @@ public class Character {
     }
     
     /**
-    * @param y an integer for the y coordinate of the position
+    * Gets an integer y and sets private integer yPos to this value.
+    * @param y the integer value to be represented by yPos
     */
     public void setY(int y)
     {
