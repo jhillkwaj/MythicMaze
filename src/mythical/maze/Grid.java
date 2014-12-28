@@ -25,7 +25,15 @@ public class Grid {
     private final int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;
     private boolean hasWon,hasWonLevel,isDead;
 
-    
+    /*
+    * Gets 5 integers right, bottom, start, end and l and sets private final (constant) integers 
+    * rightBound, bottomBound, startY, endY and level to these values, respectively.
+    * @param right the integer value to be represented by rightBound
+    * @param bottom the integer value to be represented by bottomBound
+    * @param start the integer value to be represented by startY
+    * @param end the integer value to be represented by endY
+    * @param l the integer value to be represented by level
+    */
     public Grid(int right, int bottom, int start, int end, int l)
     {
         rightBound = right;
@@ -44,20 +52,38 @@ public class Grid {
         
         character  = new Character(-1,start);
     }
+    
+    /*
+    * Prepares and adds shape to the grid after each turn
+    */
     public void startLevel()
     {
         nextShape();//generate random shape
         addShape();//add random shape
         nextShape();//prep next shape
     }
+    
+    /*
+    * Returns the object character as a <code>Character</code>
+    * @return character a <code>Character</cod> that is the user's character
+    */
     public Character getCharacter()
     {
         return character;
     }
-    public ArrayList<Block>getDeadBlocks()
+    
+    /*
+    * Returns the <code>ArrayList</code> of the blocks that are dead.
+    * @return deadBlocks an <code>ArrayList</code> consisting of all the blocks that are dead
+    */
+    public ArrayList<Block> getDeadBlocks()
     {
         return deadBlocks;
     }
+    
+    /*
+    * Creates a random shape and prepares to place on grid.
+    */
     public void nextShape()
     {
         nextShape = randomShape();
@@ -68,6 +94,10 @@ public class Grid {
             nextShape.moveDown();
         }
     }
+    
+    /*
+    *  Places the shape in the top, left corner of the grid.
+    */
     public void addShape()
     {
         fallingShape = nextShape;
@@ -78,6 +108,10 @@ public class Grid {
             fallingShape.moveUp();
         }
     }
+    
+    /*
+    * Sees if character is "dead" by checking if there is too many dead blocks in one column
+    */
     public void checkDead()
     {
         for(Block b:deadBlocks)
@@ -88,6 +122,11 @@ public class Grid {
             }
         }
     }
+    
+    /*
+    * Generates a random integer and returns a shape corresponding to the random integer
+    * @return
+    */
     public Shape randomShape()
     {
         int randNum = (int)(Math.random()*16);
@@ -151,6 +190,9 @@ public class Grid {
         }
     }
     
+    /*
+    * Checks to see if the current shape can rotate right (clockwise)
+    */
     public void rotateRight()
     {
         //method in Shape class returns rotation locations
@@ -175,6 +217,9 @@ public class Grid {
         }  
     }
     
+    /*
+    * Checks to see if the current shape can rotate left (counterclockwise)
+    */
     public void rotateLeft()
     {
         //method in Shape class returns rotation locations
@@ -199,6 +244,9 @@ public class Grid {
         } 
     }
     
+    /*
+    *  checks to see if the current shape can move right
+    */
     public void moveRight()
     {
         boolean canMove = true;
@@ -222,6 +270,9 @@ public class Grid {
         }
     }
     
+    /*
+    * checks to see if the current shape can move left
+    */
     public void moveLeft()
     {
         boolean canMove = true;
@@ -245,6 +296,10 @@ public class Grid {
         }
     }
     
+    /*
+    * checks to see if the current shape can move down
+    * @return canMove a boolean representing if the object can move down
+    */
     public boolean moveDown()
     {
         //check for collision with walls
@@ -289,7 +344,13 @@ public class Grid {
         return canMove;
     }
 
-   
+    /*
+    *
+    * @param g the <code>Graphics</code> to paint to
+    * @param gridSizeX an integer that represents the horizonatal length of the grid
+    * @param gridSizeY an integer that represents the vertical length of the grid
+    * @param uiArea an integer that represents 
+    */
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
         int offsetX = 200;
@@ -355,6 +416,10 @@ public class Grid {
         
         
     }
+    
+    /*
+    * Checks to see if a row is complete and removes the row if it is complete
+    */
     public void checkRow()
     {
         for(int y=upperBound;y<=bottomBound;y++)
@@ -373,6 +438,11 @@ public class Grid {
             }
         }
     }
+    
+    /*
+    * Gets an integer y and removes the row corresponding to that integer by deleting all the blocks in the row
+    * @param y an integer that represents the row number that is to be removed
+    */
     public void removeRow(int y)
     {
         Block toRemove = null;
@@ -400,6 +470,10 @@ public class Grid {
         }
     }
     
+    
+    /*
+    * Drops the shape
+    */
     //Drops the tile
     public void drop()
     {
@@ -407,6 +481,10 @@ public class Grid {
         {} 
     }
     
+    /*
+    *
+    * @return 
+    */
     //returns true if a path exists
     public boolean findPath(int xStart, int yStart, int xEnd, int yEnd)
     {
@@ -467,6 +545,9 @@ public class Grid {
         return findPath(startBlock, endBlock, blocks);
     }
     
+    /*
+    * 
+    */
     private boolean findPath(Block block, Block endBlock, HashMap<Block,ArrayList<Block>> blocks)
     {
         
@@ -493,6 +574,11 @@ public class Grid {
         return false;
     }
     
+    /*
+    * Moves the character down 
+    * @param x an integer that represents 
+    * @param y an integer that represents
+    */
     public void moveCharacterDown(int x, int y)
     {
         boolean hasNotMoved = true;
@@ -517,6 +603,12 @@ public class Grid {
             }
         }
     }
+    
+    /*
+    * Moves the character up 
+    * @param x an integer that represents 
+    * @param y an integer that represents
+    */
     public void moveCharacterUp(int x, int y)
     {
         boolean hasNotMoved = true;
@@ -541,6 +633,12 @@ public class Grid {
             }
         }
     }
+    
+    /*
+    * Moves the character to the left 
+    * @param x an integer that represents 
+    * @param y an integer that represents
+    */
     public void moveCharacterLeft(int x, int y)
     {
         boolean hasNotMoved = true;
@@ -565,6 +663,12 @@ public class Grid {
             }
         }
     }
+    
+    /*
+    * Moves the character to the right 
+    * @param x an integer that represents 
+    * @param y an integer that represents
+    */
     public void moveCharacterRight(int x, int y)
     {
         boolean hasNotMoved = true;
@@ -604,14 +708,29 @@ public class Grid {
             }
         }
     }
+    
+    /*
+    * Returns the value of hasWonLevel as a boolean.
+    * @return hasWonLevel a boolean that represents whether the user has beat the level or not
+    */
     public boolean hasWonLevel()
     {
         return hasWonLevel;
     }
+    
+    /*
+    * Returns the value of hasWon as a boolean.
+    * @return hasWon a boolean that represents whether the user has 
+    */
     public boolean hasWon()
     {
         return hasWon;
     }
+    
+    /*
+    * Returns the value of isDead as a boolean.
+    * @return isDead a boolean that represents
+    */
     public boolean isDead()
     {
         return isDead;
