@@ -23,7 +23,7 @@ public class ZShape extends Shape {
     public ZShape(int x, int y, int l)
     {
         super(x,y,l);
-        this.getBlockList().add(new Block(x-1,y-1,true,false,true,false));//cool
+        this.getBlockList().add(new Block(x-1,y-1,true,false,true,false));
         this.getBlockList().add(new Block(x,y-1,true,true,false,false));
         this.getBlockList().add(new Block(x,y,false,false,true,true));
         this.getBlockList().add(new Block(x+1,y,true,false,true,false));    
