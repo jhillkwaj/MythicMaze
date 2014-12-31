@@ -17,6 +17,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Character.toUpperCase;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -169,6 +171,12 @@ public class GameRunner extends JPanel implements KeyListener {
             startY = 18;
             endY = 18;
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
+            SoundFX.payFX("f");
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GameRunner.class.getName()).log(Level.SEVERE, null, ex);
+            }
             startLevel();
         }
         

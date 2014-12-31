@@ -129,7 +129,8 @@ public class SaveLoad {
                 Scanner in = new Scanner(new FileReader(f));
                 while(in.hasNext())
                 {
-                    scores.put(Integer.parseInt(in.nextLine().split("%%")[0]),in.nextLine().split("%%")[1]);
+                    String line = in.nextLine();
+                    scores.put(Integer.parseInt(line.split("%%")[0]),line.split("%%")[1]);
                 }
                 in.close();
             }
