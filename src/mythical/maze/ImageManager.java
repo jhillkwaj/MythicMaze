@@ -37,6 +37,12 @@ public class ImageManager {
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Evil_Forest_Demo.png"))); //13
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Pyramids.png")));//14
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Stonehenge.png")));//15
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Alamo.png"))); //16
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Chichen Itza.png"))); //17
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_ChichenItza.png"))); //18
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_EiffelTower.png")));//19
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_SydneyoperaHouse.png")));//20
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Tajmahal.png")));//21
             images.add(null);
             Thread.sleep(100);    
         } catch (Exception ex) {

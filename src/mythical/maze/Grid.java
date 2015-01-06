@@ -364,13 +364,37 @@ public class Grid {
         //draw the background image
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 2000,2000);
-        if(level==1)
+        if(level==2)
         {
              g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
         }
-        else if(level ==2)
+        else if(level ==3)
         {
              g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==2)
+        {
+             g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==1)
+        {
+             g.drawImage(ImageManager.getImage(17), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==4)
+        {
+             g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==5)
+        {
+             g.drawImage(ImageManager.getImage(19), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==6)
+        {
+             g.drawImage(ImageManager.getImage(20), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==7)
+        {
+             g.drawImage(ImageManager.getImage(21), 0, 0, gridSizeX, gridSizeY, null);
         }
         else
         {
