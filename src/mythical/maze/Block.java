@@ -23,17 +23,11 @@ public class Block {
      *
      */
     public Color c = new Color(250,250,0);
-    
-    /*
-    * Gets two integers, x and y, and sets private integers xPos and yPos to these values, respectively.
-    * @param x the integer value to be represented by xPos
-    * @param y the integer value to be represented by yPos
-    */
 
     /**
-     *
-     * @param x
-     * @param y
+     * Gets two integers, x and y, and sets private integers xPos and yPos to these values, respectively.
+     * @param x the integer value to be represented by xPos
+     * @param y the integer value to be represented by yPos
      */
     
     public Block(int x, int y)
@@ -43,7 +37,7 @@ public class Block {
     }
     
     
-    /*
+    /**
     * Gets two integers x and y, and sets private integers xPos and yPos to these values, respectively. 
     * Also receives four booleans n, e, s, w and sets private booleans north, east, south and west to these values, respectively.
     * @param x the integer value to be represented by xPos
@@ -53,18 +47,7 @@ public class Block {
     * @param s a boolean value to be represented by south
     * @param w a boolean value to be represented by west
     */
-
-    /**
-     *
-     * @param x
-     * @param y
-     * @param n
-     * @param e
-     * @param s
-     * @param w
-     */
-    
-    
+   
     public Block(int x, int y, boolean n, boolean  e, boolean s, boolean w)
     {
         xPos = x;
@@ -75,90 +58,60 @@ public class Block {
         east = e;
     }
     
-    /*
+    /**
     * Gets an integer x and sets private integer xPos to this value.
     * @param x the integer value to be represented by xPos
     */
 
-    /**
-     *
-     * @param x
-     */
-    
     public void setX(int x)
     {
         xPos = x;
     }
     
-    /*
+    /**
     * Gets an integer y and sets private integer yPos to this value.
     * @param y the integer value to be represented by yPos
     */
-
-    /**
-     *
-     * @param y
-     */
-    
+   
     public void setY(int y)
     {
         yPos = y;
     }
     
-    /*
+    /**
     * Gets a boolean b and sets private boolean north to this value.
     * @param b a boolean value to be represented by north
     */
-
-    /**
-     *
-     * @param b
-     */
-    
+ 
     public void setNorth(boolean b)
     {
         north = b;
     }
     
-    /*
+    /**
     * Gets a boolean b and sets private boolean south to this value.
     * @param b a boolean value to be represented by south
     */
-
-    /**
-     *
-     * @param b
-     */
     
     public void setSouth(boolean b)
     {
         south = b;
     }
     
-    /*
+    /**
     * Gets a boolean b and sets private boolean east to this value.
     * @param b a boolean value to be represented by east
     */
 
-    /**
-     *
-     * @param b
-     */
-    
     public void setEast(boolean b)
     {
         east = b;
     }
     
-    /*
+    /**
     * Gets a boolean b and sets private boolean west to this value.
     * @param b a boolean value to be represented by west
     */
-
-    /**
-     *
-     * @param b
-     */
     
     public void setWest(boolean b)
     {
@@ -166,105 +119,71 @@ public class Block {
     }
     
     
-    /*
+    /**
     * Returns the value of xPos as an integer.
     * @return xPos an integer that represents the block's x coordinate
     */
 
-    /**
-     *
-     * @return
-     */
-    
     public int getX()
     {
         return xPos;
     }
     
-    /*
+    /**
     * Returns the value of yPos as an integer.
     * @return yPos an integer that represents the block's y coordinate
     */
-
-    /**
-     *
-     * @return
-     */
-    
+   
     public int getY()
     {
         return yPos;
     }
     
-    /*
+    /**
     * Returns the value of north as a boolean
     * @return north a boolean that represents if the block is oriented north
     */
 
-    /**
-     *
-     * @return
-     */
-    
     public boolean getNorth()
     {
         return north;
     }
     
-    /*
+    /**
     * Returns the value of south as a boolean
     * @return south a boolean that represents if the block is oriented south
     */
 
-    /**
-     *
-     * @return
-     */
-    
     public boolean getSouth()
     {
         return south;
     }
     
-    /*
+    /**
     * Returns the value of east as a boolean
     * @return east a boolean that represents if the block is oriented east
     */
 
-    /**
-     *
-     * @return
-     */
-    
     public boolean getEast()
     {
         return east;
     }
     
-    /*
+    /**
     * Returns the value of west as a boolean
     * @return west a boolean that represents if the block is oriented west
     */
 
-    /**
-     *
-     * @return
-     */
-    
     public boolean getWest()
     {
         return west;
     }
     
-    /*
+    /**
     * Rotates block clockwise by setting north's value to west's value, west's value to south's value, 
     * south's value to east's value and east's value to north's original value.
     */
 
-    /**
-     *
-     */
-    
     public void rotateClockwise()
     {
        boolean temp = north;
@@ -274,15 +193,11 @@ public class Block {
        east = temp;
     }
     
-    /*
+    /**
     * Rotates block counterclockwise by setting north's value to east's value, east's value to south's value, 
     * south's value to west's value and west's value to north's original value.
     */
 
-    /**
-     *
-     */
-    
     public void rotateCounterClockwise()
     {
         boolean temp = north;
@@ -292,7 +207,7 @@ public class Block {
         west = temp;
     }
     
-    /*
+    /**
     * 
     * @param g the <code>Graphics</code> to paint to
     * @param level an integer that represents the level the user is currently on
@@ -301,16 +216,6 @@ public class Block {
     * @param offSetX an integer that represents the smallest distance between the block and the y-axis
     * @param xBlocks an integer that represents the length of the x-axis in terms of block size
     */
-
-    /**
-     *
-     * @param g
-     * @param level
-     * @param gridSizeX
-     * @param gridSizeY
-     * @param offSetX
-     * @param xBlocks
-     */
     
     public void drawBlock(Graphics g,int level, int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
