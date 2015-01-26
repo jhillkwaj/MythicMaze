@@ -314,6 +314,18 @@ public class Block {
     
     public void drawBlock(Graphics g,int level, int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
+        
+        
+        int levelImage = 10;
+        if(level == 2)
+        { levelImage = 8; }
+        else if(level == 3)
+        { levelImage = 11; }
+        else if(level == 4)
+        { levelImage = 12; }
+        else if(level == 5)
+        { levelImage = 9; }
+        
         g.setColor(c);
         g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX,
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)),
@@ -344,7 +356,8 @@ public class Block {
         }
         
         
-        g.drawImage(ImageManager.getImage(level+7),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
+        
+        g.drawImage(ImageManager.getImage(levelImage),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
                 (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);//image needs to change with level
     }

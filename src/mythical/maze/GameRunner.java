@@ -79,13 +79,10 @@ public class GameRunner extends JPanel implements KeyListener {
 
         
         playerName = name;
-        if(level==0)
+        if(level==0||level==1)
         {
-            startY = 18; //basic level
-            endY = 18; //basic level
-            level = 1;//extract from file later
-            score = 0;//extract from file later
-            eventTime = 900 / ((1+level)/2);
+            level = 1;
+            newLevel();
         }
 
 
@@ -143,17 +140,15 @@ public class GameRunner extends JPanel implements KeyListener {
         if(gameGrid.hasWonLevel())//level won
         {
             level++;//increase level
-            eventTime = 900 / ((1+level)/2);
-            //increase score
-            startY--;//needs to be changed
-            endY--;//needs to be changed
-            score+=500*level;//needs to be changed
+            newLevel();
+            
             score+=gameGrid.getAddedScore();//add points for removing rows
             score-=((int)(hud.getElapsedTime()*10));
             if(score<0)
             {
                 score = 0;
             }
+            
 
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
             startLevel();//level and score need to change with level,change background, calls for new level
@@ -195,6 +190,53 @@ public class GameRunner extends JPanel implements KeyListener {
    		}
 
    	};
+    
+    public void newLevel()
+    {
+        if(level % 2 == 1)
+        {
+            eventTime = (int)(900f / ((1+(level))/3.0f));
+            //increase score
+            startY = level+1;
+            endY = level+1;
+            score+=500*level;//needs to be changed
+            
+        }
+        else if(level == 2)
+        {
+            eventTime = (int)(900f / ((1+(level))/3.0f));
+            startY = 3;
+            endY = 2;
+        }
+        else if(level == 4)
+        {
+            eventTime = (int)(900f / ((1+3.5)/3.0f));
+            startY = 4;
+            endY = 3;
+        }
+        else if(level == 6)
+        {
+            eventTime = (int)(900f / ((1+3.5)/3.0f));
+            startY = 1;
+            endY = 5;
+        }
+        else if(level == 8)
+        {
+            eventTime = (int)(900f / ((1+4.5)/3.0f));
+            startY = 6;
+            endY = 8;
+        }
+        else if(level == 10)
+        {
+            eventTime = (int)(900f / ((1+5)/3.0f));
+            startY = 1;
+            endY = 11;
+        }
+        
+        startY = 21 - startY;
+        endY = 21 - endY;
+            
+    }
     
     /*
     * Updates the time and checks to see if the game is over (either won or lost).

@@ -13,8 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -47,6 +47,8 @@ public class MainMenu extends JPanel implements KeyListener {
     
     double mythicPos = 0;
     double mazePos = 0;
+    
+    private ArrayList<Shape> shapes = new ArrayList<>();
     
     public void start()
     {
@@ -159,7 +161,7 @@ public class MainMenu extends JPanel implements KeyListener {
                                      + "Richard Wu:                         Graphics Manager\n"
                                      + "Abhijeet Venkataraman:     Documentation Manager\n\n"
                                      + "               Contracted By Congative Though Media\n\n"
-                                     + "            Developed Using\n"
+                                     + "                                       Developed Using\n"
                                      + "Netbeans:                             Development Enviroment\n"
                                      + "Photoshop:                           Graphics Production\n"
                                      + "Paint Dot Net:                       Graphics Producation\n"
@@ -241,6 +243,13 @@ public class MainMenu extends JPanel implements KeyListener {
                
                 blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
             }
+            
+            //draw some pieces
+            for(Shape s : shapes)
+            {
+                s.drawShape(g, this.getWidth(), this.getHeight(), 0, 0);
+            }
+            
             if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)
             {
                 g.setFont(new Font("Arial", Font.PLAIN, 50));
