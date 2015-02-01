@@ -65,7 +65,7 @@ public class Grid {
     
     /**
     * Returns the object character as a <code>Character</code>
-    * @return character a <code>Character</cod> that is the user's character
+    * @return character a Character that is the user's character
     */
     public Character getCharacter()
     {
@@ -519,6 +519,10 @@ public class Grid {
     
     /**
     *
+     * @param xStart
+     * @param yEnd
+     * @param yStart
+     * @param xEnd
     * @return 
     */
     //returns true if a path exists
@@ -771,6 +775,11 @@ public class Grid {
     {
         return isDead;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getAddedScore()
     {
         return scoreToAdd;

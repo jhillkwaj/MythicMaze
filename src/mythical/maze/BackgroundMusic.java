@@ -1,74 +1,63 @@
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package mythical.maze;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import sun.audio.AudioData;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
 
 /**
- *
- * @author justi_000
+ * Runs the music for the Mythical Maze game.
+ * @author Justin Hill
  */
-public class BackgroundMusic implements Runnable {
+public class BackgroundMusic implements Runnable 
+{
     private Thread thread;
-    private int song;
-    Clip clip;
+    private final int choice;
+    private Clip clip;
     
-    /*
-    * Gets an integer song and plays a specific song according to this integer
-    * @param song an integer that represents the choice of which song to play
-    */
-    public BackgroundMusic(int song)
+    /**
+     * Takes an input choice plays a specific song according to the parameter.
+     * @param choice an integer that represents the choice of which song to play.
+     */
+    public BackgroundMusic(int choice)
     {
-        this.song = song;
-        start();
+        this.choice = choice;//sets the local variable to the parameter.
+        start();//starts the music.
     }
     
-    /*
-    * @throws 
-    */
+    /**    
+     * Starts a music stream from a selected music file to play during the game.
+     */
     @Override
     public void run()
     {
         AudioInputStream audioIn = null;
-        try {
+        try
+        {
+            //gets audio, plays, and loops
             audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/Race_Car_Music.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             clip.start();
             clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (Exception ex) {
-            Logger.getLogger(BackgroundMusic.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } 
+        catch(UnsupportedAudioFileException | IOException | LineUnavailableException ex) 
+        {
+            ErrorLogger.logIOError("Music file could not be played" ,ex);//logs potential IOException
+        }
     }
    
-   /*
-   * 
-   */
-   private void start ()
-   {
-      if (thread == null)
-      {
-         thread = new Thread (this, "Background Music");
-         thread.start ();
-      }
-   }
-    
+    /**
+     * Starts a thread to play game music.
+     */
+    private void start()
+    {
+       if (thread == null)
+       {
+          thread = new Thread (this, "Background Music");
+          thread.start();
+       }
+    }  
 }
