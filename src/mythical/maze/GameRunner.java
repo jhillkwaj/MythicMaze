@@ -24,78 +24,75 @@ import javax.swing.Timer;
 
     
 /**
- *
- * @author 100032528
+ * Class that runs the game, including starting and ending the game
+ * @author Justin Hill and Richard Dong
  */
 public class GameRunner extends JPanel implements KeyListener {
     
-    private JFrame frame;
-    private boolean[] keys = new boolean[10];
-    private static Timer timer;
-    private int timerSpeed = 60;
+    private JFrame frame;//frame for game
+    private boolean[] keys = new boolean[10];//represents which keys are pressed
+    private static Timer timer;//times the refresh rate
+    private final int timerSpeed = 60;//refresh rate
     private long startTime;
     private long updateTime = 0;
     private int eventTime = 900;
+    
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
-    private BufferedImage back;
+    private BufferedImage back;//backdrop where images are drawn
    
 
-    private final int rightBound = 11;
+    private final int rightBound = 11;//boundaries of grid
     private final int bottomBound = 21;
-    private int startY, endY,level,score;
     
-    private Grid gameGrid;
-    private HUD hud;
+    private int startY, endY,level,score;//variables that change with level
+    
+    //items in the screen
+    private Grid gameGrid;//grid
+    private HUD hud;//heads up display for statistics and buttons
 
     private String playerName;
     private int slot;
     private int highscore;
+   
+    //Due to the length of the class, methods in this class are organized
+    //into the following categories from top to bottom: graphics, starting the game,
+    //the game itself, ending the game, and listener controls.
     
-
-
-    /*
-    * Creates a frame for the game to be played in
-    * @see JFrame
+    //Methods below are for graphics
+        
+   /**
+    * Creates the canvas; calls out to object classes to paint grid, blocks, 
+    * heads up display, character, and much more.
+    * @param g the <code>Graphics</code> to paint onto
+    * @see Graphics.
     */
-
-    public void start(String name)
+    @Override
+    public void paint(Graphics g)
     {
-        this.frame = new JFrame();
-        this.removeAll();
-        startTime = System.currentTimeMillis();
-        updateTime = startTime;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-         frame.setSize((int)width, (int)height);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-        frame.setTitle("Mythical Maze");
-        
-        frame.setLocation((int)(width/4), 0);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.addKeyListener(this);
-
-        
-        playerName = name;
-        if(level==0||level==1)
+        if(back==null)//if canvas has not been created, create canvsas
         {
-            level = 1;
-            newLevel();
+            back=(BufferedImage)createImage(1920,1070);
         }
-
-
-       
-
-        startLevel();
-       
+        Graphics2D twoDGraph = (Graphics2D)g;
+        Graphics graphToBack= back.createGraphics(); //prepares drawing onto bufferedimage graphics
+        gameGrid.draw(graphToBack,1920,1070,700);//draws gamegrid, includes blocks
+        hud.drawHUD(graphToBack,1920,1070,700);//draws heads up display
+        twoDGraph.drawImage(back,0,0,frame.getWidth(),frame.getHeight(),null);//draws bufferedimage to frame
+        if(System.currentTimeMillis()-updateTime >= eventTime)//updates based on refresh rate
+        {
+            update();
+        }
+        repaint();//redo again in loop
     }
+   
+    //Methods below deal with starting the game and levels
     
-
-
-    /*
-    * Creates a timer and adjusts the game grid based on user's current level
-    */
+    /**
+     * For returning players, the method sets variables to saved statistics and 
+     * then moves to start creating a game frame.
+     * @param data an array containing saved statistics
+     * @param name the name of the player
+     */
     public void start(String[] data, String name)
     {
         
@@ -108,97 +105,80 @@ public class GameRunner extends JPanel implements KeyListener {
         start(name);
     }
     
+    /**
+     * Creates a frame for the game to be played in; calculates frame size, refresh rate
+     * and adds listeners and starts the appropriate level.
+     * @param name the player name
+     * @see JFrame
+     */
+    public void start(String name)
+    {
+        this.frame = new JFrame();
+        this.removeAll();//clears frame from menu or previous level
+        //calculates and sets a refresh rate.
+        startTime = System.currentTimeMillis();
+        updateTime = startTime;
+        
+        //sets the screen size to full screen, resizable.
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        frame.setSize((int)width, (int)height);
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        
+        //adds other micellaneous items, such as frame name, exit button, and listeners.
+        frame.setTitle("Mythical Maze");
+        frame.setLocation((int)(width/4), 0);
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.addKeyListener(this);
 
-
+        //sets player name, starts level
+        playerName = name;
+        if(level==0||level==1)//if new player
+        {
+            level = 1;
+            newLevel();
+        }
+        startLevel();//start level
+    }
     
-
+    /**
+     * Starts a new level by creating the appropriate grid and heads up display.
+     */
     public void startLevel()
     {
+        //new timer for refresh rate
+        ActionListener timerListener = new ActionListener() 
+   	{
+                @Override
+   		public void actionPerformed(ActionEvent e){}
+   	};
         timer = new Timer(timerSpeed, timerListener);
+        
         timer.start();
         frame.repaint();
         frame.add(this); 
-        
-        //system for determining start/end Y value based on difficulty
-        gameGrid = new Grid(rightBound, bottomBound, startY, endY,level);
+                
+        //system for determining start/end Y value based on difficulty, higher 
+        //values indicate harder levels as users have less space to create paths
+        gameGrid = new Grid(rightBound, bottomBound, startY, endY,level);//new grid
         gameGrid.startLevel();
-        hud = new HUD(rightBound,bottomBound,level,score,playerName);//level and score need to change with level
-        hud.startTimer();
-         
+        hud = new HUD(rightBound,bottomBound,level,score,playerName);//new heads up display
+        hud.startTimer();//start level timer, which determines end score.
     }
     
-    /*
-    * Checks to see if user has won the game and allows user to continue to next level.
-    * Otherwise, it allows the user to save and restart.
-    */
-    public void endLevel()
-    {
-        
-        //prompt save
-        
-        if(gameGrid.hasWonLevel())//level won
-        {
-            level++;//increase level
-            newLevel();
-            
-            score+=gameGrid.getAddedScore();//add points for removing rows
-            score-=((int)(hud.getElapsedTime()*10));
-            if(score<0)
-            {
-                score = 0;
-            }
-            
-
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
-            startLevel();//level and score need to change with level,change background, calls for new level
-            
-        }
-        else//level lost
-        {
-            //prompt save, etc.
-            SaveLoad.saveGlobalHighscore(playerName, score);
-            level = 1;
-            if(score>highscore)
-            { highscore = score+1-1; }
-            score = 0;
-            eventTime = 900 / ((1+level)/2);
-            startY = 18;
-            endY = 18;
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
-            SoundFX.payFX("f");
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(GameRunner.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            startLevel();
-        }
-        
-    }
-    
-    ActionListener timerListener = new ActionListener() 
-   	{
-                   @Override
-   		public void actionPerformed(ActionEvent e)
-   		{
-                    //fade to black in then back in
-                    
-                    //check how long code is takeing to run
-                    //int timeGap = (int)(System.currentTimeMillis() - time);
-                    //System.out.println(timeGap + "    " + timer.getDelay()) 
-   		}
-
-   	};
-    
+    /**
+     * Creates a new level based on player level.
+     */
     public void newLevel()
     {
         if(level % 2 == 1)
         {
             eventTime = (int)(900f / ((1+(level))/3.0f));
-            //increase score
-            startY = level+1;
+            startY = level+1;//add difficulty
             endY = level+1;
-            score+=500*level;//needs to be changed
+            score+=500*level;//scores are increased based on level beaten
             
         }
         else if(level == 2)
@@ -237,106 +217,111 @@ public class GameRunner extends JPanel implements KeyListener {
             
     }
     
-    /*
-    * Updates the time and checks to see if the game is over (either won or lost).
-    * If the game is over, it ends the level. Otherwise, it moves the grid down and the game continues.
-    */
+    //Methods below are for the logic during the gameplay itself.
+    
+    /**
+     * Checks during the game whether the game has ended, either due to a 
+     * loss or victory.
+     */
     public void update()
     {
-       if(gameGrid.hasWon())
+       if(gameGrid.hasWon())//user has created a successful path, can move character
        {
            hud.stopTimer();
            hud.setCharacterPhase();
        }
        updateTime += eventTime;
-       if(gameGrid.isDead()||gameGrid.hasWonLevel())
+       if(gameGrid.isDead()||gameGrid.hasWonLevel())//level lost, calls to end level
        {
            endLevel();
        }
        else
        {
-           gameGrid.moveDown();
+           gameGrid.moveDown();//game has not ended, blocks continue falling
        }
-       
     }
     
-    /*
-    * @param g the <code>Graphics</code> to paint to
+    //Methods below are for ending levels and the game.
+    
+   /**
+    * Checks to see if user has won the level and allows user to continue to next level.
     */
-    @Override
-    public void paint(Graphics g)
+    public void endLevel()
     {
-            
-            //int boardSizeY = this.getHeight();
-            //int boardSizeX = (int)(boardSizeY/(float)(bottomBound-2))*(rightBound);
-            
-            //float ratio = (float)boardSizeY/(float)boardSizeX;
-            
-            
-            
-            
-           
-            //System.out.println((float)boardSizeY/(float)boardSizeX);
-            if(back==null)
+        if(gameGrid.hasWonLevel())//level won
+        {
+            level++;//increase level
+            newLevel();//next level
+            score+=gameGrid.getAddedScore();//add points for removing rows
+            score-=((int)(hud.getElapsedTime()*10));//deduction for time consumed
+            if(score<0)
             {
-                back=(BufferedImage)createImage(1920,1070);
+                score = 0;//if user took too much time, their score goes to 0.
             }
-            Graphics2D twoDGraph = (Graphics2D)g;
-            Graphics graphToBack= back.createGraphics();
-           
-            
-            
-
-            gameGrid.draw(graphToBack,1920,1070,700);
-            hud.drawHUD(graphToBack,1920,1070,700);
-            
-            //check if character is active or not
-            //if active, then enable movement and updating graphics
-            graphToBack.setColor(Color.YELLOW);
-            
-            
-            twoDGraph.drawImage(back,0,0,frame.getWidth(),frame.getHeight(),null); 
-            
-            if(System.currentTimeMillis()-updateTime >= eventTime)
+            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
+            startLevel();//level and score need to change with level,change background, calls for new level.
+        }
+        else//level lost
+        {
+            //prompt save, etc.
+            SaveLoad.saveGlobalHighscore(playerName, score);
+            level = 1;
+            if(score>highscore)
+            { 
+                highscore = score+1-1; 
+            }
+            score = 0;
+            eventTime = 900 / ((1+level)/2);
+            startY = 18;
+            endY = 18;
+            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
+            SoundFX.payFX("f");//play sound effect for losing
+            try 
             {
-                update();
+                Thread.sleep(300);
+            } 
+            catch (InterruptedException ex) 
+            {
+                ErrorLogger.logIOError("Thread could not sleep after game lost.",ex);
             }
-            
-            repaint();
-      
-        
-    }
-   
-    /*
-    * @param ke
-    */
-    @Override
-    public void keyTyped(KeyEvent ke)
-    {
-       
+            startLevel();//restart
+        }
     }
     
-    /*
-    * @param ke
+    
+    //Methods below are for setting up listeners for gaming controls.
+    
+   /**
+    * Unused keyListener method.
+    * @param ke typed parameter
+    */
+    @Override
+    public void keyTyped(KeyEvent ke){}
+    
+   /**
+    * Updates the screen in the event that a key is pressed to move a block down.
+    * @param ke typed parameter.
     */
     @Override
     public void keyPressed(KeyEvent ke)
     {
-        
-        //put in if statement for character.
         if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_S)
-	    {
+        {
             updateTime -= (eventTime)/3;
-	    }
+        }
     }
 
-    /*
-    * @param ke
+    //note that objects only move when released, as holding a key down causes 
+    //multiple firings, while a key release can only occur once.
+    
+   /**
+    * Causes an movement to blocks or the character when a key has been released.
+    * @param ke the key that was released.
     */
     @Override
     public void keyReleased(KeyEvent ke)
     {
-        if(!gameGrid.hasWon())
+        if(!gameGrid.hasWon())//block phase
         {
             if (ke.getKeyCode() == KeyEvent.VK_UP)
             {
@@ -356,20 +341,18 @@ public class GameRunner extends JPanel implements KeyListener {
             }
             if(ke.getKeyCode() == KeyEvent.VK_SPACE)
             {
-                gameGrid.drop();
+                gameGrid.drop();//move all the way down
             }
-
+            //alternative WASD controls
             switch(toUpperCase(ke.getKeyChar()))
-                {
-                    case KeyEvent.VK_W : gameGrid.rotateRight(); break; //clockwise
-                    case KeyEvent.VK_A : gameGrid.moveLeft(); break; //left
-                    case KeyEvent.VK_D : gameGrid.moveRight(); break; //right
-                    case KeyEvent.VK_R : gameGrid.rotateLeft(); break; //counterclockwise
-                    //case KeyEvent.VK_SPACE : keys[4]=true; break; //down
-
-                }
+            {
+                case KeyEvent.VK_W : gameGrid.rotateRight(); break; //clockwise
+                case KeyEvent.VK_A : gameGrid.moveLeft(); break; //left
+                case KeyEvent.VK_D : gameGrid.moveRight(); break; //right
+                case KeyEvent.VK_R : gameGrid.rotateLeft(); break; //counterclockwise
             }
-        else
+        }
+        else//character phase
         {
             int x = gameGrid.getCharacter().getX();
             int y = gameGrid.getCharacter().getY();
@@ -389,16 +372,14 @@ public class GameRunner extends JPanel implements KeyListener {
             {
                 gameGrid.moveCharacterLeft(x,y);
             }
-
+            //alternative WASD controls.
             switch(toUpperCase(ke.getKeyChar()))
-                {
-                    case KeyEvent.VK_W : gameGrid.moveCharacterUp(x,y); break;
-                    case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y); break;
-                    case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y); break;
-                    case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y); break; 
-            
-
-                }
+            {
+                case KeyEvent.VK_W : gameGrid.moveCharacterUp(x,y); break;
+                case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y); break;
+                case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y); break;
+                case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y); break; 
             }
         }
     }
+}

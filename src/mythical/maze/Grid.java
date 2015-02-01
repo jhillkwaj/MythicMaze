@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package mythical.maze;
 
 import java.awt.Color;
@@ -12,83 +6,70 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
- * @author justi_000
+ * Creates a Grid that the game will be played on; includes blocks and characters.
+ * @author Justin Hill and Richard Dong
  */
-public class Grid {
-    private ArrayList<Block> deadBlocks = new ArrayList<>();
-    private Shape fallingShape,nextShape;
-    private Character character;
+public class Grid 
+{
+    private ArrayList<Block> deadBlocks = new ArrayList<>();//list of non-moving blocks
+    private Shape fallingShape,nextShape;//shape that can be moved, next shape in queue
+    private final Character character;//character that user moves
     
 
-    private final int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;
-    private boolean hasWon,hasWonLevel,isDead;
-    private int scoreToAdd;
+    private final int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;//constants for grid
+    private boolean hasWon,hasWonLevel,isDead;//variables for whether game has been won, lost, etc.
+    private int scoreToAdd;//scores gained from winning level
     
-    /**
-    * Gets 5 integers right, bottom, start, end and l and sets private final (constant) integers 
-    * rightBound, bottomBound, startY, endY and level to these values, respectively.
-    * @param right the integer value to be represented by rightBound
-    * @param bottom the integer value to be represented by bottomBound
-    * @param start the integer value to be represented by startY
-    * @param end the integer value to be represented by endY
-    * @param l the integer value to be represented by level
+    //Note: due to the length of the class, methods have been organized into the 
+    //following categories: creating new shapes, moving shapes, checking if game has
+    //been won, character movement, graphics, and instance methods.
+    
+   /**
+    * Constructor that takes 5 integers right, bottom, start, end and l and sets 
+    * private final (constant) integers rightBound, bottomBound, startY, endY 
+    * and level to these values, respectively.
+    * @param right the integer value indicating grid size (right boundary).
+    * @param bottom the integer value indicating grid size (bottom boundary).
+    * @param start the integer value representing the starting space.
+    * @param end the integer value representing the end space.
+    * @param l the integer value representing level.
     */
     public Grid(int right, int bottom, int start, int end, int l)
     {
         rightBound = right;
         bottomBound = bottom;
         level = l;
-
-        upperBound = 2;
-
-        leftBound = 0;
-        startY = start; //for now
-
+        upperBound = 2;//leaves 2 spaces for shape to be created above screen
+        leftBound = 0;//left most position
+        startY = start;
         endY = end;
-        hasWon = false;
-        hasWonLevel = false;
-        isDead = false;
+        hasWon = false;//obviously, when game starts, the user has not won
+        hasWonLevel = false;//same
+        isDead = false;//same
         scoreToAdd=0;
-        character  = new Character(-1,start);
+        character  = new Character(-1,start);//character is in space of starting position
     }
     
-    /**
-    * Prepares and adds shape to the grid after each turn
+   /**
+    * Prepares and adds 2 shapes for the beginning of the level.
     */
     public void startLevel()
     {
         nextShape();//generate random shape
-        addShape();//add random shape
-        nextShape();//prep next shape
+        addShape();//add random shape to grid
+        nextShape();//prep next shape to side to display
     }
+
+    //Methods below create random new shapes to be added onto the grid.
     
-    /**
-    * Returns the object character as a <code>Character</code>
-    * @return character a Character that is the user's character
-    */
-    public Character getCharacter()
-    {
-        return character;
-    }
-    
-    /**
-    * Returns the <code>ArrayList</code> of the blocks that are dead.
-    * @return deadBlocks an <code>ArrayList</code> consisting of all the blocks that are dead
-    */
-    public ArrayList<Block> getDeadBlocks()
-    {
-        return deadBlocks;
-    }
-    
-    /**
-    * Creates a random shape and prepares to place on grid.
+   /**
+    * Creates a random shape and prepares to place on Heads up Display.
     */
     public void nextShape()
     {
         nextShape = randomShape();
-        //move to right for HUD
-        for(int i=0;i<4;i++)
+        //add a new shape for displaying on the HUD
+        for(int i=0;i<4;i++)//move to the right 6 spaces, down 4.
         {
             nextShape.moveRight();
             nextShape.moveRight();
@@ -98,14 +79,14 @@ public class Grid {
         nextShape.moveRight();
     }
     
-    /**
-    *  Places the shape in the top, left corner of the grid.
+   /**
+    * Places the shape from the heads up display onto top, left corner of the grid.
     */
     public void addShape()
     {
         fallingShape = nextShape;
         //move back onto grid
-        for(int i=0;i<4;i++)
+        for(int i=0;i<4;i++)//up 4 spaces, left 6.
         {
             fallingShape.moveLeft();
             fallingShape.moveLeft();
@@ -116,22 +97,8 @@ public class Grid {
     }
     
     /**
-    * Sees if character is "dead" by checking if there is too many dead blocks in one column
-    */
-    public void checkDead()
-    {
-        for(Block b:deadBlocks)
-        {
-            if(b.getY()<=upperBound)
-            {
-                isDead = true;
-            }
-        }
-    }
-    
-    /**
-    * Generates a random integer and returns a shape corresponding to the random integer
-    * @return
+    * Generates a random integer and returns corresponding shape.
+    * @return Shape the shape that is returned for presentation.
     */
     public Shape randomShape()
     {
@@ -195,9 +162,11 @@ public class Grid {
                 return new MiniOShape(5,2,level,2);
         }
     }
-    
-    /**
-    * Checks to see if the current shape can rotate right (clockwise)
+   
+    //Methods below rotate and move shapes located on the grid.
+   
+   /**
+    * Rotates the current shape clockwise (right) if possible.
     */
     public void rotateRight()
     {
@@ -223,8 +192,8 @@ public class Grid {
         }  
     }
     
-    /**
-    * Checks to see if the current shape can rotate left (counterclockwise)
+   /**
+    * Rotates the current shape counterclockwise (left) if possible.
     */
     public void rotateLeft()
     {
@@ -250,8 +219,8 @@ public class Grid {
         } 
     }
     
-    /**
-    * Checks to see if the current shape can move right
+   /**
+    * Moves the current block to the right if possible.
     */
     public void moveRight()
     {
@@ -276,8 +245,8 @@ public class Grid {
         }
     }
     
-    /**
-    * Checks to see if the current shape can move left
+   /**
+    * Moves the current block to the left if possible.
     */
     public void moveLeft()
     {
@@ -302,8 +271,9 @@ public class Grid {
         }
     }
     
-    /**
-    * Checks to see if the current shape can move down
+   /**
+    * Checks to see if the current shape can move down if possible; if block cannot
+    * move down, this indicates that a new block must be created or the game has ended.
     * @return canMove a boolean representing if the object can move down
     */
     public boolean moveDown()
@@ -329,128 +299,44 @@ public class Grid {
         {
             fallingShape.moveDown();
         }
-        else
+        else//if the block cannot move down
         {
             for(Block b : fallingShape.getBlockList())
             {
-                deadBlocks.add(b);
+                deadBlocks.add(b);//add the shape to the list of nonmoving shapes
             }
-            checkDead();
-            if(findPath(0, startY, rightBound-1, endY)) //if won
+            checkDead();//see if the game has ended
+            if(findPath(0, startY, rightBound-1, endY)) //see if a correct path has been created
             {
                 hasWon = true;
             }
-            else //if has not won, has not died
+            else //has not won nor lost, but new shape must be created
             {
                 checkRow();
                 addShape();
                 nextShape();
             }             
         } 
-        return canMove;
+        return canMove;//purpose of returning is for a method that moves blocks down to bottom.
     }
 
-    /**
-    *
-    * @param g the <code>Graphics</code> to paint to
-    * @param gridSizeX an integer that represents the horizonatal length of the grid
-    * @param gridSizeY an integer that represents the vertical length of the grid
-    * @param uiArea an integer that represents 
+   /**
+    * Checks if the level is lost by checking if blocks have overflowed the top.
     */
-    public void draw(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
+    public void checkDead()
     {
-        int offsetX = 200;
-        
-        //draw the background image
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 2000,2000);
-
-        if(level==2)
+        for(Block b:deadBlocks)
         {
-             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level ==3)
-        {
-             g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 1)
-        {
-             g.drawImage(ImageManager.getImage(17), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 4)
-        {
-             g.drawImage(ImageManager.getImage(21), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 5)
-        {
-             g.drawImage(ImageManager.getImage(19), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 6)
-        {
-             g.drawImage(ImageManager.getImage(20), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 7)
-        {
-             g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 8)
-        {
-             g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level==9)
-        {
-             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else
-        {
-            g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
-        }
-       
-        
-        gridSizeX-=uiArea;
-        gridSizeY-=70;
-        
-        float idealRatio = 1.7f;
-        if(gridSizeY/gridSizeX!=idealRatio)
-        {
-            gridSizeX=(int)(gridSizeY/idealRatio);
-        }
-        
-        //draw the grid
-        g.setColor(new Color(1f,1f,1f,.3f));
-        for(int i = 0; i < rightBound; i++)
-        {
-            for(int j = 0; j < 22; j++)
+            if(b.getY()<=upperBound)//over the top of the screen
             {
-                g.fillRect((int)(((i)*(gridSizeX/((float)rightBound))))+5+offsetX,
-                (int)(((j)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+                isDead = true;
             }
         }
-        
-        g.setColor(new Color(0f,1f,1f,.3f));
-        
-        g.fillRect((int)(((-1)*(gridSizeX/((float)rightBound))))+5+offsetX,
-                (int)(((startY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
-        
-        g.fillRect((int)(((rightBound)*(gridSizeX/((float)rightBound))))+5+offsetX,
-                (int)(((endY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
-        
-        for(Block b : deadBlocks)
-        {
-            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
-        }
-        for(Block b : fallingShape.getBlockList())
-        {
-            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
-        }
-        character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);
-        nextShape.drawShape(g, gridSizeX, gridSizeY, offsetX, rightBound);
-        
-        
     }
+   
+    
+    
+    
     
     /**
     * Checks to see if a row is complete and removes the row if it is complete
@@ -614,28 +500,30 @@ public class Grid {
         return false;
     }
     
-    /**
-    * Moves the character down 
-    * @param x an integer that represents 
-    * @param y an integer that represents
+    //Methods below are for character movement.
+    
+   /**
+    * Moves the character down if possible
+    * @param x an integer that represents the character's x coordinate.
+    * @param y an integer that represents the character's y coordinate.
     */
     public void moveCharacterDown(int x, int y)
     {
         boolean hasNotMoved = true;
         for(Block b:deadBlocks)
         {
-            if(b.getX()==x&&b.getY()==y)
+            if(b.getX()==x&&b.getY()==y)//find the current block the character is in.
             {
-                if(!b.getSouth())
+                if(!b.getSouth())//check if current block has a wall to the south.
                 {
                     for(Block d:deadBlocks)
                     {
-                        if(d.getX()==x&&d.getY()==y+1)
+                        if(d.getX()==x&&d.getY()==y+1)//find the block the character is moving into.
                         {
-                            if(!d.getNorth()&&hasNotMoved)
+                            if(!d.getNorth()&&hasNotMoved)//if that block doesn't have a wall.
                             {
-                                character.setY(character.getY()+1);
-                                hasNotMoved = false;
+                                character.setY(character.getY()+1);//move into it.
+                                hasNotMoved = false;//limits movement to one space.
                             }
                         }
                     }
@@ -644,28 +532,28 @@ public class Grid {
         }
     }
     
-    /**
-    * Moves the character up 
-    * @param x an integer that represents 
-    * @param y an integer that represents
+   /**
+    * Moves the character up if possible.
+    * @param x an integer that represents the character's x coordinate.
+    * @param y an integer that represents the character's y coordinate.
     */
     public void moveCharacterUp(int x, int y)
     {
         boolean hasNotMoved = true;
         for(Block b:deadBlocks)
         {
-            if(b.getX()==x&&b.getY()==y)
+            if(b.getX()==x&&b.getY()==y)//find block character is currently in.
             {
-                if(!b.getNorth())
+                if(!b.getNorth())//if the block doesn't have a wall to the north.
                 {
                     for(Block d:deadBlocks)
                     {
-                        if(d.getX()==x&&d.getY()==y-1)
+                        if(d.getX()==x&&d.getY()==y-1)//find the block character is moving into.
                         {
-                            if(!d.getSouth()&&hasNotMoved)
+                            if(!d.getSouth()&&hasNotMoved)//if that block doesn't have a wall.
                             {
-                                character.setY(character.getY()-1);
-                                hasNotMoved = false;
+                                character.setY(character.getY()-1);//move into the block.
+                                hasNotMoved = false;//limits movement to one space.
                             }
                         }
                     }
@@ -674,28 +562,28 @@ public class Grid {
         }
     }
     
-    /**
-    * Moves the character to the left 
-    * @param x an integer that represents 
-    * @param y an integer that represents
+   /**
+    * Moves the character to the left if possible.
+    * @param x an integer that represents the character's x coordinate.
+    * @param y an integer that represents the character's y coordinate.
     */
     public void moveCharacterLeft(int x, int y)
     {
         boolean hasNotMoved = true;
         for(Block b:deadBlocks)
         {
-            if(b.getX()==x&&b.getY()==y)
+            if(b.getX()==x&&b.getY()==y)//find block character is currently in.
             {
-                if(!b.getWest())
+                if(!b.getWest())//if block has a wall to the west.
                 {
                     for(Block d:deadBlocks)
                     {
-                        if(d.getX()==x-1&&d.getY()==y)
+                        if(d.getX()==x-1&&d.getY()==y)//find block character is moving into.
                         {
-                            if(!d.getEast()&&hasNotMoved)
+                            if(!d.getEast()&&hasNotMoved)//if block doesn't have a wall.
                             {
-                                character.setX(character.getX()-1);
-                                hasNotMoved =false;
+                                character.setX(character.getX()-1);//move into block.
+                                hasNotMoved =false;//limit movement to one space.
                             }
                         }
                     }
@@ -704,10 +592,10 @@ public class Grid {
         }
     }
     
-    /**
-    * Moves the character to the right 
-    * @param x an integer that represents 
-    * @param y an integer that represents
+   /**
+    * Moves the character to the right if possible.
+    * @param x an integer that represents the character's x coordinate.
+    * @param y an integer that represents the character's y coordinate.
     */
     public void moveCharacterRight(int x, int y)
     {
@@ -718,58 +606,188 @@ public class Grid {
             {
                 character.setX(0);
             }
-            else if(b.getX()==x&&b.getY()==y)
+            else if(b.getX()==x&&b.getY()==y)//find block character is in.
             {
                 if(!b.getEast())
                 {
-                    if(character.getX()==rightBound-1&&character.getY()==endY&&hasNotMoved)
+                    if(character.getX()==rightBound-1&&character.getY()==endY
+                       &&hasNotMoved)//checks if one to the left of the finish.
                     {
-                        character.setX(rightBound);
-                        hasWonLevel=true;
+                        character.setX(rightBound);//move into finish.
+                        hasWonLevel=true;//level won!!
                         hasNotMoved = false;
                     }
                     else
                     {
                         for(Block d:deadBlocks)
                         {
-                            if(d.getX()==x+1&&d.getY()==y)
+                            if(d.getX()==x+1&&d.getY()==y)//check block moving into.
                             {
-                                if(!d.getWest()&&hasNotMoved)
+                                if(!d.getWest()&&hasNotMoved)//check for walls.
                                 {
-                                    character.setX(character.getX()+1);
-                                    hasNotMoved = false;
+                                    character.setX(character.getX()+1);//move.
+                                    hasNotMoved = false;//limit movement.
                                     
                                 }
                             }
                         }
-                    }
-                    
+                    }  
                 }
             }
         }
     }
     
-    /**
+    //Method below is for graphics.
+    
+   /**
+    * Draws the grid along with all its components after calculations.
+    * @param g the <code>Graphics</code> to paint onto.
+    * @param gridSizeX an integer that represents the horizontal length of the grid.
+    * @param gridSizeY an integer that represents the vertical length of the grid.
+    * @param uiArea an integer that represents the area of the heads up display.
+    */
+    public void draw(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
+    {
+        int offsetX = 200;
+        
+        //draw the background image
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 2000,2000);//draw over the previous with a black screen.
+
+        //find the correct background image to draw.
+        if(level==2)
+        {
+             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level ==3)
+        {
+             g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level == 1)
+        {
+             g.drawImage(ImageManager.getImage(17), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level == 4)
+        {
+             g.drawImage(ImageManager.getImage(21), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level == 5)
+        {
+             g.drawImage(ImageManager.getImage(19), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level == 6)
+        {
+             g.drawImage(ImageManager.getImage(20), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level == 7)
+        {
+             g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level == 8)
+        {
+             g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else if(level==9)
+        {
+             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
+        }
+        else
+        {
+            g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
+        }
+       
+        //calculations to make sure the grid is resizable with the screen size,
+        //also makes sure grid spaces stay as squares.
+        gridSizeX-=uiArea;
+        gridSizeY-=70;
+        
+        float idealRatio = 1.7f;
+        if(gridSizeY/gridSizeX!=idealRatio)
+        {
+            gridSizeX=(int)(gridSizeY/idealRatio);//sets to ideal square size.
+        }
+        
+        //draw the grid
+        g.setColor(new Color(1f,1f,1f,.3f));//slight shading to indicate grid spaces.
+        for(int i = 0; i < rightBound; i++)//draws individual grid spaces
+        {
+            for(int j = 0; j < 22; j++)
+            {
+                g.fillRect((int)(((i)*(gridSizeX/((float)rightBound))))+5+offsetX,
+                (int)(((j)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
+                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+            }
+        }
+        
+        g.setColor(new Color(0f,1f,1f,.3f));
+        
+        //draws outline for entire grid, is offset by screen size, maintains square shape of spots.
+        g.fillRect((int)(((-1)*(gridSizeX/((float)rightBound))))+5+offsetX,
+                (int)(((startY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
+                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+        
+        g.fillRect((int)(((rightBound)*(gridSizeX/((float)rightBound))))+5+offsetX,
+                (int)(((endY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
+                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+        
+        //draws individual blocks onto grid.
+        for(Block b : deadBlocks)
+        {
+            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
+        }
+        
+        //draws the falling block the user controls.
+        for(Block b : fallingShape.getBlockList())
+        {
+            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
+        }
+        character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the character
+        nextShape.drawShape(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the next shape
+    }
+    
+    
+    
+    //Instance methods below
+    
+   /**
+    * Returns character reference.
+    * @return character the character reference.
+    */
+    public Character getCharacter()
+    {
+        return character;
+    }
+    
+   /**
+    * Returns the <code>ArrayList</code> of the blocks that are non-moving.
+    * @return deadBlocks an <code>ArrayList</code> consisting of all the blocks that are dead
+    */
+    public ArrayList<Block> getDeadBlocks()
+    {
+        return deadBlocks;
+    }
+    
+   /**
     * Returns the value of hasWonLevel as a boolean.
-    * @return hasWonLevel a boolean that represents whether the user has beat the level or not
+    * @return hasWonLevel a boolean that represents whether the user has beat the level or not.
     */
     public boolean hasWonLevel()
     {
         return hasWonLevel;
     }
     
-    /**
+   /**
     * Returns the value of hasWon as a boolean.
-    * @return hasWon a boolean that represents whether the user has 
+    * @return hasWon a boolean that represents whether the user has won the block phase.
     */
     public boolean hasWon()
     {
         return hasWon;
     }
     
-    /**
+   /**
     * Returns the value of isDead as a boolean.
-    * @return isDead a boolean that represents
+    * @return isDead a boolean that represents whether the user has lost the level.
     */
     public boolean isDead()
     {
@@ -777,8 +795,8 @@ public class Grid {
     }
 
     /**
-     *
-     * @return
+     * Returns the score that was gained during the level.
+     * @return scoreToAdd the score to append to the user's overall score.
      */
     public int getAddedScore()
     {
