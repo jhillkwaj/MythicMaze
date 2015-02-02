@@ -1,23 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author 100032528
+ * Imports images for later use when called upon.
+ * @author Justin Hill
  */
-public class ImageManager {
+public class ImageManager 
+{
     private static final ArrayList<Image> images = new ArrayList<>();
+    
+    /**
+     * Imports images from a local file.
+     */
     public static void importAll()
     {
         try {
@@ -45,24 +44,33 @@ public class ImageManager {
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Tajmahal.png")));//21
             images.add(null);
             Thread.sleep(100);    
-        } catch (Exception ex) {
+        } 
+        catch (IOException | InterruptedException ex) 
+        {
             ErrorLogger.logIOError("Unable to Import Graphics",ex);
+            //log an error to fix local file placement, interrupted extraction.
         }
     }
     
+    /**
+     * Retrieves images for use in graphics creation.
+     * @param slot the image key used to determine which image to select.
+     * @return Image the correct image object reference.
+     */
     public static Image getImage(int slot)
     {
-        if(images.size()==0)
+        if(images.isEmpty())
         { 
-            importAll(); 
+            importAll(); //import images before use.
         }
         if(slot<images.size()&&images.get(slot)!=null)
         {
             return images.get(slot);
         }
-        else
+        else//not in parameters, image doesn't exist
         {
-            try {
+            try 
+            {
                 //The image you wanted dosn't exist
                 Map m = Thread.getAllStackTraces();
                 //print the stack trase and log the error
@@ -71,17 +79,13 @@ public class ImageManager {
                     System.out.print(m.get(i));
                 }
                 //close image stream (prevents memory leak)
-
-                Logger.getLogger(ImageManager.class.getName()).log(Level.SEVERE, null, "Image Not Founded");
-               
                 return null;
-            } catch (Exception ex) {
-                Logger.getLogger(ImageManager.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            catch (Exception ex) 
+            {
+                ErrorLogger.logIOError("Image not found",ex);//log error
             }
-            
         }
         return null;
-        }
-        
-    
+    } 
 }

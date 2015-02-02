@@ -394,29 +394,27 @@ public class Grid
     
     
     /**
-    * Drops the shape
-    */
-    //Drops the tile
+     * Drops the shape as far down as possible.
+     */
     public void drop()
     {
-        while(moveDown())
-        {} 
+        while(moveDown()){}//repeatedly move down if can move down. 
     }
     
     /**
-    *
-     * @param xStart
-     * @param yEnd
-     * @param yStart
-     * @param xEnd
-    * @return 
-    */
-    //returns true if a path exists
+     * Algorithm that finds whether a correct path has been built using the blocks
+     * from start to finish.
+     * @param xStart the starting x coordinate value.
+     * @param yEnd the end y coordinate value.
+     * @param yStart the starting y coordinate value.
+     * @param xEnd the end x coordinate value.
+     * @return true or false based on if there exists a solution.
+     */
     public boolean findPath(int xStart, int yStart, int xEnd, int yEnd)
     {
         Block startBlock = null;
         Block endBlock = null;
-        //check to see if there are stat and end blocks
+        //check to see if there are start and end blocks
         for(Block block : deadBlocks)
         {
             if(block.getX()==xStart&&block.getY()==yStart && !block.getWest())
@@ -428,7 +426,7 @@ public class Grid
                 endBlock = block;
             }
         }
-        if(startBlock==null||endBlock==null)
+        if(startBlock==null||endBlock==null)//there doesn't seem to even be first correct step.
         { 
             return false; 
         }
@@ -440,20 +438,20 @@ public class Grid
         for(Block block : deadBlocks)
         {
             ArrayList<Block> linkedBlocks = new ArrayList<>();
-            for(Block otherBlock : deadBlocks)
+            for(Block otherBlock : deadBlocks)//traverse the blocks to form linked paths
             {
                 if(otherBlock.getX()==block.getX())
                 {
-                    if(otherBlock.getY()==block.getY()-1&&!block.getNorth()&&!otherBlock.getSouth())
+                    if(otherBlock.getY()==block.getY()-1&&!block.getNorth()&&!otherBlock.getSouth())//see if blocks are adjacent
                     {
-                        linkedBlocks.add(otherBlock);
+                        linkedBlocks.add(otherBlock);//if linked, add block to linked block list
                     }
                     else if(otherBlock.getY()==block.getY()+1&&!block.getSouth()&&!otherBlock.getNorth())
                     {
                         linkedBlocks.add(otherBlock);
                     }
                 }
-                else if(otherBlock.getY()==block.getY())
+                else if(otherBlock.getY()==block.getY())//same checking algorithm for y coordinates
                 {
                     if(otherBlock.getX()==block.getX()-1&&!block.getWest()&&!otherBlock.getEast())
                     {
@@ -472,32 +470,30 @@ public class Grid
     }
     
     /**
-    * 
-    */
+     * Recursive algorithm that checks linked blocks to see if it is possible or 
+     * not to traverse from one specific start to an end location.
+     */
     private boolean findPath(Block block, Block endBlock, HashMap<Block,ArrayList<Block>> blocks)
     {
         
-        if(block==endBlock)
+        if(block==endBlock)//base case, end reached
         { 
             return true; 
         }
-        
         ArrayList<Block> links = blocks.get(block);
         blocks.remove(block);
-        
-        if(links.isEmpty())
-        { return false; }
-        
-        
+        if(links.isEmpty())//nothing is linked
+        {
+            return false; 
+        }
         for(Block b : links)
         {
-            if(blocks.containsKey(b) && findPath(b, endBlock, blocks))
+            if(blocks.containsKey(b) && findPath(b, endBlock, blocks))//recursive loop
             {
                 return true; 
             }
         }
-        
-        return false;
+        return false;//at end, if no solution found, then return no solution.
     }
     
     //Methods below are for character movement.

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
 import java.awt.Color;
@@ -26,72 +22,59 @@ import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 /**
- *
- * @author 100032528
+ * Initiates a main menu in which the user can navigate around to find the 
+ * game, log in, create new profiles, play tutorials, or find statistics.
+ * @author Justin Hill
  */
-public class MainMenu extends JPanel implements KeyListener {
+public class MainMenu extends JPanel implements KeyListener 
+{
     private static JFrame frame = new JFrame();
-    JPanel thisPanel;
-    
- 
-    private JButton play;
-    private JButton tutorial;
-    private JButton credits;
-    private JButton highScore;
-    private JButton exit;
-    
-   
-    Color blackStartFilter = new Color(0.0f,0.0f,0.0f,1.0f);
-  
-    double draws = 0;
-    
-    double mythicPos = 0;
-    double mazePos = 0;
+    private JPanel thisPanel;
+    private JButton play, tutorial, credits, highScore, exit;  
+    private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,1.0f);
+    private double draws = 0;
+    private double mythicPos = 0;
+    private double mazePos = 0;
     
     private ArrayList<Shape> shapes = new ArrayList<>();
     
+    /**
+     * Creates the frame with correct dimensions, starts music and button controls.
+     */
     public void start()
     {
         thisPanel = this;
-        this.removeAll();
+        this.removeAll();//remove anything from frame, clean slate.
         frame = new JFrame();
-        
-        
+        //set correct dimmensions.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
-        
         frame.setSize((int)width, (int)height);
-        
+        //set title, exit and size buttons.
         frame.setTitle("Mythical Maze");
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setExtendedState(frame.MAXIMIZED_BOTH);  
-      
-        
-        //addButtons();
-       
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+        //start painting screen onto frame.
         frame.getContentPane().add(this);
         frame.repaint();
         frame.setVisible(true);
-         
         frame.repaint();
-        
-        BackgroundMusic b = new BackgroundMusic(1);
-        
-        frame.addKeyListener(this);
-  
+        BackgroundMusic b = new BackgroundMusic(1);//start music
+        frame.addKeyListener(this);//enable controls
     }
    
-    
-    
+    /**
+     * Adds user navigation buttons, such as play, tutorial, high scores, exit, etc.
+     */
     public void addButtons()
     {
-    
+        //set fonts, size, color
         UIManager.put("OptionPane.messageFont", new FontUIResource(
                 new Font("Monaco", Font.BOLD, 14)));
         Font font = new Font("Algerian", Font.BOLD, 52);
         Color buttonColor = Color.RED;
-        
+        //create first play button
         play = new JButton("Play");
         play.setBorder(BorderFactory.createEmptyBorder());
         play.setContentAreaFilled(false);
@@ -100,16 +83,15 @@ public class MainMenu extends JPanel implements KeyListener {
         play.setFont(font);
         play.setForeground(buttonColor);
         final JPanel p = this;
+        //what happens when button is clicked.
         play.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                            //GameRunner g = new GameRunner();
-                            //frame.remove(thisPanel);
+                        @Override
+			public void actionPerformed(ActionEvent e) 
+                        {
                             SelectPlayer p = new SelectPlayer();
-                            
 			}
 		});
-                
-                
+        //add tutorial button        
         tutorial = new JButton("Tutorial");
         tutorial.setBorder(BorderFactory.createEmptyBorder());
         tutorial.setContentAreaFilled(false);
@@ -118,11 +100,13 @@ public class MainMenu extends JPanel implements KeyListener {
         tutorial.setFont(font);
         tutorial.setForeground(buttonColor);
         tutorial.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
+                        @Override
+			public void actionPerformed(ActionEvent e) 
+                        {
+                            JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
 			}
 		});
-                
+       //add high scores button        
        highScore = new JButton("High Scores");
        highScore.setBorder(BorderFactory.createEmptyBorder());
        highScore.setContentAreaFilled(false);
@@ -131,8 +115,9 @@ public class MainMenu extends JPanel implements KeyListener {
        highScore.setFont(font);
        highScore.setForeground(buttonColor);
        highScore.addActionListener(new ActionListener() {
+                        @Override
 			public void actionPerformed(ActionEvent e) {
-                            TreeMap<Integer, String> t = SaveLoad.getHighScores();
+                            TreeMap<Integer, String> t = SaveLoad.getHighScores();//calls to get high scores to display.
                             String scores = "";
                             for(int i = 0; i < 4; i++)
                             {
@@ -144,7 +129,7 @@ public class MainMenu extends JPanel implements KeyListener {
 			}
 		});
                 
-                
+       //create credits button.         
        credits = new JButton("Credits");
        credits.setBorder(BorderFactory.createEmptyBorder());
        credits.setContentAreaFilled(false);
@@ -153,6 +138,7 @@ public class MainMenu extends JPanel implements KeyListener {
        credits.setFont(font);
        credits.setForeground(buttonColor);
        credits.addActionListener(new ActionListener() {
+                        @Override
 			public void actionPerformed(ActionEvent e) {
                              JOptionPane.showMessageDialog(null, "                                                Credits\n"
                                      + "                                Developed By The Techs\n"
@@ -171,7 +157,7 @@ public class MainMenu extends JPanel implements KeyListener {
 			}
 		});
                 
-                
+        //create exit button.       
         exit = new JButton("Exit");
         exit.setBorder(BorderFactory.createEmptyBorder());
         exit.setContentAreaFilled(false);
@@ -180,30 +166,25 @@ public class MainMenu extends JPanel implements KeyListener {
         exit.setFont(font);
         exit.setForeground(buttonColor);
         exit.addActionListener(new ActionListener() {
+                        @Override
 			public void actionPerformed(ActionEvent e) {
                                System.exit(1);
 			}
 		});
                         
                 
-        
+        //set positions and size of buttons, which change with screen size; add to screen. 
         play.setBounds(frame.getWidth()/4, frame.getHeight()/4, frame.getWidth()/2, frame.getHeight()/16);
         this.setLayout(null);
         this.add(play);
-        
         tutorial.setBounds(frame.getWidth()/4, frame.getHeight()/4+(3*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
         this.add(tutorial);
-        
         highScore.setBounds(frame.getWidth()/4, frame.getHeight()/4+(4*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
         this.add(highScore);
-        
         credits.setBounds(frame.getWidth()/4, frame.getHeight()/4+(5*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
         this.add(credits);
-        
         exit.setBounds((int)(frame.getWidth()/4), frame.getHeight()/4+(6*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.add(exit); 
-        
-  
+        this.add(exit);   
     }
     
 
