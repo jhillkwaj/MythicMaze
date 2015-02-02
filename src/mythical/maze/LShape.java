@@ -10,7 +10,7 @@ public class LShape extends Shape
      * Creates an L shaped object
      * @param x an integer that represents the object's x coordinate.
      * @param y an integer that represents the object's y coordinate.
-     * @param l an integer that represents the version of the piece.
+     * @param l an integer that represents the level of the shape.
      * @see Shape
      */
     public LShape(int x, int y,int l)
@@ -22,15 +22,15 @@ public class LShape extends Shape
         this.getBlockList().add(new Block(x,y,true,false,true,false));
         
         //shape appears below with coordinate labels.
-        //  ______
+        //  
         // |(x-1, |
         // | y-2) |
-        // |______|
+        // |      |
         // |(x-1, |
         // | y-1) |
-        // |______|______
-        // |(x-1, |(x,y) |
-        // |   y) |      |
-        // |______|______|
+        // |      |______
+        // |(x-1,  (x,y) 
+        // |   y)        
+        // |_____________
     }  
 }

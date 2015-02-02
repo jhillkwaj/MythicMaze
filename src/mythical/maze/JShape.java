@@ -10,7 +10,7 @@ public class JShape extends Shape
      * Creates a J shaped object.
      * @param x an integer that represents the shape x coordinate.
      * @param y an integer that represents the shape y coordinate.
-     * @param l an integer that is used for version control.
+     * @param l an integer that represents the shape level.
      * @see Shape
      */
     public JShape(int x, int y,int l)
@@ -21,15 +21,15 @@ public class JShape extends Shape
         this.getBlockList().add(new Block(x,y,false,true,true,false));
         this.getBlockList().add(new Block(x-1,y,true,false,true,false));     
         //shape appears below with coordinate labels.
-        //         ______
+        //         
         //        |(x,   |
         //        | y-2) |
-        //        |______|
+        //        |      |
         //        |(x,   |
         //        | y-1) |
-        //  ______|______|
-        // |(x-1, |(x,y) |
-        // |   y) |      |
-        // |______|______|
+        //  ______|      |
+        //  (x-1,  (x,y) |
+        //     y)        |
+        //  _____________|
     }
 }

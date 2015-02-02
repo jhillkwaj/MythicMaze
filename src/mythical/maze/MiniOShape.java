@@ -1,58 +1,60 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
 import java.util.ArrayList;
 
 /**
- *
- * @author Richard
+ * Creates a small "O" shaped piece.
+ * @author Richard Dong
  */
 public class MiniOShape extends Shape{
-
-    /*
-    * Gets three integers x, y, l.
-    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
-    * Uses l as the integer to represent the level that the user is currently on.
-    * @param x an integer that represents the shape's x coordinate
-    * @param y an integer that represents the shape's y coordinate
-    * @param l an integer that represents the level the user is currently on
-    * @see Shape
-    */
-    public MiniOShape(int x, int y,int l)
+    /**
+     * Creates a small "O" shaped piece
+     * @param x an integer that represents the object's x coordinate.
+     * @param y an integer that represents the object's y coordinate.
+     * @param l an integer that represents the object's level.
+     * @see Shape
+     */
+    public MiniOShape(int x, int y, int l)
     {
         super(x,y,l);
         this.getBlockList().add(new Block(x,y,false,true,false,true));
-         
+        //shape appears below with coordinate labels.
+        //
+        //        |      |
+        //        |(x,y) |
+        //        |      |        
     }
     
-    /*
-    * Gets four integers x, y, l and v.
-    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
-    * Uses l as the integer to represent the level that the user is currently on.
-    * Uses v to determine which version of the <code>MiniOShape</code> to create.
-    * @param x an integer that represents the shape's x coordinate
-    * @param y an integer that represents the shape's y coordinate
-    * @param l an integer that represents the level the user is currently on
-    * @param v an integer that represents the version of the <code>MiniOShape</code> to create
-    * @see Shape
-    */
-    public MiniOShape(int x, int y,int l,int version)
+    /**
+     * Alternative constructor for creating a small "O" shaped piece
+     * @param x an integer that represents the object's x coordinate
+     * @param y an integer that represents the object's y coordinate
+     * @param l an integer that represents the level the user is currently on
+     * @param version an integer that represents the version of the <code>MiniOShape</code> to create
+     * @see Shape
+     */
+    public MiniOShape(int x, int y, int l, int version)
     {
         super(x,y,l);
         if(version == 2)
+        {
             this.getBlockList().add(new Block(x,y,false,false,false,false));
+            //shape appears below with coordinate labels.
+            // *no walls at all
+            //                
+            //         (x,y)  
+            //                       
+        } 
         else
+        {
             this.getBlockList().add(new Block(x,y,false,true,false,true));
-         
+            //creates first default version, 
+        }
     }
     
-    /*
-    *
-    */
+    /**
+     * Rotates shape clockwise around center, in other terms, without changing its location.
+     */
     @Override
     public void rotateClockwise()
     {
@@ -62,9 +64,9 @@ public class MiniOShape extends Shape{
         }
     }
     
-    /*
-    *
-    */
+    /**
+     * Rotates shape counterclockwise around center, in other terms, without changing its location.
+     */
     @Override
     public void rotateCounterClockwise()
     {
@@ -74,9 +76,10 @@ public class MiniOShape extends Shape{
         }
     }
     
-    /*
-    *
-    */
+    /**
+     * Returns a list of new blocks created after rotation clockwise.
+     * @return blockList the list of blocks in the shape.
+     */
     @Override
     public ArrayList<Block> getClockwiseOccupied()
     {
@@ -85,9 +88,10 @@ public class MiniOShape extends Shape{
         return blockList;   
     }
     
-    /*
-    *
-    */
+    /**
+     * Returns a list of new blocks created after rotation counterclockwise.
+     * @return blockList the list of blocks in the shape.
+     */
     @Override
     public ArrayList<Block> getCounterClockwiseOccupied()
     {

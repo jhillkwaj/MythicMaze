@@ -4,13 +4,13 @@ package mythical.maze;
  * Object class for creating "I" shaped pieces.
  * @author Richard Dong
  */
-public class IShape extends Shape{
-    
+public class IShape extends Shape
+{
    /**
     * Creates an "I" shaped piece.
     * @param x an integer that represents the object's x coordinate.
     * @param y an integer that represents the object's y coordinate.
-    * @param l an integer that is used for version control.
+    * @param l an integer that represents the object's level.
     * @see Shape
     */
     public IShape(int x, int y,int l)
@@ -21,19 +21,19 @@ public class IShape extends Shape{
         this.getBlockList().add(new Block(x,y,false,true,false,true));
         this.getBlockList().add(new Block(x,y+1,false,true,false,true)); 
         //shape appears below with coordinate labels.
-        //  ______
+        // 
         // |(x,   |
         // | y-2) |
-        // |______|
+        // |      |
         // |(x,   |
         // | y-1) |
-        // |______|
+        // |      |
         // |(x,y) |
         // |      |
-        // |______|
+        // |      |
         // |(x,   |
         // | y+1) |
-        // |______|  
+        // |      |  
     }
     
 }

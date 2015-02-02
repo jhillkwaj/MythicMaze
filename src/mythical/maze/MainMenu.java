@@ -11,8 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -85,12 +83,12 @@ public class MainMenu extends JPanel implements KeyListener
         final JPanel p = this;
         //what happens when button is clicked.
         play.addActionListener(new ActionListener() {
-                        @Override
-			public void actionPerformed(ActionEvent e) 
-                        {
-                            SelectPlayer p = new SelectPlayer();
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                SelectPlayer p = new SelectPlayer();
+            }
+        });
         //add tutorial button        
         tutorial = new JButton("Tutorial");
         tutorial.setBorder(BorderFactory.createEmptyBorder());
@@ -100,34 +98,35 @@ public class MainMenu extends JPanel implements KeyListener
         tutorial.setFont(font);
         tutorial.setForeground(buttonColor);
         tutorial.addActionListener(new ActionListener() {
-                        @Override
-			public void actionPerformed(ActionEvent e) 
-                        {
-                            JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
-			}
-		});
-       //add high scores button        
-       highScore = new JButton("High Scores");
-       highScore.setBorder(BorderFactory.createEmptyBorder());
-       highScore.setContentAreaFilled(false);
-       highScore.setHorizontalTextPosition(JButton.CENTER);
-       highScore.setVerticalTextPosition(JButton.CENTER);
-       highScore.setFont(font);
-       highScore.setForeground(buttonColor);
-       highScore.addActionListener(new ActionListener() {
-                        @Override
-			public void actionPerformed(ActionEvent e) {
-                            TreeMap<Integer, String> t = SaveLoad.getHighScores();//calls to get high scores to display.
-                            String scores = "";
-                            for(int i = 0; i < 4; i++)
-                            {
-                                scores += t.lastEntry().getValue();
-                                scores += " " + t.lastKey() + "\n";
-                                t.pollLastEntry();
-                            }
-                            JOptionPane.showMessageDialog(null,scores, "Highscores" ,JOptionPane.PLAIN_MESSAGE);
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+        //add high scores button        
+        highScore = new JButton("High Scores");
+        highScore.setBorder(BorderFactory.createEmptyBorder());
+        highScore.setContentAreaFilled(false);
+        highScore.setHorizontalTextPosition(JButton.CENTER);
+        highScore.setVerticalTextPosition(JButton.CENTER);
+        highScore.setFont(font);
+        highScore.setForeground(buttonColor);
+        highScore.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                TreeMap<Integer, String> t = SaveLoad.getHighScores();//calls to get high scores to display.
+                String scores = "";
+                for(int i = 0; i < 4; i++)
+                {
+                    scores += t.lastEntry().getValue();
+                    scores += " " + t.lastKey() + "\n";
+                    t.pollLastEntry();
+                }
+                JOptionPane.showMessageDialog(null,scores, "Highscores" ,JOptionPane.PLAIN_MESSAGE);
+            }
+        });
                 
        //create credits button.         
        credits = new JButton("Credits");
@@ -165,14 +164,14 @@ public class MainMenu extends JPanel implements KeyListener
         exit.setVerticalTextPosition(JButton.CENTER);
         exit.setFont(font);
         exit.setForeground(buttonColor);
-        exit.addActionListener(new ActionListener() {
-                        @Override
-			public void actionPerformed(ActionEvent e) {
-                               System.exit(1);
-			}
-		});
-                        
-                
+        exit.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                System.exit(1);
+            }
+        });
         //set positions and size of buttons, which change with screen size; add to screen. 
         play.setBounds(frame.getWidth()/4, frame.getHeight()/4, frame.getWidth()/2, frame.getHeight()/16);
         this.setLayout(null);
@@ -187,65 +186,54 @@ public class MainMenu extends JPanel implements KeyListener
         this.add(exit);   
     }
     
-
     @Override
     public void paintComponent(Graphics g)
     {
-        try {
+        try 
+        {
+            //fills a black background with background image
             g.setColor(new Color(0,0,0));
-            
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
             g.drawImage(ImageManager.getImage(10),0,0, this.getWidth(), this.getHeight(), this);
-           
- 
-          
-            
+            //fade in main menu elements
             g.setColor(blackStartFilter);
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
             if(draws<100)
-           {
-               g.setFont(new Font("Arial", Font.PLAIN, 50));
+            {
+                g.setFont(new Font("Arial", Font.PLAIN, 50));
                 g.setColor(new Color(255,144,0));
-               
                 g.drawImage(ImageManager.getImage(2), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
                 g.drawImage(ImageManager.getImage(3), this.getWidth()/4, this.getHeight()/2, this.getWidth()/2, this.getWidth()/10, null);
-                
-           }
-            else if(draws<200)
-           {
-               g.setFont(new Font("Arial", Font.PLAIN, 50));
+
+            }
+            else if(draws<200)//continuing fade in...
+            {
+                g.setFont(new Font("Arial", Font.PLAIN, 50));
                 g.setColor(new Color(255,144,0));
-               
                 g.drawImage(ImageManager.getImage(1), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
                 g.drawImage(ImageManager.getImage(0), this.getWidth()/3, (int)(this.getHeight()/2.5f), this.getWidth()/3, (int)(((this.getWidth()/3.0f)/800.0f)*600.0f), null);
-           }
-            if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)
+            }
+            if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)//complete fade in at end
             {
-               
                 blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
             }
-            
             //draw some pieces
             for(Shape s : shapes)
             {
                 s.drawShape(g, this.getWidth(), this.getHeight(), 0, 0);
             }
-            
-            if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)
+            if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)//animation for title
             {
+                //set font and color, get images
                 g.setFont(new Font("Arial", Font.PLAIN, 50));
                 g.setColor(new Color(100,0,0));
-               
                 g.drawImage(ImageManager.getImage(6) , this.getWidth()/4 + (int)mythicPos, this.getHeight()/20, this.getWidth()/3, this.getWidth()/10, null);
                 g.drawImage(ImageManager.getImage(5), this.getWidth()/4 + this.getWidth()/3 + (int)mazePos, this.getHeight()/20, this.getWidth()/4, this.getWidth()/10, null);
-                
-                
-                if(this.getComponentCount()==0)
-                addButtons();
-                
-                
-                
-                if(draws%400 <= 100)
+                if(this.getComponentCount()==0)//add to blank menu
+                {
+                    addButtons();
+                }
+                if(draws%400 <= 100)//move around title in pattern back and forth
                 {
                     mythicPos+=this.getWidth()/350.0f;
                     mazePos-=this.getWidth()/300.0f;
@@ -255,39 +243,25 @@ public class MainMenu extends JPanel implements KeyListener
                     mythicPos-=this.getWidth()/350.0f;
                     mazePos+=this.getWidth()/300.0f;
                 }
-                
             }
-            
-            Thread.sleep(20);
-            draws++;
-            repaint();
-            
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Thread.sleep(20);//pause after moving
+            draws++;//increase to further develop pattern
+            repaint();//refresh screen
+        } 
+        catch (InterruptedException ex) 
+        {
+            ErrorLogger.logIOError("Interruption in displaying main menu",ex);
         }
-       
-
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        draws = 302;
-        blackStartFilter = new Color(0.0f,0.0f,0.0f,0.4f);
+    public void keyTyped(KeyEvent e) 
+    {
+        draws = 302;//skip past main menu introduction.
+        blackStartFilter = new Color(0.0f,0.0f,0.0f,0.4f);//fade right into menu
     }
-
     @Override
-    public void keyPressed(KeyEvent e) {
-        
-    }
-
+    public void keyPressed(KeyEvent e) {}
     @Override
-    public void keyReleased(KeyEvent e) {
-        
-    }
-   
-    
-  
-   
- 
-
+    public void keyReleased(KeyEvent e) {}
 }
