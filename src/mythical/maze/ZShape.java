@@ -6,13 +6,13 @@
 package mythical.maze;
 
 /**
- *
+ * Creates a Z-shaped block to be used in the grid 
  * @author Richard
  */
 public class ZShape extends Shape {
     
-    /*
-    * Gets three integers x, y, l.
+    /**
+    * Constructor that gets three integers x, y, l.
     * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
     * Uses l as the integer to represent the level that the user is currently on.
     * @param x an integer that represents the shape's x coordinate
