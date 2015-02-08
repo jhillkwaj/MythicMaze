@@ -8,12 +8,12 @@ package mythical.maze;
 import java.util.ArrayList;
 
 /**
- *
+ * Creates a mini O-shaped block to be used in the grid
  * @author Richard
  */
 public class MiniOShape extends Shape{
 
-    /*
+    /**
     * Gets three integers x, y, l.
     * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
     * Uses l as the integer to represent the level that the user is currently on.
@@ -29,7 +29,7 @@ public class MiniOShape extends Shape{
          
     }
     
-    /*
+    /**
     * Gets four integers x, y, l and v.
     * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
     * Uses l as the integer to represent the level that the user is currently on.
@@ -50,8 +50,8 @@ public class MiniOShape extends Shape{
          
     }
     
-    /*
-    *
+    /**
+    * Rotates the piece clockwise
     */
     @Override
     public void rotateClockwise()
@@ -62,8 +62,8 @@ public class MiniOShape extends Shape{
         }
     }
     
-    /*
-    *
+    /**
+    * Rotates the piece counterclockwise
     */
     @Override
     public void rotateCounterClockwise()
@@ -74,8 +74,9 @@ public class MiniOShape extends Shape{
         }
     }
     
-    /*
-    *
+    /**
+    * Finds the blocks that would be occupied by the shape with a clockwise rotation
+    * @return blockList an <code>ArrayList</code> containing the occupied blocks if the shape was rotated clockwise
     */
     @Override
     public ArrayList<Block> getClockwiseOccupied()
@@ -85,8 +86,9 @@ public class MiniOShape extends Shape{
         return blockList;   
     }
     
-    /*
-    *
+    /**
+    * Finds the blocks that would be occupied by the shape with a counterclockwise rotation
+    * @return blockList an <code>ArrayList</code> containing the occupied blocks if the shape was rotated counterclockwise
     */
     @Override
     public ArrayList<Block> getCounterClockwiseOccupied()
