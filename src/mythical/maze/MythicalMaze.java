@@ -1,20 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
 /**
- *
- * @author 100032528
+ * Mythical Maze main class.
+ * @author Justin Hill
  */
-public class MythicalMaze {
-
+public class MythicalMaze 
+{
     /**
-     * @param args the command line arguments
+     * Main method for the Mythical Maze game.
+     * @param args the command line arguments.
      */
     public static void main(String[] args) {
-        MainMenu m = new MainMenu();
-        m.start();
+        MainMenu m = new MainMenu();//initiates main menu
+        m.start();//starts menu
     }
 }

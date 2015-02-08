@@ -7,7 +7,7 @@ package mythical.maze;
 public class JShape extends Shape 
 {  
     /**
-     * Creates a J shaped object.
+     * Creates a "J" shaped object.
      * @param x an integer that represents the shape x coordinate.
      * @param y an integer that represents the shape y coordinate.
      * @param l an integer that represents the shape level.

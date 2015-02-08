@@ -1,25 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
 /**
- * Creates a T-shaped block to be used in the grid
- * @author Richard
+ * Object class for creating "T" shaped objects.
+ * @author Richard Dong
  */
-public class TShape extends Shape {
-    
+public class TShape extends Shape 
+{
     /**
-    * Gets three integers x, y, l.
-    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
-    * Uses l as the integer to represent the level that the user is currently on.
-    * @param x an integer that represents the shape's x coordinate
-    * @param y an integer that represents the shape's y coordinate
-    * @param l an integer that represents the level the user is currently on
-    * @see Shape
-    */
+     * Creates a "T" shape.
+     * @param x an integer that represents the x coordinate
+     * @param y an integer that represents the y coordinate
+     * @param l an integer that represents the level the user is currently on
+     * @see Shape
+     */
     public TShape(int x, int y, int l)
     {
         super(x,y,l);
@@ -27,19 +20,24 @@ public class TShape extends Shape {
         this.getBlockList().add(new Block(x,y-1,true,false,false,false));
         this.getBlockList().add(new Block(x+1,y-1,true,false,true,false));
         this.getBlockList().add(new Block(x,y,false,true,false,true));        
-    }
+        //shape appears below with coordinate labels.
+        //  ______________________
+        //  (x-1,   (x,    (x+1,
+        //   y-1)    y-1)   y-1)
+        //  _______        _______
+        //         |(x,y) |
+        //         |      |
+        //         |      |
+    }  
     
     /**
-    * Gets four integers x, y, l and v.
-    * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
-    * Uses l as the integer to represent the level that the user is currently on.
-    * Uses v to determine which version of the <code>TShape</code> to create.
-    * @param x an integer that represents the shape's x coordinate
-    * @param y an integer that represents the shape's y coordinate
-    * @param l an integer that represents the level the user is currently on
-    * @param v an integer that represents the version of the <code>TShape</code> to create
-    * @see Shape
-    */
+     * Alternative constructor for creating "T" shapes.
+     * @param x an integer that represents the x coordinate
+     * @param y an integer that represents the y coordinate
+     * @param l an integer that represents the level the user is currently on
+     * @param version an integer that represents the version of the <code>TShape</code> to create
+     * @see Shape
+     */
     public TShape(int x, int y, int l, int version)
     {
         super(x,y,l);
@@ -49,6 +47,14 @@ public class TShape extends Shape {
             this.getBlockList().add(new Block(x,y-1,false,false,false,false));
             this.getBlockList().add(new Block(x+1,y-1,true,false,true,false));
             this.getBlockList().add(new Block(x,y,false,true,false,true));
+            //shape appears below with coordinate labels.
+            //  _______       _______
+            //  (x-1,   (x,    (x+1,
+            //   y-1)    y-1)   y-1)
+            //  _______        _______
+            //         |(x,y) |
+            //         |      |
+            //         |      |
         }
         else
         {
@@ -56,7 +62,7 @@ public class TShape extends Shape {
             this.getBlockList().add(new Block(x,y-1,true,false,false,false));
             this.getBlockList().add(new Block(x+1,y-1,true,false,true,false));
             this.getBlockList().add(new Block(x,y,false,true,false,true));     
+            //same as default
         }
-    }
-    
+    } 
 }

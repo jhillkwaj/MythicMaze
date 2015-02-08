@@ -1,46 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package mythical.maze;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- *
- * @author justi_000
+ * Plays sound effects.
+ * @author Justin Hill
  */
-public class SoundFX {
-    
+public class SoundFX 
+{
     private static Clip clip;
-    
-    
+
+    /**
+     * Plays a specific sound effect.
+     * @param name the sound effect to play.
+     */
     public static void payFX(String name)
     {
         final String clipName = name;
-        Thread thread = new Thread(new Runnable(){
+        Thread thread;
+        thread = new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-        AudioInputStream audioIn = null;
-        try {
-            audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+clipName+".wav"));
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-        } catch (Exception ex) {
-            Logger.getLogger(BackgroundMusic.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            public void run() 
+            {
+                AudioInputStream audioIn = null;//initiates audio stream
+                try 
+                {
+                    audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+clipName+".wav"));//set path
+                    clip = AudioSystem.getClip();//gets clip
+                    clip.open(audioIn);//opens clip
+                    clip.start();//plays sound
+                } 
+                catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
+                {
+                    ErrorLogger.logIOError("Cannot play sound effect",ex);
+                }
             }
         });
-        thread.run();
+        thread.start();//runs the sound creating thread
     }
-              
-       
-    
 }

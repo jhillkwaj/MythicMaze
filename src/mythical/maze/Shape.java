@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
 import java.awt.Graphics;
@@ -10,19 +5,19 @@ import java.util.ArrayList;
 
 /**
  * Parent class for the shape objects of the game.
- * @author Richard
+ * @author Richard Dong
  */
-public class Shape {
-   
+public class Shape 
+{  
     public int xPos,yPos,level;
     private ArrayList<Block>blockList = new ArrayList<>();
     private ArrayList<Block>occupy;
     
     /**
      * Gets three integer values x, y, l and public integers xPos, yPos and level to these values, respectively.
-     * @param x the integer value to be represented by xPos
-     * @param y the integer value to be represented by yPos
-     * @param l the integer value to be represented by level
+     * @param x the integer value to be represented by xPos.
+     * @param y the integer value to be represented by yPos.
+     * @param l the integer value to be represented by level.
      */
     public Shape(int x, int y, int l)
     {
@@ -32,12 +27,12 @@ public class Shape {
     }
 
     /**
-     *
+     * Draws the shape.
      * @param g the <code>Graphics</code> to paint to
-     * @param boardSizeX an integer that represents the horizonatal length of the grid
-     * @param boardSizeY an integer that represents the vertical length of the grid
-     * @param offsetX an integer that represents the smallest distance between the shape and the y-axis
-     * @param rightBound an integer that represents the length of the x-axis in terms of block size
+     * @param boardSizeX an integer that represents the horizontal length of the grid.
+     * @param boardSizeY an integer that represents the vertical length of the grid.
+     * @param offsetX an integer that represents the space between blocks.
+     * @param rightBound an integer that represents right boundary in blocks.
      */
     public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX, int rightBound)
     {
@@ -48,7 +43,7 @@ public class Shape {
     }
 
     /**
-     * Moves each block of the shape down and adds one to yPos  
+     * Moves each block of the shape down and adds one to yPos.
      */
     public void moveDown()
     {
@@ -60,7 +55,7 @@ public class Shape {
     }
     
     /**
-     * Moves each block of the shape up and subtracts one from yPos
+     * Moves each block of the shape up and subtracts one from yPos.
      */
     public void moveUp()
     {
@@ -72,7 +67,7 @@ public class Shape {
     }
     
     /**
-     * Moves each block of the shape to the right and adds one to xPos
+     * Moves each block of the shape to the right and adds one to xPos.
      */
     public void moveRight()
     {
@@ -84,7 +79,7 @@ public class Shape {
     }
 
     /**
-     * Moves each block of the shape to the left and subtracts one from xPos
+     * Moves each block of the shape to the left and subtracts one from xPos.
      */
     public void moveLeft()
     {
@@ -96,14 +91,15 @@ public class Shape {
     }
 
     /**
-     * Rotates each block of the shape clockwise
+     * Rotates each block of the shape clockwise.
      */
     public void rotateClockwise() {
         for(Block b:blockList)
         {
-            int xDistance = b.getX()-xPos;
-            int yDistance = b.getY()-yPos;
-            b.setX(xPos-yDistance-1);
+            //each block is translated with respect to the center of the shape.
+            int xDistance = b.getX()-xPos;//distance to center
+            int yDistance = b.getY()-yPos;//distance to center
+            b.setX(xPos-yDistance-1);//-1 offsets due to block size
             b.setY(yPos+xDistance);
             b.rotateClockwise();
         }
@@ -111,11 +107,12 @@ public class Shape {
     }
 
     /**
-     * Rotates each block of the shape counterclockwise
+     * Rotates each block of the shape counterclockwise.
      */
     public void rotateCounterClockwise() {
         for(Block b:blockList)
         {
+            //same logical rules apply as above, only in reverse.
             int xDistance = b.getX()-xPos;
             int yDistance = b.getY()-yPos;
             b.setX(xPos+yDistance);
@@ -126,9 +123,8 @@ public class Shape {
 
     /**
      * Returns the <code>ArrayList</code> of the blocks of the shape rotated counterclockwise
-     * but does not actually rotate the blocks counterclockwise
-     * @return occupy an <code>ArrayList</code> of the blocks of the shape if the shape was 
-     * rotated counterclockwis
+     * but does not actually rotate the blocks counterclockwise.
+     * @return occupy an <code>ArrayList</code> of the blocks of the shape if the shape was rotated.
      */
     public ArrayList<Block>getClockwiseOccupied()
     {
@@ -145,8 +141,7 @@ public class Shape {
     /**
      * Returns the <code>ArrayList</code> of the blocks of the shape rotated clockwise
      * but does not actually rotate the blocks clockwise
-     * @return occupy an <code>ArrayList</code> of the blocks of the shape if the shape was 
-     * rotated rclockwise
+     * @return occupy an <code>ArrayList</code> of the blocks of the shape if the shape was rotated.
      */
     public ArrayList<Block>getCounterClockwiseOccupied()
     {
@@ -161,8 +156,8 @@ public class Shape {
     }
 
     /**
-     * Returns the <code>ArrayList</code> of the blocks that the shape is composed of
-     * @return blockList an <code>ArrayList</code> of the blocks that shape is composed of
+     * Returns the <code>ArrayList</code> of the blocks that the shape is composed of.
+     * @return blockList an <code>ArrayList</code> of the blocks that shape is composed of.
      */
     public ArrayList<Block> getBlockList()
     {
