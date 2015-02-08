@@ -6,7 +6,7 @@
 package mythical.maze;
 
 /**
- * Creates a Z-shaped block to be used in the grid 
+ * Creates a Z-shaped block to be used in the grid
  * @author Richard
  */
 public class ZShape extends Shape {

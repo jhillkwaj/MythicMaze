@@ -6,12 +6,12 @@
 package mythical.maze;
 
 /**
- *
+ * Creates a T-shaped block to be used in the grid
  * @author Richard
  */
 public class TShape extends Shape {
     
-    /*
+    /**
     * Gets three integers x, y, l.
     * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
     * Uses l as the integer to represent the level that the user is currently on.
@@ -29,7 +29,7 @@ public class TShape extends Shape {
         this.getBlockList().add(new Block(x,y,false,true,false,true));        
     }
     
-    /*
+    /**
     * Gets four integers x, y, l and v.
     * Uses the integers x and y as the coordinate (x, y) as the beginning point for drawing the shape.
     * Uses l as the integer to represent the level that the user is currently on.
