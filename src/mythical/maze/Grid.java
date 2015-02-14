@@ -702,7 +702,9 @@ public class Grid
         {
             gridSizeX=(int)(gridSizeY/idealRatio);//sets to ideal square size.
         }
-        
+        //draw the HUD background
+        g.setColor(new Color(0f,0f,0f,.5f));
+        g.fillRect((int)(14*(gridSizeX/((float)rightBound)))+150, gridSizeY/40, (int)(10*(gridSizeX/((float)rightBound))), gridSizeY - (gridSizeY/4));
         //draw the grid
         g.setColor(new Color(1f,1f,1f,.3f));//slight shading to indicate grid spaces.
         for(int i = 0; i < rightBound; i++)//draws individual grid spaces

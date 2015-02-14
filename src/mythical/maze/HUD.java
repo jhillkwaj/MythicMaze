@@ -81,9 +81,10 @@ public class HUD {
             gridSizeX=(int)(gridSizeY/idealRatio);
         }
         
+        
         //start to write headings
-        Font myFont=new Font("Times New Roman",Font.BOLD, 50);
-            g.setColor(Color.BLACK);
+        Font myFont=new Font("Impact",Font.PLAIN, 50);
+            g.setColor(Color.white);
             g.setFont(myFont);
             g.drawString("NEXT",(int)(14*(gridSizeX/((float)rightBound)))+200,
                 (int)(1.5*gridSizeY/20));//next shape label
