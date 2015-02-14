@@ -70,8 +70,9 @@ public class MainMenu extends JPanel implements KeyListener
         //set fonts, size, color
         UIManager.put("OptionPane.messageFont", new FontUIResource(
                 new Font("Monaco", Font.BOLD, 14)));
-        Font font = new Font("Algerian", Font.BOLD, 52);
-        Color buttonColor = Color.RED;
+        Font font = new Font("WLM Carton", Font.PLAIN, 52);
+        Font fontSmall = new Font("WLM Carton", Font.PLAIN, 42);
+        Color buttonColor = Color.black;
         //create first play button
         play = new JButton("Play");
         play.setBorder(BorderFactory.createEmptyBorder());
@@ -110,7 +111,7 @@ public class MainMenu extends JPanel implements KeyListener
         highScore.setContentAreaFilled(false);
         highScore.setHorizontalTextPosition(JButton.CENTER);
         highScore.setVerticalTextPosition(JButton.CENTER);
-        highScore.setFont(font);
+        highScore.setFont(fontSmall);
         highScore.setForeground(buttonColor);
         highScore.addActionListener(new ActionListener() {
             @Override
@@ -178,11 +179,11 @@ public class MainMenu extends JPanel implements KeyListener
         this.add(play);
         tutorial.setBounds(frame.getWidth()/4, frame.getHeight()/4+(3*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
         this.add(tutorial);
-        highScore.setBounds(frame.getWidth()/4, frame.getHeight()/4+(4*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+        highScore.setBounds(frame.getWidth()/4, frame.getHeight()/4+(5*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
         this.add(highScore);
-        credits.setBounds(frame.getWidth()/4, frame.getHeight()/4+(5*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+        credits.setBounds(frame.getWidth()/4, frame.getHeight()/4+(7*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
         this.add(credits);
-        exit.setBounds((int)(frame.getWidth()/4), frame.getHeight()/4+(6*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+        exit.setBounds((int)(frame.getWidth()/4), frame.getHeight()/4+(9*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
         this.add(exit);   
     }
     
@@ -194,13 +195,48 @@ public class MainMenu extends JPanel implements KeyListener
             //fills a black background with background image
             g.setColor(new Color(0,0,0));
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
-            g.drawImage(ImageManager.getImage(10),0,0, this.getWidth(), this.getHeight(), this);
+            switch (((int)(draws-200)/300)%6)
+            {
+                case 0:
+                    g.drawImage(ImageManager.getImage(16),0,0, this.getWidth(), this.getHeight(), this);
+                break;
+                
+                case 1:
+                    g.drawImage(ImageManager.getImage(21),0,0, this.getWidth(), this.getHeight(), this);
+                break;
+                    
+                case 2:
+                   g.drawImage(ImageManager.getImage(20),0,0, this.getWidth(), this.getHeight(), this);
+                break;
+                
+                case 3:
+                    g.drawImage(ImageManager.getImage(15),0,0, this.getWidth(), this.getHeight(), this);
+                break;
+                
+                case 4:
+                    g.drawImage(ImageManager.getImage(14),0,0, this.getWidth(), this.getHeight(), this);
+                break;
+                
+                case 5:
+                    g.drawImage(ImageManager.getImage(19),0,0, this.getWidth(), this.getHeight(), this);
+                break;   
+            }
+            if(draws>300&&(int)(draws-200)%300>270){
+                blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)+.02f);
+            }else if(draws>300&&(int)(draws-200)%300<29){
+                if((blackStartFilter.getAlpha()/255.0f)-.02f>0)
+                    blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.02f);
+                else
+                    blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
+                }
+                    
+                    
             //fade in main menu elements
             g.setColor(blackStartFilter);
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
             if(draws<100)
             {
-                g.setFont(new Font("Arial", Font.PLAIN, 50));
+                g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
                 g.setColor(new Color(255,144,0));
                 g.drawImage(ImageManager.getImage(2), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
                 g.drawImage(ImageManager.getImage(3), this.getWidth()/4, this.getHeight()/2, this.getWidth()/2, this.getWidth()/10, null);
@@ -208,7 +244,7 @@ public class MainMenu extends JPanel implements KeyListener
             }
             else if(draws<200)//continuing fade in...
             {
-                g.setFont(new Font("Arial", Font.PLAIN, 50));
+                g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
                 g.setColor(new Color(255,144,0));
                 g.drawImage(ImageManager.getImage(1), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
                 g.drawImage(ImageManager.getImage(0), this.getWidth()/3, (int)(this.getHeight()/2.5f), this.getWidth()/3, (int)(((this.getWidth()/3.0f)/800.0f)*600.0f), null);
@@ -225,7 +261,7 @@ public class MainMenu extends JPanel implements KeyListener
             if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)//animation for title
             {
                 //set font and color, get images
-                g.setFont(new Font("Arial", Font.PLAIN, 50));
+                g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
                 g.setColor(new Color(100,0,0));
                 g.drawImage(ImageManager.getImage(6) , this.getWidth()/4 + (int)mythicPos, this.getHeight()/20, this.getWidth()/3, this.getWidth()/10, null);
                 g.drawImage(ImageManager.getImage(5), this.getWidth()/4 + this.getWidth()/3 + (int)mazePos, this.getHeight()/20, this.getWidth()/4, this.getWidth()/10, null);
@@ -243,7 +279,13 @@ public class MainMenu extends JPanel implements KeyListener
                     mythicPos-=this.getWidth()/350.0f;
                     mazePos+=this.getWidth()/300.0f;
                 }
+                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4, 280,97+2* frame.getHeight()/16, this);
+                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(3*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
+                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(5*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
+                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4+(7*(frame.getHeight()/16)), 280,97+2* frame.getHeight()/16, this);
+                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(9*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
             }
+            
             Thread.sleep(20);//pause after moving
             draws++;//increase to further develop pattern
             repaint();//refresh screen

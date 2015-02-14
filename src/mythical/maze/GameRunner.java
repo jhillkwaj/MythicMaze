@@ -36,6 +36,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private long startTime;
     private long updateTime = 0;
     private int eventTime = 900;
+    private boolean intro = false;
     
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;//backdrop where images are drawn
@@ -69,6 +70,25 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g)
     {
+        if(intro)
+        {
+            if(level==1){
+                g.setColor(Color.black);
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                if(System.currentTimeMillis()-startTime>4000)
+                {
+                    intro = false;
+                    startTime = System.currentTimeMillis();
+                    updateTime = startTime;
+                }
+            }
+            repaint();
+        }else{
+        if(hud==null)
+        {
+            hud = new HUD(rightBound,bottomBound,level,score,playerName);//new heads up display
+            hud.startTimer();//start level timer, which determines end score.
+        }
         if(back==null)//if canvas has not been created, create canvsas
         {
             back=(BufferedImage)createImage(1920,1070);
@@ -83,6 +103,7 @@ public class GameRunner extends JPanel implements KeyListener {
             update();
         }
         repaint();//redo again in loop
+        }
     }
    
     //Methods below deal with starting the game and levels
@@ -102,6 +123,7 @@ public class GameRunner extends JPanel implements KeyListener {
         level = Integer.parseInt(data[1]);
         score = Integer.parseInt(data[0]);
         eventTime = 900 / ((1+level)/2);
+        hud = null;
         start(name);
     }
     
@@ -164,8 +186,7 @@ public class GameRunner extends JPanel implements KeyListener {
         //values indicate harder levels as users have less space to create paths
         gameGrid = new Grid(rightBound, bottomBound, startY, endY,level);//new grid
         gameGrid.startLevel();
-        hud = new HUD(rightBound,bottomBound,level,score,playerName);//new heads up display
-        hud.startTimer();//start level timer, which determines end score.
+        
     }
     
     /**
@@ -179,7 +200,7 @@ public class GameRunner extends JPanel implements KeyListener {
             startY = level+1;//add difficulty
             endY = level+1;
             score+=500*level;//scores are increased based on level beaten
-            
+            intro = true;
         }
         else if(level == 2)
         {
@@ -225,6 +246,8 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void update()
     {
+        if(!intro)
+        {
        if(gameGrid.hasWon())//user has created a successful path, can move character
        {
            hud.stopTimer();
@@ -239,6 +262,7 @@ public class GameRunner extends JPanel implements KeyListener {
        {
            gameGrid.moveDown();//game has not ended, blocks continue falling
        }
+        }
     }
     
     //Methods below are for ending levels and the game.
@@ -250,41 +274,19 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         if(gameGrid.hasWonLevel())//level won
         {
-            level++;//increase level
-            newLevel();//next level
-            score+=gameGrid.getAddedScore();//add points for removing rows
-            score-=((int)(hud.getElapsedTime()*10));//deduction for time consumed
-            if(score<0)
-            {
-                score = 0;//if user took too much time, their score goes to 0.
-            }
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);
-            startLevel();//level and score need to change with level,change background, calls for new level.
+            //prompt save, etc.
+            level++;
+            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
+            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName);//restart
         }
         else//level lost
         {
             //prompt save, etc.
             SaveLoad.saveGlobalHighscore(playerName, score);
-            level = 1;
-            if(score>highscore)
-            { 
-                highscore = score+1-1; 
-            }
-            score = 0;
-            eventTime = 900 / ((1+level)/2);
-            startY = 18;
-            endY = 18;
+            score = score / 2;
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             SoundFX.payFX("f");//play sound effect for losing
-            try 
-            {
-                Thread.sleep(300);
-            } 
-            catch (InterruptedException ex) 
-            {
-                ErrorLogger.logIOError("Thread could not sleep after game lost.",ex);
-            }
-            startLevel();//restart
+            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName);//restart
         }
     }
     

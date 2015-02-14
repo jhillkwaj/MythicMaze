@@ -1,9 +1,17 @@
 package mythical.maze;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -42,7 +50,7 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_EiffelTower.png")));//19
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_SydneyoperaHouse.png")));//20
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Tajmahal.png")));//21
-            images.add(null);
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Wood_Crate_Enlarged_Three.png")));//22
             Thread.sleep(100);    
         } 
         catch (IOException | InterruptedException ex) 
@@ -62,6 +70,7 @@ public class ImageManager
         if(images.isEmpty())
         { 
             importAll(); //import images before use.
+            addFont(); //import the font used in the menus of the game
         }
         if(slot<images.size()&&images.get(slot)!=null)
         {
@@ -88,4 +97,14 @@ public class ImageManager
         }
         return null;
     } 
+    
+    public static void addFont()
+    {
+        try{
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            Font font = Font.createFont(Font.TRUETYPE_FONT, ImageManager.class.getResource("Graphics/wlm_carton.ttf").openStream());
+            ge.registerFont(font);
+        }catch(Exception e)
+        { ErrorLogger.logIOError("Could not import Font", e);}
+    }
 }
