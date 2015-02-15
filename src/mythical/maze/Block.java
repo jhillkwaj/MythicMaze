@@ -45,13 +45,13 @@ public class Block
         west = w;
         east = e;
         
-        if(Math.random()<.02f)
+        if(Math.random()<.017f)
         { north = true;}
-        if(Math.random()<.02f)
+        if(Math.random()<.017f)
         { south = true;}
-        if(Math.random()<.02f)
+        if(Math.random()<.017f)
         { east = true;}
-        if(Math.random()<.02f)
+        if(Math.random()<.017f)
         { west = true;}
         if(Math.random()<.15f)
         { north = false; }

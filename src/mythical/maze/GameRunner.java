@@ -246,7 +246,7 @@ public class GameRunner extends JPanel implements KeyListener {
                BackgroundMusic.play("Moar Chinese"); }
         else if(level==3)
         { BackgroundMusic.stop();
-               BackgroundMusic.play("Dancing in the Halls of Pie"); }
+               BackgroundMusic.play("Dancing in the Halls of Pie.mscz"); }
         else if(level==4)
         { BackgroundMusic.stop();
                BackgroundMusic.play("Chinese Theme"); }

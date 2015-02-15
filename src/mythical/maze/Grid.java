@@ -102,7 +102,7 @@ public class Grid
     */
     public Shape randomShape()
     {
-        int randNum = (int)(Math.random()*16);
+        int randNum = (int)(Math.random()*17);
         if(randNum==0)
         {
             return new LShape(5,2,level);
@@ -153,6 +153,13 @@ public class Grid
                 return new MiniIShape(5,2,level,2);
             else
                 return new MiniIShape(5,2,level,3);
+        }
+        else if(randNum<=14)
+        {
+            if(Math.random()<.7f)
+                return new SuperMiniIShape(5,2,level);
+            else
+                return new SuperMiniIShape(5,2,level,2);
         }
         else
         {
