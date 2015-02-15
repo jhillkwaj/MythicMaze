@@ -39,7 +39,11 @@ public class BackgroundMusic
                 } 
                 catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
                 {
-                    ErrorLogger.logIOError("Cannot play sound effect",ex);
+                    ErrorLogger.logIOError("Music could not load: IOException",ex);
+                }
+                catch(Exception ex)
+                {
+                    ErrorLogger.logRuntimeError("Unknown error: sound effects did not load",ex);
                 }
             }
         });
@@ -51,6 +55,13 @@ public class BackgroundMusic
      */
     public static void stop()
     {
-        clip.stop();
+        try
+        {
+            clip.stop();
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not stop music clip",ex);
+        }
     }
 }

@@ -21,9 +21,16 @@ public class Block
      */
     public Block(int x, int y)
     {
-        xPos = x;
-        yPos = y;
-        c = new Color(250,250,0);
+        try
+        {
+            xPos = x;
+            yPos = y;
+            c = new Color(250,250,0);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not initialize default block",ex);
+        }
     }
     
     /**
@@ -38,29 +45,36 @@ public class Block
      */
     public Block(int x, int y, boolean n, boolean  e, boolean s, boolean w)
     {
-        xPos = x;
-        yPos = y;
-        north = n;
-        south = s;
-        west = w;
-        east = e;
-        
-        if(Math.random()<.02f)
-        { north = true;}
-        if(Math.random()<.02f)
-        { south = true;}
-        if(Math.random()<.02f)
-        { east = true;}
-        if(Math.random()<.02f)
-        { west = true;}
-        if(Math.random()<.15f)
-        { north = false; }
-        if(Math.random()<.15f)
-        { south = false; }
-        if(Math.random()<.15f)
-        { east = false; }
-        if(Math.random()<.15f)
-        { west = false; }
+        try
+        {
+            xPos = x;
+            yPos = y;
+            north = n;
+            south = s;
+            west = w;
+            east = e;
+            //code below creates random walls as an extra feature
+            if(Math.random()<.02f)
+            { north = true;}
+            if(Math.random()<.02f)
+            { south = true;}
+            if(Math.random()<.02f)
+            { east = true;}
+            if(Math.random()<.02f)
+            { west = true;}
+            if(Math.random()<.15f)
+            { north = false; }
+            if(Math.random()<.15f)
+            { south = false; }
+            if(Math.random()<.15f)
+            { east = false; }
+            if(Math.random()<.15f)
+            { west = false; }
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not initialize block",ex);
+        }
     }
     
     /**
@@ -69,12 +83,20 @@ public class Block
      */
     public void rotateClockwise()
     {
-       boolean temp = north;//create a temporary variable.
-       //start setting values to those appearing further clockwise.
-       north = west;
-       west = south;
-       south = east;
-       east = temp;//sets final wall to temporary value, finishes swap.
+        try
+        {
+            boolean temp = north;//create a temporary variable.
+            //start setting values to those appearing further clockwise.
+            north = west;
+            west = south;
+            south = east;
+            east = temp;//sets final wall to temporary value, finishes swap.
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not rotate block clockwise",ex);
+        }
+       
     }
     
     /**
@@ -83,12 +105,20 @@ public class Block
      */
     public void rotateCounterClockwise()
     {
-        boolean temp = north;//create a temporary variable.
-        //start setting values to those appearing further counterclockwise.
-        north = east;
-        east = south;
-        south = west;
-        west = temp;//sets final wall to temporary value, finishes swap.
+        try
+        {
+            boolean temp = north;//create a temporary variable.
+            //start setting values to those appearing further counterclockwise.
+            north = east;
+            east = south;
+            south = west;
+            west = temp;//sets final wall to temporary value, finishes swap.
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not rotate block counterclockwise",ex);
+        }
+        
     }
     
     /**
@@ -102,87 +132,95 @@ public class Block
     */
     public void drawBlock(Graphics g,int level, int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
+        try
+        {
+            int levelImage = 10;//default
+            if(level == 2)
+            { 
+                levelImage = 8;
+                c = new Color(250,30,30);
+            }
+            else if(level == 3)
+            { 
+                levelImage = 11;
+                c = new Color(30,250,30);
+            }
+            else if(level == 4)
+            { 
+                levelImage = 12;
+                c = new Color(250,30,255);
+            }
+            else if(level == 5)
+            { 
+                levelImage = 9;
+                c = new Color(30,250,255);
+            }
+            else if(level == 6)
+            { 
+                levelImage = 36;
+                c = new Color(255,250,100);
+            }
+            else if(level == 7)
+            { 
+                levelImage = 12;
+                c = new Color(255,150,60);
+            }
+            else if(level == 8)
+            { 
+                levelImage = 8;
+                c = new Color(250,00,00);
+            }
+            else if(level == 9)
+            { 
+                levelImage = 11;
+                c = new Color(250,255,255);
+            }
+
+
+            g.setColor(c);//set color for the walls.
+            g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX,
+                    (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)),
+                    (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0));
+            //draws a box, larger than the image, in which the image will rest upon.
+            //since the box is larger than the image in some spots, this will indicate
+            //a wall.
+
+            //instantiate values to determine offset due to walls.
+            int xStart = 0;
+            int yStart = 0;
+            int xSize = 0;
+            int ySize = 0;
+
+            //if walls exist, offset.
+            if(west)
+            { 
+                xStart+=5;
+                xSize-=5;
+            }
+            if(east)
+            { 
+                xSize-=5;
+            }
+            if(north)
+            { 
+                yStart+=5;
+                ySize-=5;
+            }
+            if(south)
+            { 
+                ySize-=5;
+            }
+            //finally, draw the image on top with calculated offset values.
+            g.drawImage(ImageManager.getImage(levelImage),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
+                    (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
+                    (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not draw block graphics",ex);
+        }
         //matches the block to the appropriate image.
-        int levelImage = 10;//default
-        if(level == 2)
-        { 
-            levelImage = 8;
-            c = new Color(250,30,30);
-        }
-        else if(level == 3)
-        { 
-            levelImage = 11;
-            c = new Color(30,250,30);
-        }
-        else if(level == 4)
-        { 
-            levelImage = 12;
-            c = new Color(250,30,255);
-        }
-        else if(level == 5)
-        { 
-            levelImage = 9;
-            c = new Color(30,250,255);
-        }
-        else if(level == 6)
-        { 
-            levelImage = 36;
-            c = new Color(255,250,100);
-        }
-        else if(level == 7)
-        { 
-            levelImage = 12;
-            c = new Color(255,150,60);
-        }
-        else if(level == 8)
-        { 
-            levelImage = 8;
-            c = new Color(250,00,00);
-        }
-        else if(level == 9)
-        { 
-            levelImage = 11;
-            c = new Color(250,255,255);
-        }
         
-        
-        g.setColor(c);//set color for the walls.
-        g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX,
-                (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)),
-                (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0));
-        //draws a box, larger than the image, in which the image will rest upon.
-        //since the box is larger than the image in some spots, this will indicate
-        //a wall.
-        
-        //instantiate values to determine offset due to walls.
-        int xStart = 0;
-        int yStart = 0;
-        int xSize = 0;
-        int ySize = 0;
-        
-        //if walls exist, offset.
-        if(west)
-        { 
-            xStart+=5;
-            xSize-=5;
-        }
-        if(east)
-        { 
-            xSize-=5;
-        }
-        if(north)
-        { 
-            yStart+=5;
-            ySize-=5;
-        }
-        if(south)
-        { 
-            ySize-=5;
-        }
-        //finally, draw the image on top with calculated offset values.
-        g.drawImage(ImageManager.getImage(levelImage),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
-                (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
-                (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);
     }
 
     //Instance methods below
