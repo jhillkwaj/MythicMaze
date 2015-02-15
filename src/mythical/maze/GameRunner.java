@@ -402,7 +402,7 @@ public class GameRunner extends JPanel implements KeyListener {
             SaveLoad.saveGlobalHighscore(playerName, score);
             score = score - (score / 6);
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
-            SoundFX.payFX("f");//play sound effect for losing
+            SoundFX.playFX("f");//play sound effect for losing
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
             }
             else{

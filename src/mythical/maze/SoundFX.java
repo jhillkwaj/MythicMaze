@@ -21,7 +21,7 @@ public class SoundFX
      * Plays a specific sound effect.
      * @param name the sound effect to play.
      */
-    public static void payFX(String name)
+    public static void playFX(String name)
     {
         final String clipName = name;
         Thread thread;
