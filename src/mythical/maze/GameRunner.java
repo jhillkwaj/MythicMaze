@@ -16,12 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Character.toUpperCase;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -167,9 +162,8 @@ public class GameRunner extends JPanel implements KeyListener {
         score = Integer.parseInt(data[0]);
         eventTime = 900 / ((1+level)/2);
         hud = null;
-        if(level==1)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Race_Car_Music"); }
+        //play level spacific music
+        playLevelMusic();
         start(name, slot);
     }
     
@@ -210,9 +204,8 @@ public class GameRunner extends JPanel implements KeyListener {
             level = 1;
             newLevel();
         }
-        if(level==1)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Lost"); }
+        //play level spacific music
+        playLevelMusic();
         startLevel();//start level
     }
     
@@ -241,11 +234,47 @@ public class GameRunner extends JPanel implements KeyListener {
     }
     
     /**
+     * Plays the song for the level the player is on
+     */
+    public void playLevelMusic()
+    {
+        if(level==1)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Lost"); }
+        else if(level==2)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Moar Chinese"); }
+        else if(level==3)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Dancing in the Halls of Pie"); }
+        else if(level==4)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Chinese Theme"); }
+        else if(level==5)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("RR_1_RichardW.mscz"); }
+        else if(level==6)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Race_Car_Music"); }
+        else if(level==7)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Moar Chinese"); }
+        else if(level==8)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Chinese Theme"); }
+        if(level==9)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Lost"); }
+        else if(level==10)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Dancing in the Halls of Pie"); }
+    }
+    
+    /**
      * Creates a new level based on player level.
      */
     public void newLevel()
     {
-        score+=500*level;//scores are increased based on level beaten
         if(level % 2 == 1)
         {
             eventTime = (int)(900f / ((1+(level))/3.0f));
@@ -329,6 +358,8 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             //prompt save, etc.
             level++;
+            score+=500*level;//scores are increased based on level beaten
+            score += 30000/((System.currentTimeMillis()-startTime)/10000);
             newLevel();
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
@@ -337,8 +368,7 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             //prompt save, etc.
             SaveLoad.saveGlobalHighscore(playerName, score);
-            score -= 500 * level;
-            score = score / 2;
+            score = score - (score / 6);
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             SoundFX.payFX("f");//play sound effect for losing
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
