@@ -107,23 +107,44 @@ public class Block
         if(level == 2)
         { 
             levelImage = 8;
-            c = new Color(250,0,0);
+            c = new Color(250,30,30);
         }
         else if(level == 3)
         { 
             levelImage = 11;
-            c = new Color(0,250,0);
+            c = new Color(30,250,30);
         }
         else if(level == 4)
         { 
             levelImage = 12;
-            c = new Color(250,0,255);
+            c = new Color(250,30,255);
         }
         else if(level == 5)
         { 
             levelImage = 9;
-            c = new Color(0,250,255);
+            c = new Color(30,250,255);
         }
+        else if(level == 6)
+        { 
+            levelImage = 36;
+            c = new Color(255,250,100);
+        }
+        else if(level == 7)
+        { 
+            levelImage = 12;
+            c = new Color(255,150,60);
+        }
+        else if(level == 8)
+        { 
+            levelImage = 8;
+            c = new Color(250,00,00);
+        }
+        else if(level == 9)
+        { 
+            levelImage = 11;
+            c = new Color(250,255,255);
+        }
+        
         
         g.setColor(c);//set color for the walls.
         g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX,

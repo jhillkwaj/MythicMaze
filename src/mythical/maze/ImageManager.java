@@ -62,6 +62,7 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob2.png")));//33
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob3.png")));//34
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob4.png")));//35
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Ice_Enlarged.png"))); //36
             Thread.sleep(100);    
         } 
         catch (IOException | InterruptedException ex) 

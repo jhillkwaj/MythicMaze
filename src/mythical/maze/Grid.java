@@ -677,19 +677,19 @@ public class Grid
         }
         else if(level == 7)
         {
-             g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
+             g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
         }
         else if(level == 8)
         {
-             g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
+             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
         }
         else if(level==9)
         {
-             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
+             g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
         }
         else
         {
-            g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
+            g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
         }
        
         //calculations to make sure the grid is resizable with the screen size,

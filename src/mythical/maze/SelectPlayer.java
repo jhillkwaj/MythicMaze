@@ -175,7 +175,7 @@ public class SelectPlayer extends JPanel
             String[] data = SaveLoad.getProfileData(playerName, slot).split("%%");
             if(data!=null&&data.length>3)
             {
-                g.start(SaveLoad.getProfileData(playerName, slot).split("%%"), playerName);//send information over
+                g.start(SaveLoad.getProfileData(playerName, slot).split("%%"), playerName, slot);//send information over
             }
             else
             {
@@ -189,7 +189,7 @@ public class SelectPlayer extends JPanel
             {
                 name = JOptionPane.showInputDialog(frame, "No. That's not it. What was his name?");
             }
-            SaveLoad.saveNewProfile(name);//saves in new profile
+            slot = SaveLoad.saveNewProfile(name);//saves in new profile
             g.start(name, slot);//start game
         }
     }

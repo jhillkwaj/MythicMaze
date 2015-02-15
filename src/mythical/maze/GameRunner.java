@@ -157,7 +157,7 @@ public class GameRunner extends JPanel implements KeyListener {
      * @param data an array containing saved statistics
      * @param name the name of the player
      */
-    public void start(String[] data, String name)
+    public void start(String[] data, String name, int slot)
     {
         
         startY = Integer.parseInt(data[3]);
@@ -170,7 +170,7 @@ public class GameRunner extends JPanel implements KeyListener {
         if(level==1)
         { BackgroundMusic.stop();
                BackgroundMusic.play("Race_Car_Music"); }
-        start(name, Integer.parseInt(data[1]));
+        start(name, slot);
     }
     
     /**
@@ -245,13 +245,14 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void newLevel()
     {
+        score+=500*level;//scores are increased based on level beaten
         if(level % 2 == 1)
         {
             eventTime = (int)(900f / ((1+(level))/3.0f));
             startY = level+1;//add difficulty
             endY = level+1;
-            score+=500*level;//scores are increased based on level beaten
-            intro = true;
+            if(level==1)
+                intro = true;
         }
         else if(level == 2)
         {
@@ -268,8 +269,8 @@ public class GameRunner extends JPanel implements KeyListener {
         else if(level == 6)
         {
             eventTime = (int)(900f / ((1+3.5)/3.0f));
-            startY = 1;
-            endY = 5;
+            startY = 2;
+            endY = 6;
         }
         else if(level == 8)
         {
@@ -330,16 +331,17 @@ public class GameRunner extends JPanel implements KeyListener {
             level++;
             newLevel();
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
-            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName);//restart
+            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
         }
         else//level lost
         {
             //prompt save, etc.
             SaveLoad.saveGlobalHighscore(playerName, score);
+            score -= 500 * level;
             score = score / 2;
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             SoundFX.payFX("f");//play sound effect for losing
-            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName);//restart
+            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
         }
         
     }
