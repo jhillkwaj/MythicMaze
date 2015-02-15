@@ -41,6 +41,9 @@ public class MainMenu extends JPanel implements KeyListener
      */
     public void start()
     {
+        EventLogger.setupEvent();//set up logs
+        ErrorLogger.setupError();
+        CrashLogger.setupCrash();
         thisPanel = this;
         this.removeAll();//remove anything from frame, clean slate.
         frame = new JFrame();

@@ -116,7 +116,7 @@ public class SaveLoad
                     inData.close();
                 }
             }
-            ErrorLogger.logMessage("There dosn't seem to be any saved data for this profile");//no lines in file
+            EventLogger.logEvent("There dosn't seem to be any saved data for this profile");//no lines in file
             return profileData;
         }
         catch (Exception e) 
