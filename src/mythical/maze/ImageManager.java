@@ -63,6 +63,10 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob3.png")));//34
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob4.png")));//35
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Ice_Enlarged.png"))); //36
+            for(int i = 1; i <= 15; i++) //37-51
+            {
+                images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Tutorial/T" + i + ".png")));
+            }
             Thread.sleep(100);    
         } 
         catch (IOException | InterruptedException ex) 

@@ -52,6 +52,9 @@ public class GameRunner extends JPanel implements KeyListener {
     private String playerName;
     private int slot;
     private int highscore;
+    
+    private boolean tutorial = false;
+    private int imageNum = 0;
    
     //Due to the length of the class, methods in this class are organized
     //into the following categories from top to bottom: graphics, starting the game,
@@ -77,7 +80,19 @@ public class GameRunner extends JPanel implements KeyListener {
         if(intro)
         {
             double time = System.currentTimeMillis()-startTime;
-            if(level==1){
+            if(level==-1){
+                if(imageNum < 15)
+                {
+                    g.setColor(new Color(1f,1f,1f));
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    g.drawImage(ImageManager.getImage(imageNum+37), (this.getWidth()/2)-400, (this.getHeight()/2)-300, this);
+                }else{
+                    intro = false;
+                    startTime = System.currentTimeMillis();
+                    updateTime = startTime;
+                }
+            }
+            else if(level==1){
                 if(time<3000)
                  g.drawImage(ImageManager.getImage(23), 0, 0, this.getWidth(), this.getHeight(), this);
                 if(time > 1000 && time < 3000)
@@ -176,6 +191,8 @@ public class GameRunner extends JPanel implements KeyListener {
     public void start(String name, int slot)
     {
         this.slot = slot;
+        if(slot==-1)
+        { level = -1; tutorial = true; intro = true; }
         MainMenu.closeMenu();
         this.frame = new JFrame();
         this.removeAll();//clears frame from menu or previous level
@@ -200,10 +217,9 @@ public class GameRunner extends JPanel implements KeyListener {
         //sets player name, starts level
         playerName = name;
         if(level==0||level==1)//if new player
-        {
-            level = 1;
-            newLevel();
-        }
+        {level = 1;}
+        if(level==-1)
+        { newLevel();}
         //play level spacific music
         playLevelMusic();
         startLevel();//start level
@@ -275,7 +291,14 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void newLevel()
     {
-        if(level % 2 == 1)
+        if(level == -1)
+        {
+            eventTime = (int)(900f / ((1)/3.0f));
+            startY = 2;
+            endY = 1;
+            intro = true;
+        }
+        else if(level % 2 == 1)
         {
             eventTime = (int)(900f / ((1+(level))/3.0f));
             startY = level+1;//add difficulty
@@ -353,9 +376,11 @@ public class GameRunner extends JPanel implements KeyListener {
     */
     public void endLevel()
     {
-        frame.dispose();
+        if(level!=-1)
+            frame.dispose();
         if(gameGrid.hasWonLevel())//level won
         {
+            if(level!=-1){
             //prompt save, etc.
             level++;
             score+=500*level;//scores are increased based on level beaten
@@ -363,15 +388,27 @@ public class GameRunner extends JPanel implements KeyListener {
             newLevel();
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+            }else{
+                MainMenu m = new MainMenu();
+                m.start();
+                frame.dispose();
+            }
         }
         else//level lost
         {
+            if(level!=-1)
+            {
             //prompt save, etc.
             SaveLoad.saveGlobalHighscore(playerName, score);
             score = score - (score / 6);
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             SoundFX.payFX("f");//play sound effect for losing
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+            }
+            else{
+                gameGrid.clearDeadBlocks();
+                gameGrid.checkDead();
+            }
         }
         
     }
@@ -384,7 +421,8 @@ public class GameRunner extends JPanel implements KeyListener {
     * @param ke typed parameter
     */
     @Override
-    public void keyTyped(KeyEvent ke){}
+    public void keyTyped(KeyEvent ke)
+    {}
     
    /**
     * Updates the screen in the event that a key is pressed to move a block down.
@@ -408,7 +446,11 @@ public class GameRunner extends JPanel implements KeyListener {
     */
     @Override
     public void keyReleased(KeyEvent ke)
-    { intro = false;
+    { 
+    if(tutorial)
+            imageNum++;
+    else
+        intro = false;
         if(!gameGrid.hasWon())//block phase
         {
             if (ke.getKeyCode() == KeyEvent.VK_UP)

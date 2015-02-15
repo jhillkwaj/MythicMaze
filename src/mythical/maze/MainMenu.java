@@ -105,7 +105,8 @@ public class MainMenu extends JPanel implements KeyListener
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
+                GameRunner g = new GameRunner();
+                g.start("None", -1);//start game
             }
         });
         //add high scores button        

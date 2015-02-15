@@ -112,6 +112,7 @@ public class HUD {
             }
             g.drawString(displayTime,(int)(17*(gridSizeX/((float)rightBound)))+200,
                 8*gridSizeY/20);//draw time value.
+            if(level!=-1){
             g.drawString("LEVEL:",(int)(((14)*(gridSizeX/((float)rightBound))))+200,
                 10*gridSizeY/20);//draw level label.
             g.drawString(""+level,(int)(((18)*(gridSizeX/((float)rightBound))))+200,
@@ -124,6 +125,7 @@ public class HUD {
                 14*gridSizeY/20);//draw profile label.
             g.drawString(profile,(int)(14*(gridSizeX/((float)rightBound)))+200,
                 15*gridSizeY/20);//draw profile name.
+            }
             //tells user if block phase has transitioned into character phase.
             if(characterPhase)
             {

@@ -102,6 +102,22 @@ public class Grid
     */
     public Shape randomShape()
     {
+        if(level==-1 && Math.random()>.1f)
+        {
+            if(Math.random()<.6){
+                if(Math.random()<.5)
+                    return new MiniOShape(5,2,level);
+                else
+                    return new SuperMiniIShape(5,2,level);
+            }
+            else{
+                if(Math.random()<.5)
+                    return new MiniOShape(5,2,level,2);
+                else
+                    return new SuperMiniIShape(5,2,level,2);
+            }
+        }
+        else{
         int randNum = (int)(Math.random()*17);
         if(randNum==0)
         {
@@ -167,6 +183,7 @@ public class Grid
                 return new MiniOShape(5,2,level);
             else
                 return new MiniOShape(5,2,level,2);
+        }
         }
     }
    
@@ -332,6 +349,7 @@ public class Grid
     */
     public void checkDead()
     {
+        isDead = false;
         for(Block b:deadBlocks)
         {
             if(b.getY()<=upperBound)//over the top of the screen
@@ -694,6 +712,10 @@ public class Grid
         {
              g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
         }
+        else if(level==-1)
+        {
+             g.drawImage(ImageManager.getImage(23), 0, 0, gridSizeX, gridSizeY, null);
+        }
         else
         {
             g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
@@ -806,5 +828,10 @@ public class Grid
     public int getAddedScore()
     {
         return scoreToAdd;
+    }
+    
+    public void clearDeadBlocks()
+    {
+        deadBlocks.clear();
     }
 }
