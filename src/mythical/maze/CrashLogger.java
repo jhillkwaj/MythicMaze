@@ -31,8 +31,11 @@ public class CrashLogger
         } 
         catch (IOException | SecurityException e)
         {
-            ErrorLogger.logIOError("Can't start Crash log \""+
-                    e.toString() + "\"",e);
+            ErrorLogger.logIOError("Could not start crash log",e);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error with initializing crash log", ex);
         }
     }
     
@@ -43,12 +46,20 @@ public class CrashLogger
      */
     public static void logCrash(String message, Exception e)
     {
-        if(fhCrash == null)//sets up file if non-existant
+        try
         {
-            setupCrash();
+            if(fhCrash == null)//sets up file if non-existant
+            {
+                setupCrash();
+            }
+            logCrash.log(Level.SEVERE, "Game crashed: "+message, e);//logs the error
+            EventLogger.logEvent("Game Crashed");
+            fhCrash.close();
         }
-        logCrash.log(Level.SEVERE, "Game crashed: "+message, e);//logs the error
-        EventLogger.logEvent("Game Crashed");
-        fhCrash.close();
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not log crash",ex);
+        }
+        
     }
 }

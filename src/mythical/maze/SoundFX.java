@@ -1,8 +1,6 @@
 package mythical.maze;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -37,10 +35,15 @@ public class SoundFX
                     clip = AudioSystem.getClip();//gets clip
                     clip.open(audioIn);//opens clip
                     clip.start();//plays sound
+                    EventLogger.logEvent("Sound effect successful load");
                 } 
                 catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
                 {
                     ErrorLogger.logIOError("Cannot play sound effect",ex);
+                }
+                catch(Exception ex)
+                {
+                    ErrorLogger.logRuntimeError("Unknown error, cannot play sound effect", ex);
                 }
             }
         });

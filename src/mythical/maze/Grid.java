@@ -13,14 +13,12 @@ public class Grid
 {
     private ArrayList<Block> deadBlocks = new ArrayList<>();//list of non-moving blocks
     private Shape fallingShape,nextShape;//shape that can be moved, next shape in queue
-    private final Character character;//character that user moves
-    
-
-    private final int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;//constants for grid
+    private Character character;//character that user moves
+    private int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;//constants for grid
     private boolean hasWon,hasWonLevel,isDead;//variables for whether game has been won, lost, etc.
     private int scoreToAdd;//scores gained from winning level
     
-    //Note: due to the length of the class, methods have been organized into the 
+    //NOTE:: due to the length of the class, methods have been organized into the 
     //following categories: creating new shapes, moving shapes, checking if game has
     //been won, character movement, graphics, and instance methods.
     
@@ -36,18 +34,26 @@ public class Grid
     */
     public Grid(int right, int bottom, int start, int end, int l)
     {
-        rightBound = right;
-        bottomBound = bottom;
-        level = l;
-        upperBound = 2;//leaves 2 spaces for shape to be created above screen
-        leftBound = 0;//left most position
-        startY = start;
-        endY = end;
-        hasWon = false;//obviously, when game starts, the user has not won
-        hasWonLevel = false;//same
-        isDead = false;//same
-        scoreToAdd=0;
-        character  = new Character(-1,start);//character is in space of starting position
+        try
+        {
+            rightBound = right;
+            bottomBound = bottom;
+            level = l;
+            startY = start;
+            endY = end;
+            upperBound = 2;//leaves 2 spaces for shape to be created above screen
+            leftBound = 0;//left most position
+
+            hasWon = false;//obviously, when game starts, the user has not won
+            hasWonLevel = false;//same
+            isDead = false;//same
+            scoreToAdd=0;
+            character  = new Character(-1,start);//character is in space of starting position
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not initialize grid", ex);
+        }  
     }
     
    /**
@@ -55,9 +61,16 @@ public class Grid
     */
     public void startLevel()
     {
-        nextShape();//generate random shape
-        addShape();//add random shape to grid
-        nextShape();//prep next shape to side to display
+        try
+        {
+            nextShape();//generate random shape
+            addShape();//add random shape to grid
+            nextShape();//prep next shape to side to display
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not start grid level", ex);
+        } 
     }
 
     //Methods below create random new shapes to be added onto the grid.
@@ -67,16 +80,23 @@ public class Grid
     */
     public void nextShape()
     {
-        nextShape = randomShape();
-        //add a new shape for displaying on the HUD
-        for(int i=0;i<4;i++)//move to the right 6 spaces, down 4.
+        try
         {
+            nextShape = randomShape();
+            //add a new shape for displaying on the HUD
+            for(int i=0;i<4;i++)//move to the right 6 spaces, down 4.
+            {
+                nextShape.moveRight();
+                nextShape.moveRight();
+                nextShape.moveDown();
+            }
             nextShape.moveRight();
             nextShape.moveRight();
-            nextShape.moveDown();
         }
-        nextShape.moveRight();
-        nextShape.moveRight();
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not create and move shape into next slot", ex);
+        }
     }
     
    /**
@@ -84,16 +104,23 @@ public class Grid
     */
     public void addShape()
     {
-        fallingShape = nextShape;
-        //move back onto grid
-        for(int i=0;i<4;i++)//up 4 spaces, left 6.
+        try
         {
+            fallingShape = nextShape;
+            //move back onto grid
+            for(int i=0;i<4;i++)//up 4 spaces, left 6.
+            {
+                fallingShape.moveLeft();
+                fallingShape.moveLeft();
+                fallingShape.moveUp();
+            }
             fallingShape.moveLeft();
             fallingShape.moveLeft();
-            fallingShape.moveUp();
         }
-        fallingShape.moveLeft();
-        fallingShape.moveLeft();
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not next shape onto grid", ex);
+        } 
     }
     
     /**
@@ -121,33 +148,71 @@ public class Grid
         int randNum = (int)(Math.random()*17);
         if(randNum==0)
         {
-            return new LShape(5,2,level);
-        }
-        else if(randNum==1)
-        {
-            return new JShape(5,2,level);
-        }
-        else if(randNum==2)
-        {
-            return new SShape(5,2,level);
-        }
-        else if(randNum==3)
-        {
-            return new ZShape(5,2,level);
-        }
-        else if(randNum==4)
-        {
-            return new IShape(5,2,level);
-        }
-        else if(randNum<=6)
-        {
-            if(Math.random()<.7f)
-                return new OShape(5,2,level);
+            int randNum = (int)(Math.random()*16);
+            if(randNum==0)
+            {
+                return new LShape(5,2,level);
+            }
+            else if(randNum==1)
+            {
+                return new JShape(5,2,level);
+            }
+            else if(randNum==2)
+            {
+                return new SShape(5,2,level);
+            }
+            else if(randNum==3)
+            {
+                return new ZShape(5,2,level);
+            }
+            else if(randNum==4)
+            {
+                return new IShape(5,2,level);
+            }
+            else if(randNum<=6)
+            {
+                if(Math.random()<.7f)
+                    return new OShape(5,2,level);
+                else
+                    return new OShape(5,2,level,2);
+            }
+            else if(randNum==7)
+            {
+                if(Math.random()<.5f)
+                    return new TShape(5,2,level);
+                else
+                    return new TShape(5,2,level,2);
+            }
+            else if(randNum<=9)
+            {
+                return new MiniLShape(5,2,level);
+            }
+            else if(randNum<=11)
+            {
+                 return new MiniJShape(5,2,level);
+            }
+            else if(randNum<=13)
+            {
+                if(Math.random()<.5f)
+                    return new MiniIShape(5,2,level);
+                else if(Math.random()<.5f)
+                    return new MiniIShape(5,2,level,2);
+                else
+                    return new MiniIShape(5,2,level,3);
+            }
             else
-                return new OShape(5,2,level,2);
+            {
+                if(Math.random()<.5)
+                    return new MiniOShape(5,2,level);
+                else
+                    return new MiniOShape(5,2,level,2);
+            }
         }
-        else if(randNum==7)
+        catch(Exception ex)
         {
+            ErrorLogger.logRuntimeError("Could not create random shape", ex);
+            return null;//no shape returned
+        }   
             if(Math.random()<.5f)
                 return new TShape(5,2,level);
             else
@@ -194,26 +259,33 @@ public class Grid
     */
     public void rotateRight()
     {
-        //method in Shape class returns rotation locations
-        boolean canMove = true;
-        for(Block b:fallingShape.getClockwiseOccupied())
+        try
         {
-            for(Block d:deadBlocks)
+            //method in Shape class returns rotation locations
+            boolean canMove = true;
+            for(Block b:fallingShape.getClockwiseOccupied())
             {
-                if(b.getX()==d.getX()&&b.getY()==d.getY())
+                for(Block d:deadBlocks)
+                {
+                    if(b.getX()==d.getX()&&b.getY()==d.getY())
+                    {
+                        canMove = false;
+                    }
+                }
+                if(b.getX()<leftBound||b.getX()>=rightBound||b.getY()>bottomBound)
                 {
                     canMove = false;
                 }
             }
-            if(b.getX()<leftBound||b.getX()>=rightBound||b.getY()>bottomBound)
+            if(canMove)
             {
-                canMove = false;
-            }
+                fallingShape.rotateClockwise();
+            }  
         }
-        if(canMove)
+        catch(Exception ex)
         {
-            fallingShape.rotateClockwise();
-        }  
+            ErrorLogger.logRuntimeError("Could not make calculations to rotate shape to the right", ex);
+        }
     }
     
    /**
@@ -221,26 +293,33 @@ public class Grid
     */
     public void rotateLeft()
     {
-        //method in Shape class returns rotation locations
-        boolean canMove = true;
-        for(Block b:fallingShape.getCounterClockwiseOccupied())
+        try
         {
-            for(Block d:deadBlocks)
+            //method in Shape class returns rotation locations
+            boolean canMove = true;
+            for(Block b:fallingShape.getCounterClockwiseOccupied())
             {
-                if(b.getX()==d.getX()&&b.getY()==d.getY())
+                for(Block d:deadBlocks)
+                {
+                    if(b.getX()==d.getX()&&b.getY()==d.getY())
+                    {
+                        canMove = false;
+                    }
+                }
+                if(b.getX()<leftBound||b.getX()>=rightBound||b.getY()>bottomBound)
                 {
                     canMove = false;
                 }
             }
-            if(b.getX()<leftBound||b.getX()>=rightBound||b.getY()>bottomBound)
+            if(canMove)
             {
-                canMove = false;
-            }
+                fallingShape.rotateCounterClockwise();
+            } 
         }
-        if(canMove)
+        catch(Exception ex)
         {
-            fallingShape.rotateCounterClockwise();
-        } 
+            ErrorLogger.logRuntimeError("Could not make calculations for shape to rotate the left", ex);
+        }     
     }
     
    /**
@@ -248,25 +327,32 @@ public class Grid
     */
     public void moveRight()
     {
-        boolean canMove = true;
-        for(Block b:fallingShape.getBlockList())
+        try
         {
-            if(b.getX()+2>rightBound)
+            boolean canMove = true;
+            for(Block b:fallingShape.getBlockList())
             {
-                canMove = false;
-            }
-            for(Block d :deadBlocks)
-            {
-                if(b.getX()+1==d.getX()&&b.getY()==d.getY())
+                if(b.getX()+2>rightBound)
                 {
                     canMove = false;
                 }
+                for(Block d :deadBlocks)
+                {
+                    if(b.getX()+1==d.getX()&&b.getY()==d.getY())
+                    {
+                        canMove = false;
+                    }
+                }
+            }
+            if(canMove)
+            {
+                fallingShape.moveRight();
             }
         }
-        if(canMove)
+        catch(Exception ex)
         {
-            fallingShape.moveRight();
-        }
+            ErrorLogger.logRuntimeError("Could not make calculations to move shape to the right", ex);
+        }     
     }
     
    /**
@@ -274,24 +360,31 @@ public class Grid
     */
     public void moveLeft()
     {
-        boolean canMove = true;
-        for(Block b:fallingShape.getBlockList())
+        try
         {
-            if(b.getX()-1<leftBound)
+            boolean canMove = true;
+            for(Block b:fallingShape.getBlockList())
             {
-                canMove = false;
-            }
-            for(Block d :deadBlocks)
-            {
-                if(b.getX()-1==d.getX()&&b.getY()==d.getY())
+                if(b.getX()-1<leftBound)
                 {
                     canMove = false;
                 }
+                for(Block d :deadBlocks)
+                {
+                    if(b.getX()-1==d.getX()&&b.getY()==d.getY())
+                    {
+                        canMove = false;
+                    }
+                }
+            }
+            if(canMove)
+            {
+                fallingShape.moveLeft();
             }
         }
-        if(canMove)
+        catch(Exception ex)
         {
-            fallingShape.moveLeft();
+            ErrorLogger.logRuntimeError("Could not make calculations for shape to move to the left", ex);
         }
     }
     
@@ -302,46 +395,54 @@ public class Grid
     */
     public boolean moveDown()
     {
-        //check for collision with walls
-        boolean canMove = true;
-        for(Block b:fallingShape.getBlockList())
+        try
         {
-            if(b.getY()+1>bottomBound)
+            //check for collision with walls
+            boolean canMove = true;
+            for(Block b:fallingShape.getBlockList())
             {
-                canMove = false;
-            }
-            for(Block d :deadBlocks)
-            {
-                if(b.getX()==d.getX()&&b.getY()+1==d.getY())
+                if(b.getY()+1>bottomBound)
                 {
                     canMove = false;
                 }
+                for(Block d :deadBlocks)
+                {
+                    if(b.getX()==d.getX()&&b.getY()+1==d.getY())
+                    {
+                        canMove = false;
+                    }
+                }
+
             }
-            
+            if(canMove)
+            {
+                fallingShape.moveDown();
+            }
+            else//if the block cannot move down
+            {
+                for(Block b : fallingShape.getBlockList())
+                {
+                    deadBlocks.add(b);//add the shape to the list of nonmoving shapes
+                }
+                checkDead();//see if the game has ended
+                if(findPath(0, startY, rightBound-1, endY)) //see if a correct path has been created
+                {
+                    hasWon = true;
+                }
+                else //has not won nor lost, but new shape must be created
+                {
+                    checkRow();
+                    addShape();
+                    nextShape();
+                }             
+            } 
+            return canMove;//purpose of returning is for a method that moves blocks down to bottom.
         }
-        if(canMove)
+        catch(Exception ex)
         {
-            fallingShape.moveDown();
-        }
-        else//if the block cannot move down
-        {
-            for(Block b : fallingShape.getBlockList())
-            {
-                deadBlocks.add(b);//add the shape to the list of nonmoving shapes
-            }
-            checkDead();//see if the game has ended
-            if(findPath(0, startY, rightBound-1, endY)) //see if a correct path has been created
-            {
-                hasWon = true;
-            }
-            else //has not won nor lost, but new shape must be created
-            {
-                checkRow();
-                addShape();
-                nextShape();
-            }             
-        } 
-        return canMove;//purpose of returning is for a method that moves blocks down to bottom.
+            ErrorLogger.logRuntimeError("Could not move block down due to unknown error",ex);
+            return false; 
+        }      
     }
 
    /**
@@ -349,39 +450,50 @@ public class Grid
     */
     public void checkDead()
     {
+        try
         isDead = false;
         for(Block b:deadBlocks)
         {
-            if(b.getY()<=upperBound)//over the top of the screen
+            for(Block b:deadBlocks)
             {
-                isDead = true;
+                if(b.getY()<=upperBound)//over the top of the screen
+                {
+                    isDead = true;
+                }
             }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not check if blocks were dead",ex);
+        }   
     }
-   
-    
-    
-    
-    
+  
     /**
     * Checks to see if a row is complete and removes the row if it is complete
     */
     public void checkRow()
     {
-        for(int y=upperBound;y<=bottomBound;y++)
+        try
         {
-            int count = 0;
-            for(Block b:deadBlocks)
+            for(int y=upperBound;y<=bottomBound;y++)
             {
-                if(b.getY()==y)
+                int count = 0;
+                for(Block b:deadBlocks)
                 {
-                    count++;
+                    if(b.getY()==y)
+                    {
+                        count++;
+                    }
+                }
+                if(count == rightBound - leftBound)
+                {
+                    removeRow(y);
                 }
             }
-            if(count == rightBound - leftBound)
-            {
-                removeRow(y);
-            }
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not check and remove full rows",ex);
         }
     }
     
@@ -391,30 +503,37 @@ public class Grid
     */
     public void removeRow(int y)
     {
-        Block toRemove = null;
-        for(Block b:deadBlocks)
+        try
         {
-            if(b.getY() == y)
-            {
-                toRemove = b;
-            }
-        }
-        if(toRemove != null)
-        {
-            deadBlocks.remove(toRemove);
-            removeRow(y);
-        }
-        else
-        {
+            Block toRemove = null;
             for(Block b:deadBlocks)
             {
-                if(b.getY()<y)
+                if(b.getY() == y)
                 {
-                    b.setY(b.getY()+1);
+                    toRemove = b;
                 }
             }
-            scoreToAdd+=100;//earn points for removing rows
+            if(toRemove != null)
+            {
+                deadBlocks.remove(toRemove);
+                removeRow(y);
+            }
+            else
+            {
+                for(Block b:deadBlocks)
+                {
+                    if(b.getY()<y)
+                    {
+                        b.setY(b.getY()+1);
+                    }
+                }
+                scoreToAdd+=100;//earn points for removing rows
+            }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not remove a full row",ex);
+        }  
     }
     
     
@@ -437,61 +556,69 @@ public class Grid
      */
     public boolean findPath(int xStart, int yStart, int xEnd, int yEnd)
     {
-        Block startBlock = null;
-        Block endBlock = null;
-        //check to see if there are start and end blocks
-        for(Block block : deadBlocks)
+        try
         {
-            if(block.getX()==xStart&&block.getY()==yStart && !block.getWest())
+            Block startBlock = null;
+            Block endBlock = null;
+            //check to see if there are start and end blocks
+            for(Block block : deadBlocks)
             {
-                startBlock = block;
-            }
-            if(block.getX()==xEnd&&block.getY()==yEnd && !block.getEast())
-            {
-                endBlock = block;
-            }
-        }
-        if(startBlock==null||endBlock==null)//there doesn't seem to even be first correct step.
-        { 
-            return false; 
-        }
-        
-        //set up a map linking blocks to the blocks they are connected to
-        
-        HashMap<Block,ArrayList<Block>> blocks = new HashMap<>();
-        
-        for(Block block : deadBlocks)
-        {
-            ArrayList<Block> linkedBlocks = new ArrayList<>();
-            for(Block otherBlock : deadBlocks)//traverse the blocks to form linked paths
-            {
-                if(otherBlock.getX()==block.getX())
+                if(block.getX()==xStart&&block.getY()==yStart && !block.getWest())
                 {
-                    if(otherBlock.getY()==block.getY()-1&&!block.getNorth()&&!otherBlock.getSouth())//see if blocks are adjacent
-                    {
-                        linkedBlocks.add(otherBlock);//if linked, add block to linked block list
-                    }
-                    else if(otherBlock.getY()==block.getY()+1&&!block.getSouth()&&!otherBlock.getNorth())
-                    {
-                        linkedBlocks.add(otherBlock);
-                    }
+                    startBlock = block;
                 }
-                else if(otherBlock.getY()==block.getY())//same checking algorithm for y coordinates
+                if(block.getX()==xEnd&&block.getY()==yEnd && !block.getEast())
                 {
-                    if(otherBlock.getX()==block.getX()-1&&!block.getWest()&&!otherBlock.getEast())
-                    {
-                        linkedBlocks.add(otherBlock);
-                    }
-                    else if(otherBlock.getX()==block.getX()+1&&!block.getEast()&&!otherBlock.getWest())
-                    {
-                        linkedBlocks.add(otherBlock);
-                    }
+                    endBlock = block;
                 }
             }
-            blocks.put(block, linkedBlocks);
+            if(startBlock==null||endBlock==null)//there doesn't seem to even be first correct step.
+            { 
+                return false; 
+            }
+
+            //set up a map linking blocks to the blocks they are connected to
+
+            HashMap<Block,ArrayList<Block>> blocks = new HashMap<>();
+
+            for(Block block : deadBlocks)
+            {
+                ArrayList<Block> linkedBlocks = new ArrayList<>();
+                for(Block otherBlock : deadBlocks)//traverse the blocks to form linked paths
+                {
+                    if(otherBlock.getX()==block.getX())
+                    {
+                        if(otherBlock.getY()==block.getY()-1&&!block.getNorth()&&!otherBlock.getSouth())//see if blocks are adjacent
+                        {
+                            linkedBlocks.add(otherBlock);//if linked, add block to linked block list
+                        }
+                        else if(otherBlock.getY()==block.getY()+1&&!block.getSouth()&&!otherBlock.getNorth())
+                        {
+                            linkedBlocks.add(otherBlock);
+                        }
+                    }
+                    else if(otherBlock.getY()==block.getY())//same checking algorithm for y coordinates
+                    {
+                        if(otherBlock.getX()==block.getX()-1&&!block.getWest()&&!otherBlock.getEast())
+                        {
+                            linkedBlocks.add(otherBlock);
+                        }
+                        else if(otherBlock.getX()==block.getX()+1&&!block.getEast()&&!otherBlock.getWest())
+                        {
+                            linkedBlocks.add(otherBlock);
+                        }
+                    }
+                }
+                blocks.put(block, linkedBlocks);
+            }
+            //check for a solution
+            return findPath(startBlock, endBlock, blocks);
         }
-        //check for a solution
-        return findPath(startBlock, endBlock, blocks);
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Error with finding solution path",ex);
+            return false;
+        }  
     }
     
     /**
@@ -500,25 +627,32 @@ public class Grid
      */
     private boolean findPath(Block block, Block endBlock, HashMap<Block,ArrayList<Block>> blocks)
     {
-        
-        if(block==endBlock)//base case, end reached
-        { 
-            return true; 
-        }
-        ArrayList<Block> links = blocks.get(block);
-        blocks.remove(block);
-        if(links.isEmpty())//nothing is linked
+        try
         {
-            return false; 
-        }
-        for(Block b : links)
-        {
-            if(blocks.containsKey(b) && findPath(b, endBlock, blocks))//recursive loop
-            {
+            if(block==endBlock)//base case, end reached
+            { 
                 return true; 
             }
+            ArrayList<Block> links = blocks.get(block);
+            blocks.remove(block);//move to next step
+            if(links.isEmpty())//nothing is linked
+            {
+                return false; 
+            }
+            for(Block b : links)
+            {
+                if(blocks.containsKey(b) && findPath(b, endBlock, blocks))//recursive loop until end reached or no end
+                {
+                    return true; 
+                }
+            }
+            return false;//at end, if no solution found, then return no solution.
         }
-        return false;//at end, if no solution found, then return no solution.
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not recursively find path",ex);
+            return false;
+        }
     }
     
     //Methods below are for character movement.
@@ -530,27 +664,34 @@ public class Grid
     */
     public void moveCharacterDown(int x, int y)
     {
-        boolean hasNotMoved = true;
-        for(Block b:deadBlocks)
+        try
         {
-            if(b.getX()==x&&b.getY()==y)//find the current block the character is in.
+            boolean hasNotMoved = true;
+            for(Block b:deadBlocks)
             {
-                if(!b.getSouth())//check if current block has a wall to the south.
+                if(b.getX()==x&&b.getY()==y)//find the current block the character is in.
                 {
-                    for(Block d:deadBlocks)
+                    if(!b.getSouth())//check if current block has a wall to the south.
                     {
-                        if(d.getX()==x&&d.getY()==y+1)//find the block the character is moving into.
+                        for(Block d:deadBlocks)
                         {
-                            if(!d.getNorth()&&hasNotMoved)//if that block doesn't have a wall.
+                            if(d.getX()==x&&d.getY()==y+1)//find the block the character is moving into.
                             {
-                                character.setY(character.getY()+1);//move into it.
-                                hasNotMoved = false;//limits movement to one space.
+                                if(!d.getNorth()&&hasNotMoved)//if that block doesn't have a wall.
+                                {
+                                    character.setY(character.getY()+1);//move into it.
+                                    hasNotMoved = false;//limits movement to one space.
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not move character down",ex);
+        }   
     }
     
    /**
@@ -560,27 +701,34 @@ public class Grid
     */
     public void moveCharacterUp(int x, int y)
     {
-        boolean hasNotMoved = true;
-        for(Block b:deadBlocks)
+        try
         {
-            if(b.getX()==x&&b.getY()==y)//find block character is currently in.
+            boolean hasNotMoved = true;
+            for(Block b:deadBlocks)
             {
-                if(!b.getNorth())//if the block doesn't have a wall to the north.
+                if(b.getX()==x&&b.getY()==y)//find block character is currently in.
                 {
-                    for(Block d:deadBlocks)
+                    if(!b.getNorth())//if the block doesn't have a wall to the north.
                     {
-                        if(d.getX()==x&&d.getY()==y-1)//find the block character is moving into.
+                        for(Block d:deadBlocks)
                         {
-                            if(!d.getSouth()&&hasNotMoved)//if that block doesn't have a wall.
+                            if(d.getX()==x&&d.getY()==y-1)//find the block character is moving into.
                             {
-                                character.setY(character.getY()-1);//move into the block.
-                                hasNotMoved = false;//limits movement to one space.
+                                if(!d.getSouth()&&hasNotMoved)//if that block doesn't have a wall.
+                                {
+                                    character.setY(character.getY()-1);//move into the block.
+                                    hasNotMoved = false;//limits movement to one space.
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not character up",ex);
+        }  
     }
     
    /**
@@ -590,26 +738,33 @@ public class Grid
     */
     public void moveCharacterLeft(int x, int y)
     {
-        boolean hasNotMoved = true;
-        for(Block b:deadBlocks)
+        try
         {
-            if(b.getX()==x&&b.getY()==y)//find block character is currently in.
+            boolean hasNotMoved = true;
+            for(Block b:deadBlocks)
             {
-                if(!b.getWest())//if block has a wall to the west.
+                if(b.getX()==x&&b.getY()==y)//find block character is currently in.
                 {
-                    for(Block d:deadBlocks)
+                    if(!b.getWest())//if block has a wall to the west.
                     {
-                        if(d.getX()==x-1&&d.getY()==y)//find block character is moving into.
+                        for(Block d:deadBlocks)
                         {
-                            if(!d.getEast()&&hasNotMoved)//if block doesn't have a wall.
+                            if(d.getX()==x-1&&d.getY()==y)//find block character is moving into.
                             {
-                                character.setX(character.getX()-1);//move into block.
-                                hasNotMoved =false;//limit movement to one space.
+                                if(!d.getEast()&&hasNotMoved)//if block doesn't have a wall.
+                                {
+                                    character.setX(character.getX()-1);//move into block.
+                                    hasNotMoved =false;//limit movement to one space.
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not move character to the left",ex);
         }
     }
     
@@ -620,42 +775,49 @@ public class Grid
     */
     public void moveCharacterRight(int x, int y)
     {
-        boolean hasNotMoved = true;
-        for(Block b:deadBlocks)
+        try
         {
-            if(x==-1)//initial start outside grid, moves into grid
+            boolean hasNotMoved = true;
+            for(Block b:deadBlocks)
             {
-                character.setX(0);
-            }
-            else if(b.getX()==x&&b.getY()==y)//find block character is in.
-            {
-                if(!b.getEast())
+                if(x==-1)//initial start outside grid, moves into grid
                 {
-                    if(character.getX()==rightBound-1&&character.getY()==endY
-                       &&hasNotMoved)//checks if one to the left of the finish.
+                    character.setX(0);
+                }
+                else if(b.getX()==x&&b.getY()==y)//find block character is in.
+                {
+                    if(!b.getEast())
                     {
-                        character.setX(rightBound);//move into finish.
-                        hasWonLevel=true;//level won!!
-                        hasNotMoved = false;
-                    }
-                    else
-                    {
-                        for(Block d:deadBlocks)
+                        if(character.getX()==rightBound-1&&character.getY()==endY
+                           &&hasNotMoved)//checks if one to the left of the finish.
                         {
-                            if(d.getX()==x+1&&d.getY()==y)//check block moving into.
+                            character.setX(rightBound);//move into finish.
+                            hasWonLevel=true;//level won!!
+                            hasNotMoved = false;
+                        }
+                        else
+                        {
+                            for(Block d:deadBlocks)
                             {
-                                if(!d.getWest()&&hasNotMoved)//check for walls.
+                                if(d.getX()==x+1&&d.getY()==y)//check block moving into.
                                 {
-                                    character.setX(character.getX()+1);//move.
-                                    hasNotMoved = false;//limit movement.
-                                    
+                                    if(!d.getWest()&&hasNotMoved)//check for walls.
+                                    {
+                                        character.setX(character.getX()+1);//move.
+                                        hasNotMoved = false;//limit movement.
+
+                                    }
                                 }
                             }
-                        }
-                    }  
+                        }  
+                    }
                 }
             }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not move character to the left",ex);
+        }   
     }
     
     //Method below is for graphics.
@@ -669,15 +831,14 @@ public class Grid
     */
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
-        int offsetX = 200;
-        
-        //draw the background image
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 2000,2000);//draw over the previous with a black screen.
-
-        //find the correct background image to draw.
-        if(level==2)
+        try
         {
+            int offsetX = 200;
+            //draw the background image
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, 2000,2000);//draw over the previous with a black screen.
+            //find the correct background image to draw.
+            if(level==2)
              g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
         }
         else if(level ==3)
@@ -740,38 +901,100 @@ public class Grid
         {
             for(int j = 0; j < 22; j++)
             {
-                g.fillRect((int)(((i)*(gridSizeX/((float)rightBound))))+5+offsetX,
-                (int)(((j)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+                 g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
             }
+            else if(level ==3)
+            {
+                 g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else if(level == 1)
+            {
+                 g.drawImage(ImageManager.getImage(17), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else if(level == 4)
+            {
+                 g.drawImage(ImageManager.getImage(21), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else if(level == 5)
+            {
+                 g.drawImage(ImageManager.getImage(19), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else if(level == 6)
+            {
+                 g.drawImage(ImageManager.getImage(20), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else if(level == 7)
+            {
+                 g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else if(level == 8)
+            {
+                 g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else if(level==9)
+            {
+                 g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
+            }
+            else
+            {
+                g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
+            }
+
+            //calculations to make sure the grid is resizable with the screen size,
+            //also makes sure grid spaces stay as squares.
+            gridSizeX-=uiArea;
+            gridSizeY-=70;
+
+            float idealRatio = 1.7f;
+            if(gridSizeY/gridSizeX!=idealRatio)
+            {
+                gridSizeX=(int)(gridSizeY/idealRatio);//sets to ideal square size.
+            }
+            //draw the HUD background
+            g.setColor(new Color(0f,0f,0f,.5f));
+            g.fillRect((int)(14*(gridSizeX/((float)rightBound)))+150, gridSizeY/40, (int)(10*(gridSizeX/((float)rightBound))), gridSizeY - (gridSizeY/4));
+            //draw the grid
+            g.setColor(new Color(1f,1f,1f,.3f));//slight shading to indicate grid spaces.
+            for(int i = 0; i < rightBound; i++)//draws individual grid spaces
+            {
+                for(int j = 0; j < 22; j++)
+                {
+                    g.fillRect((int)(((i)*(gridSizeX/((float)rightBound))))+5+offsetX,
+                    (int)(((j)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
+                    (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+                }
+            }
+
+            g.setColor(new Color(0f,1f,1f,.3f));
+
+            //draws outline for entire grid, is offset by screen size, maintains square shape of spots.
+            g.fillRect((int)(((-1)*(gridSizeX/((float)rightBound))))+5+offsetX,
+                    (int)(((startY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
+                    (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+
+            g.fillRect((int)(((rightBound)*(gridSizeX/((float)rightBound))))+5+offsetX,
+                    (int)(((endY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
+                    (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
+
+            //draws individual blocks onto grid.
+            for(Block b : deadBlocks)
+            {
+                b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
+            }
+
+            //draws the falling block the user controls.
+            for(Block b : fallingShape.getBlockList())
+            {
+                b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
+            }
+            character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the character
+            nextShape.drawShape(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the next shape
         }
-        
-        g.setColor(new Color(0f,1f,1f,.3f));
-        
-        //draws outline for entire grid, is offset by screen size, maintains square shape of spots.
-        g.fillRect((int)(((-1)*(gridSizeX/((float)rightBound))))+5+offsetX,
-                (int)(((startY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
-        
-        g.fillRect((int)(((rightBound)*(gridSizeX/((float)rightBound))))+5+offsetX,
-                (int)(((endY)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+5,
-                (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
-        
-        //draws individual blocks onto grid.
-        for(Block b : deadBlocks)
+        catch(Exception ex)
         {
-            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
-        }
-        
-        //draws the falling block the user controls.
-        for(Block b : fallingShape.getBlockList())
-        {
-            b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
-        }
-        character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the character
-        nextShape.drawShape(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the next shape
+            ErrorLogger.logRuntimeError("Could not draw grid with components",ex);
+        }  
     }
-    
     
     
     //Instance methods below

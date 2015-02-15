@@ -14,8 +14,7 @@ import java.util.TreeMap;
  * @author Justin Hill
  */
 public class SaveLoad 
-{    
-
+{
     /**
      * Extracts profiles from the local file database.
      * @return data the array with player profiles.
@@ -34,6 +33,7 @@ public class SaveLoad
                     profileNames.add(in.nextLine());//read in file lines
                 }
                 in.close();
+                EventLogger.logEvent("Profile list successfully loaded");
             }
             else//file does not exist
             {
@@ -46,9 +46,13 @@ public class SaveLoad
             }
             return data;//return clone, clone is needed as original will need to be modified.
         } 
-        catch (Exception e) 
+        catch (IOException e) 
         {
             ErrorLogger.logIOError("Cannot load profiles", e);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error with loading profiles",ex);
         }
         return null;//if no profiles to return
     }
@@ -83,11 +87,16 @@ public class SaveLoad
             }
             out.write(name);//add in new profile
             out.close();
+            EventLogger.logEvent("New profile saved in list successfully");
             setProfileData(name, profileNames.size(), "");
         } 
-        catch (Exception e) 
+        catch (IOException e) 
         {
             ErrorLogger.logIOError("Cannot save new profile", e);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error, unable to save profile", ex);
         }
         return slot;
     }
@@ -112,6 +121,7 @@ public class SaveLoad
                     if(inData.hasNext())//if has lines
                     {
                         profileData = inData.nextLine();//set profileData to that line
+                        EventLogger.logEvent("Profile successfully retrieved");
                     }
                     return profileData;
                 }
@@ -120,12 +130,16 @@ public class SaveLoad
                     inData.close();
                 }
             }
-            EventLogger.logEvent("There dosn't seem to be any saved data for this profile");//no lines in file
+            EventLogger.logEvent("Could not find lines in profile");//no lines in file
             return profileData;
         }
-        catch (Exception e) 
+        catch(IOException e) 
         {
             ErrorLogger.logIOError("Can't load individual profile.", e);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error with loading individual profile", ex);
         }
         return null;
     }
@@ -144,10 +158,15 @@ public class SaveLoad
             out = new BufferedWriter(new FileWriter(new File(name+slot+".dat")));//set file path.
             out.write(data);//writes in data
             out.close();
+            EventLogger.logEvent("New profile successfully saved");
         }
         catch (IOException ex) 
         {
-            ErrorLogger.logIOError("Cannot save profile data to file", ex);
+            ErrorLogger.logIOError("Cannot save inidividual profile data to file", ex);
+        }
+        catch (Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error with saving profile data", ex);
         }
     }
     
@@ -180,10 +199,15 @@ public class SaveLoad
                 out.newLine();
             }
             out.close();
+            EventLogger.logEvent("High score successfully saved");
         }
         catch (IOException e) 
         {
             ErrorLogger.logIOError("Cannot save highscore", e);
+        }
+        catch (Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error with saving high scores", ex);
         }
     }
     
@@ -207,10 +231,15 @@ public class SaveLoad
                 }
                 in.close();
             }
+            EventLogger.logEvent("High scores successfully loaded");
         }
         catch (IOException e) 
         {
             ErrorLogger.logIOError("Can't extract highscores", e);
+        }
+        catch (Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error loading high scores",ex);
         }
         int i = 0;//no high scores exist yet.
         while(scores.size()<5)//creates fake profiles

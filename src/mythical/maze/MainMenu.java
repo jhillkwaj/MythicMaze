@@ -41,28 +41,36 @@ public class MainMenu extends JPanel implements KeyListener
      */
     public void start()
     {
-        EventLogger.setupEvent();//set up logs
-        ErrorLogger.setupError();
-        CrashLogger.setupCrash();
-        thisPanel = this;
-        this.removeAll();//remove anything from frame, clean slate.
-        frame = new JFrame();
-        //set correct dimmensions.
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-        frame.setSize((int)width, (int)height);
-        //set title, exit and size buttons.
-        frame.setTitle("Mythical Maze");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
-        //start painting screen onto frame.
-        frame.getContentPane().add(this);
-        frame.repaint();
-        frame.setVisible(true);
-        frame.repaint();
-        BackgroundMusic.play("Race_Car_Music");//start music
-        frame.addKeyListener(this);//enable controls
+        try
+        {
+            EventLogger.setupEvent();//set up logs
+            ErrorLogger.setupError();
+            CrashLogger.setupCrash();
+            thisPanel = this;
+            this.removeAll();//remove anything from frame, clean slate.
+            frame = new JFrame();
+            //set correct dimmensions.
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            double width = screenSize.getWidth();
+            double height = screenSize.getHeight();
+            frame.setSize((int)width, (int)height);
+            //set title, exit and size buttons.
+            frame.setTitle("Mythical Maze");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+            //start painting screen onto frame.
+            frame.getContentPane().add(this);
+            frame.repaint();
+            frame.setVisible(true);
+            frame.repaint();
+            BackgroundMusic.play("Race_Car_Music");//start music
+            frame.addKeyListener(this);//enable controls
+            EventLogger.logEvent("Game menu load successful");
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not start game menu",ex);
+        }
     }
    
     /**
@@ -70,125 +78,130 @@ public class MainMenu extends JPanel implements KeyListener
      */
     public void addButtons()
     {
-        //set fonts, size, color
-        UIManager.put("OptionPane.messageFont", new FontUIResource(
-                new Font("Monaco", Font.BOLD, 14)));
-        Font font = new Font("WLM Carton", Font.PLAIN, 52);
-        Font fontSmall = new Font("WLM Carton", Font.PLAIN, 42);
-        Color buttonColor = Color.black;
-        //create first play button
-        play = new JButton("Play");
-        play.setBorder(BorderFactory.createEmptyBorder());
-        play.setContentAreaFilled(false);
-        play.setHorizontalTextPosition(JButton.CENTER);
-        play.setVerticalTextPosition(JButton.CENTER);
-        play.setFont(font);
-        play.setForeground(buttonColor);
-        final JPanel p = this;
-        //what happens when button is clicked.
-        play.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                SelectPlayer p = new SelectPlayer();
-            }
-        });
-        //add tutorial button        
-        tutorial = new JButton("Tutorial");
-        tutorial.setBorder(BorderFactory.createEmptyBorder());
-        tutorial.setContentAreaFilled(false);
-        tutorial.setHorizontalTextPosition(JButton.CENTER);
-        tutorial.setVerticalTextPosition(JButton.CENTER);
-        tutorial.setFont(font);
-        tutorial.setForeground(buttonColor);
-        tutorial.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                GameRunner g = new GameRunner();
-                g.start("None", -1);//start game
-            }
-        });
-        //add high scores button        
-        highScore = new JButton("High Scores");
-        highScore.setBorder(BorderFactory.createEmptyBorder());
-        highScore.setContentAreaFilled(false);
-        highScore.setHorizontalTextPosition(JButton.CENTER);
-        highScore.setVerticalTextPosition(JButton.CENTER);
-        highScore.setFont(fontSmall);
-        highScore.setForeground(buttonColor);
-        highScore.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                TreeMap<Integer, String> t = SaveLoad.getHighScores();//calls to get high scores to display.
-                String scores = "";
-                for(int i = 0; i < 4; i++)
-                {
-                    scores += t.lastEntry().getValue();
-                    scores += " " + t.lastKey() + "\n";
-                    t.pollLastEntry();
-                }
-                JOptionPane.showMessageDialog(null,scores, "Highscores" ,JOptionPane.PLAIN_MESSAGE);
-            }
-        });
-                
-       //create credits button.         
-       credits = new JButton("Credits");
-       credits.setBorder(BorderFactory.createEmptyBorder());
-       credits.setContentAreaFilled(false);
-       credits.setHorizontalTextPosition(JButton.CENTER);
-       credits.setVerticalTextPosition(JButton.CENTER);
-       credits.setFont(font);
-       credits.setForeground(buttonColor);
-       credits.addActionListener(new ActionListener() {
-                        @Override
-			public void actionPerformed(ActionEvent e) {
-                             JOptionPane.showMessageDialog(null, "                                                Credits\n"
-                                     + "                                Developed By The Techs\n"
-                                     + "Project Manager:                Justin Hill\n"
-                                     + "Lead Developer:                 Richard Dong\n"
-                                     + "Graphics Manager:             Richard Wu\n"
-                                     + "Documentation Manager:  Abhijeet Venkataraman:\n\n"
-                                     + "               Contracted By Congative Though Media\n\n"
-                                     + "                                       Developed Using\n"
-                                     + "Netbeans:                             Development Enviroment\n"
-                                     + "Photoshop:                           Graphics Production\n"
-                                     + "Paint Dot Net:                       Graphics Producation\n"
-                                     + "BFXR Studios:                      Sound Production\n"
-                                     + "BitBucket:                             Group Code Collaberation\n"
-                                     + "Google Drive:                       Group Documentation Collaberation\n","Credits",JOptionPane.PLAIN_MESSAGE);
-			}
-		});
-                
-        //create exit button.       
-        exit = new JButton("Exit");
-        exit.setBorder(BorderFactory.createEmptyBorder());
-        exit.setContentAreaFilled(false);
-        exit.setHorizontalTextPosition(JButton.CENTER);
-        exit.setVerticalTextPosition(JButton.CENTER);
-        exit.setFont(font);
-        exit.setForeground(buttonColor);
-        exit.addActionListener(new ActionListener() 
+        try
         {
-            @Override
-            public void actionPerformed(ActionEvent e) 
+            //set fonts, size, color
+            UIManager.put("OptionPane.messageFont", new FontUIResource(new Font("Monaco", Font.BOLD, 14)));
+            Font font = new Font("WLM Carton", Font.PLAIN, 52);
+            Font fontSmall = new Font("WLM Carton", Font.PLAIN, 42);
+            Color buttonColor = Color.black;
+            //create first play button
+            play = new JButton("Play");
+            play.setBorder(BorderFactory.createEmptyBorder());
+            play.setContentAreaFilled(false);
+            play.setHorizontalTextPosition(JButton.CENTER);
+            play.setVerticalTextPosition(JButton.CENTER);
+            play.setFont(font);
+            play.setForeground(buttonColor);
+            final JPanel p = this;
+            //what happens when button is clicked.
+            play.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    SelectPlayer p = new SelectPlayer();
+                }
+            });
+            //add tutorial button        
+            tutorial = new JButton("Tutorial");
+            tutorial.setBorder(BorderFactory.createEmptyBorder());
+            tutorial.setContentAreaFilled(false);
+            tutorial.setHorizontalTextPosition(JButton.CENTER);
+            tutorial.setVerticalTextPosition(JButton.CENTER);
+            tutorial.setFont(font);
+            tutorial.setForeground(buttonColor);
+            tutorial.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    JOptionPane.showMessageDialog(null, "In Dev","Credits",JOptionPane.PLAIN_MESSAGE);
+                }
+            });
+            //add high scores button        
+            highScore = new JButton("High Scores");
+            highScore.setBorder(BorderFactory.createEmptyBorder());
+            highScore.setContentAreaFilled(false);
+            highScore.setHorizontalTextPosition(JButton.CENTER);
+            highScore.setVerticalTextPosition(JButton.CENTER);
+            highScore.setFont(fontSmall);
+            highScore.setForeground(buttonColor);
+            highScore.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    TreeMap<Integer, String> t = SaveLoad.getHighScores();//calls to get high scores to display.
+                    String scores = "";
+                    for(int i = 0; i < 4; i++)
+                    {
+                        scores += t.lastEntry().getValue();
+                        scores += " " + t.lastKey() + "\n";
+                        t.pollLastEntry();
+                    }
+                    JOptionPane.showMessageDialog(null,scores, "Highscores" ,JOptionPane.PLAIN_MESSAGE);
+                }
+            });
+
+           //create credits button.         
+           credits = new JButton("Credits");
+           credits.setBorder(BorderFactory.createEmptyBorder());
+           credits.setContentAreaFilled(false);
+           credits.setHorizontalTextPosition(JButton.CENTER);
+           credits.setVerticalTextPosition(JButton.CENTER);
+           credits.setFont(font);
+           credits.setForeground(buttonColor);
+           credits.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                 JOptionPane.showMessageDialog(null, "                                                Credits\n"
+                                         + "                                Developed By The Techs\n"
+                                         + "Project Manager:                Justin Hill\n"
+                                         + "Lead Developer:                 Richard Dong\n"
+                                         + "Graphics Manager:             Richard Wu\n"
+                                         + "Documentation Manager:  Abhijeet Venkataraman:\n\n"
+                                         + "               Contracted By Congative Though Media\n\n"
+                                         + "                                       Developed Using\n"
+                                         + "Netbeans:                             Development Enviroment\n"
+                                         + "Photoshop:                           Graphics Production\n"
+                                         + "Paint Dot Net:                       Graphics Producation\n"
+                                         + "BFXR Studios:                      Sound Production\n"
+                                         + "BitBucket:                             Group Code Collaberation\n"
+                                         + "Google Drive:                       Group Documentation Collaberation\n","Credits",JOptionPane.PLAIN_MESSAGE);
+                            }
+                    });
+
+            //create exit button.       
+            exit = new JButton("Exit");
+            exit.setBorder(BorderFactory.createEmptyBorder());
+            exit.setContentAreaFilled(false);
+            exit.setHorizontalTextPosition(JButton.CENTER);
+            exit.setVerticalTextPosition(JButton.CENTER);
+            exit.setFont(font);
+            exit.setForeground(buttonColor);
+            exit.addActionListener(new ActionListener() 
             {
-                System.exit(1);
-            }
-        });
-        //set positions and size of buttons, which change with screen size; add to screen. 
-        play.setBounds(frame.getWidth()/4, frame.getHeight()/4, frame.getWidth()/2, frame.getHeight()/16);
-        this.setLayout(null);
-        this.add(play);
-        tutorial.setBounds(frame.getWidth()/4, frame.getHeight()/4+(3*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.add(tutorial);
-        highScore.setBounds(frame.getWidth()/4, frame.getHeight()/4+(5*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.add(highScore);
-        credits.setBounds(frame.getWidth()/4, frame.getHeight()/4+(7*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.add(credits);
-        exit.setBounds((int)(frame.getWidth()/4), frame.getHeight()/4+(9*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
-        this.add(exit);   
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    System.exit(1);
+                }
+            });
+            //set positions and size of buttons, which change with screen size; add to screen. 
+            play.setBounds(frame.getWidth()/4, frame.getHeight()/4, frame.getWidth()/2, frame.getHeight()/16);
+            this.setLayout(null);
+            this.add(play);
+            tutorial.setBounds(frame.getWidth()/4, frame.getHeight()/4+(3*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            this.add(tutorial);
+            highScore.setBounds(frame.getWidth()/4, frame.getHeight()/4+(5*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            this.add(highScore);
+            credits.setBounds(frame.getWidth()/4, frame.getHeight()/4+(7*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            this.add(credits);
+            exit.setBounds((int)(frame.getWidth()/4), frame.getHeight()/4+(9*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            this.add(exit);   
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not create menu buttons",ex);
+        }   
     }
     
     @Override
@@ -225,16 +238,22 @@ public class MainMenu extends JPanel implements KeyListener
                     g.drawImage(ImageManager.getImage(19),0,0, this.getWidth(), this.getHeight(), this);
                 break;   
             }
-            if(draws>300&&(int)(draws-200)%300>270){
+            if(draws>300&&(int)(draws-200)%300>270)
+            {
                 blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)+.02f);
-            }else if(draws>300&&(int)(draws-200)%300<29){
+            }
+            else if(draws>300&&(int)(draws-200)%300<29)
+            {
                 if((blackStartFilter.getAlpha()/255.0f)-.02f>0)
+                {
                     blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.02f);
-                else
-                    blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
                 }
                     
-                    
+                else
+                {
+                    blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
+                }            
+            }                   
             //fade in main menu elements
             g.setColor(blackStartFilter);
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -298,6 +317,10 @@ public class MainMenu extends JPanel implements KeyListener
         {
             ErrorLogger.logIOError("Interruption in displaying main menu",ex);
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown exception in displaying menu",ex);
+        }
     }
 
     @Override
@@ -311,8 +334,18 @@ public class MainMenu extends JPanel implements KeyListener
     @Override
     public void keyReleased(KeyEvent e) {}
     
+    /**
+     * Closes the menu.
+     */
     public static void closeMenu()
     {
-        frame.dispose();
+        try
+        {
+            frame.dispose();
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not dispose frame",ex);
+        }
     }
 }

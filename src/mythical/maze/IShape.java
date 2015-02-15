@@ -35,5 +35,4 @@ public class IShape extends Shape
         // | y+1) |
         // |      |  
     }
-    
 }

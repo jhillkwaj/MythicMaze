@@ -32,8 +32,11 @@ public class ErrorLogger
         } 
         catch (IOException | SecurityException e)
         {
-            logIOError("Can't start Error log \""+
-                    e.toString() + "\"",e);
+            logIOError("Could not start error log",e);
+        }
+        catch(Exception ex)
+        {
+            logRuntimeError("Unknown error with initializing error log",ex);
         }
     }
        
@@ -42,18 +45,25 @@ public class ErrorLogger
      * @param message an appropriate message describing the exception.
      * @param e the exception itself; includes location and path.
      */
-    public static void logRuntimeError(String message, RuntimeException e)
+    public static void logRuntimeError(String message, Exception e)
     {
-        if(fhError == null)//setup log file if nonexistant
+        try
         {
-            setupError();
+            if(fhError == null)//setup log file if nonexistant
+            {
+                setupError();
+            }
+            logError.log(Level.SEVERE, "Runtime Exception", e);//log exception
+            logError.log(Level.INFO,"Warning Message Displayed:"+message);//log message shown to user
+            EventLogger.logEvent("Runtime Error occurred, warning message displayed: "+message);
+            fhError.close();
+            JOptionPane.showMessageDialog(null, "A Runtime Exception occurred. Description:" + message,
+                    "Error", JOptionPane.WARNING_MESSAGE);//display message to user
         }
-        logError.log(Level.SEVERE, "Runtime Exception", e);//log exception
-        logError.log(Level.INFO,"Warning Message Displayed:"+message);//log message shown to user
-        EventLogger.logEvent("Runtime Error occurred, warning message displayed: "+message);
-        fhError.close();
-        JOptionPane.showMessageDialog(null, "A Runtime Exception occurred. Description:" + message,
-                "Error", JOptionPane.WARNING_MESSAGE);//display message to user
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Could not log runtime error.");
+        }   
     }
     
     /**
@@ -63,21 +73,28 @@ public class ErrorLogger
      */
     public static void logIOError(String message, Exception e)
     {
-        if(fhError == null)//sets up file if non-existant
+        try
         {
-            setupError();
-        }      
-        logError.log(Level.SEVERE, "IO Exception: "+ message, e);//logs the error
-        logError.log(Level.INFO, "NonRecoverableError. Prompted user to exit.");//logs resulting action
-        EventLogger.logEvent("IO Exception occurred, prompted user to exit. Description: " + message);
-        fhError.close();
-        Object[] options = { "OK", "CANCEL" };
-        int num = JOptionPane.showOptionDialog(null, "A non-recoverable error has occurred. Press OK to exit.", "Warning",
-        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-        if(num == JOptionPane.YES_OPTION)
+            if(fhError == null)//sets up file if non-existant
+            {
+                setupError();
+            }      
+            logError.log(Level.SEVERE, "IO Exception: "+ message, e);//logs the error
+            logError.log(Level.INFO, "NonRecoverableError. Prompted user to exit.");//logs resulting action
+            EventLogger.logEvent("IO Exception occurred, prompted user to exit. Description: " + message);
+            fhError.close();
+            Object[] options = { "OK", "CANCEL" };
+            int num = JOptionPane.showOptionDialog(null, "A non-recoverable error has occurred. Press OK to exit.", "Warning",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+            if(num == JOptionPane.YES_OPTION)
+            {
+                CrashLogger.logCrash(message, e);
+                System.exit(0);//exits the game
+            }
+        }
+        catch(Exception ex)
         {
-            CrashLogger.logCrash(message, e);
-            System.exit(0);//exits the game
+            JOptionPane.showMessageDialog(null, "Could not log I/O error.");
         }
     }    
 }

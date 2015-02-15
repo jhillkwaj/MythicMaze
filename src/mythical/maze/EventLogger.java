@@ -31,8 +31,11 @@ public class EventLogger
         } 
         catch (IOException | SecurityException e)
         {
-            ErrorLogger.logIOError("Can't start System Event log \""+
-                    e.toString() + "\"",e);
+            ErrorLogger.logIOError("Could not initialize system event log",e);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error with initializing system event log",ex);
         }
     }
 
@@ -42,10 +45,17 @@ public class EventLogger
      */
     public static void logEvent(String message)
     {
-        if(fhEvent == null)//setup the log file if nonexistant
+        try 
         {
-            setupEvent();
-        } 
-        logEvent.log(Level.INFO,message + "\n\n");//log message
+            if(fhEvent == null)//setup the log file if nonexistant
+            {
+                setupEvent();
+            } 
+            logEvent.log(Level.INFO,message + "\n\n");//log message
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error with logging event",ex);
+        }
     }
 }

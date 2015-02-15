@@ -18,8 +18,15 @@ public class Character
     */
     public Character(int x, int y)
     {
-        xPos = x;
-        yPos = y;
+        try
+        {
+            xPos = x;
+            yPos = y;
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not initialize character",ex);
+        }
     }
     
     /**
@@ -32,9 +39,16 @@ public class Character
     */
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
-        g.drawImage(ImageManager.getImage(imageNum),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX+(int)(gridSizeX/((float)xBlocks)), 
+        try
+        {
+            g.drawImage(ImageManager.getImage(imageNum),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX+(int)(gridSizeX/((float)xBlocks)), 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)), 
                 -(int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0),null);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not draw character",ex);
+        } 
         //draws the character onto the screen with calculations on size based on 
         //the grid so that character size changes with screen size.
     }
@@ -65,7 +79,7 @@ public class Character
     public void setX(int x)
     {
         xPos = x;
-        imageNum = 31+(int)Math.random()*5;
+        imageNum = (int) (31 + Math.random() * 5);//creates animation
     }
     
    /**
@@ -75,6 +89,6 @@ public class Character
     public void setY(int y)
     {
         yPos = y;
-        imageNum = 31+(int)Math.random()*5;
+        imageNum = (int) (31 + Math.random() * 5);//creates animation
     } 
 }
