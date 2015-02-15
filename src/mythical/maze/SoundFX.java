@@ -35,6 +35,7 @@ public class SoundFX
                     clip = AudioSystem.getClip();//gets clip
                     clip.open(audioIn);//opens clip
                     clip.start();//plays sound
+                    EventLogger.logEvent("Sound effect successful load");
                 } 
                 catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
                 {

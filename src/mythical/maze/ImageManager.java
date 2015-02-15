@@ -6,9 +6,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -61,6 +58,7 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob4.png")));//35
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Ice_Enlarged.png"))); //36
             Thread.sleep(100);    
+            EventLogger.logEvent("Images successfully loaded");
         } 
         catch (IOException | InterruptedException ex) 
         {

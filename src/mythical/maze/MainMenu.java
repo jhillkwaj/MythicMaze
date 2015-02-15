@@ -65,6 +65,7 @@ public class MainMenu extends JPanel implements KeyListener
             frame.repaint();
             BackgroundMusic.play("Race_Car_Music");//start music
             frame.addKeyListener(this);//enable controls
+            EventLogger.logEvent("Game menu load successful");
         }
         catch(Exception ex)
         {

@@ -47,6 +47,7 @@ public class BackgroundMusic
                 }
             }
         });
+        EventLogger.logEvent("Music successfully loaded and played");
         thread.start();//runs the music playing thread
     }
     

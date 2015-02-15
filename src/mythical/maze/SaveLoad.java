@@ -33,6 +33,7 @@ public class SaveLoad
                     profileNames.add(in.nextLine());//read in file lines
                 }
                 in.close();
+                EventLogger.logEvent("Profile list successfully loaded");
             }
             else//file does not exist
             {
@@ -86,6 +87,7 @@ public class SaveLoad
             }
             out.write(name);//add in new profile
             out.close();
+            EventLogger.logEvent("New profile saved in list successfully");
             setProfileData(name, profileNames.size(), "");
         } 
         catch (IOException e) 
@@ -119,6 +121,7 @@ public class SaveLoad
                     if(inData.hasNext())//if has lines
                     {
                         profileData = inData.nextLine();//set profileData to that line
+                        EventLogger.logEvent("Profile successfully retrieved");
                     }
                     return profileData;
                 }
@@ -155,6 +158,7 @@ public class SaveLoad
             out = new BufferedWriter(new FileWriter(new File(name+slot+".dat")));//set file path.
             out.write(data);//writes in data
             out.close();
+            EventLogger.logEvent("New profile successfully saved");
         }
         catch (IOException ex) 
         {
@@ -195,6 +199,7 @@ public class SaveLoad
                 out.newLine();
             }
             out.close();
+            EventLogger.logEvent("High score successfully saved");
         }
         catch (IOException e) 
         {
@@ -226,6 +231,7 @@ public class SaveLoad
                 }
                 in.close();
             }
+            EventLogger.logEvent("High scores successfully loaded");
         }
         catch (IOException e) 
         {
