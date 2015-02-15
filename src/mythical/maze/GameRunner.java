@@ -322,6 +322,7 @@ public class GameRunner extends JPanel implements KeyListener {
     */
     public void endLevel()
     {
+        frame.dispose();
         if(gameGrid.hasWonLevel())//level won
         {
             //prompt save, etc.
@@ -339,6 +340,7 @@ public class GameRunner extends JPanel implements KeyListener {
             SoundFX.payFX("f");//play sound effect for losing
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName);//restart
         }
+        
     }
     
     
