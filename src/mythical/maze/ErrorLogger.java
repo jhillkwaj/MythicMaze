@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
+import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -13,85 +9,75 @@ import java.util.logging.SimpleFormatter;
 import javax.swing.JOptionPane;
 
 /**
- * Logs error messages for debugging to a file.
+ * Logs system errors to a dedicated log file.
  * @author Richard Dong
  */
-public class ErrorLogger {
-    
-    private static final Logger log = Logger.getLogger(MainMenu.class.getName());
+public class ErrorLogger 
+{
+    private static final Logger logError = Logger.getLogger("ErrorLogger");
     private static final SimpleFormatter sf = new SimpleFormatter();
-    private static Handler fh; 
-    
+    private static Handler fhError; 
+   
     /**
-     * Sets up the error logger with correct formatting and tools to append 
+     * Sets up error log with correct formatting and tools to append 
      * existing messages.
      */
-    private static void setup()
+    public static void setupError()
     {
         try 
         {
-            fh = new FileHandler("Error.log",999999,1,true);
-            fh.setFormatter(sf);
-            log.addHandler(fh);
+            fhError = new FileHandler("ErrorLogger.txt",999999,1,true);
+            fhError.setFormatter(sf);
+            logError.addHandler(fhError);   
         } 
-        catch (Exception e)
+        catch (IOException | SecurityException e)
         {
-            logIOError("Can't start log \""+
+            logIOError("Can't start Error log \""+
                     e.toString() + "\"",e);
         }
-        logMessage("Log started\n\n");
     }
-    
-
+       
     /**
-     * Logs a message into the error logging file.
-     * @param message the message to log.
-     */
-    
-    public static void logMessage(String message)
-    {
-        if(fh == null)//setup the log file if nonexistant
-        {
-            setup();
-        } 
-        log.log(Level.INFO, message);//log message as information
-    }
-    
-    /**
-     * Logs a Runtime Exception into the log file.
+     * Logs a Runtime Exception into the error log file.
      * @param message an appropriate message describing the exception.
      * @param e the exception itself; includes location and path.
      */
     public static void logRuntimeError(String message, RuntimeException e)
     {
-        if(fh == null)//setup log file if nonexistant
+        if(fhError == null)//setup log file if nonexistant
         {
-            setup();
-        }      
-        log.log(Level.SEVERE, "Runtime Exception", e);//log exception
-        log.warning("Warning Message Displayed:"+message);//log message shown to user
-        fh.close();
+            setupError();
+        }
+        logError.log(Level.SEVERE, "Runtime Exception", e);//log exception
+        logError.log(Level.INFO,"Warning Message Displayed:"+message);//log message shown to user
+        EventLogger.logEvent("Runtime Error occurred, warning message displayed: "+message);
+        fhError.close();
         JOptionPane.showMessageDialog(null, "A Runtime Exception occurred. Description:" + message,
                 "Error", JOptionPane.WARNING_MESSAGE);//display message to user
     }
     
-
     /**
-     * Logs an IOException into the log file and terminates game if unable to continue.
+     * Logs an IOException into the error log file and terminates game if unable to continue.
      * @param message an appropriate message describing the exception.
      * @param e the exception itself; includes location and path.
      */
     public static void logIOError(String message, Exception e)
     {
-        if(fh == null)//sets up file if non-existant
+        if(fhError == null)//sets up file if non-existant
         {
-            setup();
+            setupError();
         }      
-        log.log(Level.SEVERE, "IO Exception", e);//logs the error
-
-        log.warning("Warning Message Displayed, IO Exception: "+message);//logs message to user
-        logMessage("NonRecoverableError. Game Exited and Restarted");//logs resulting action
-        fh.close();
-        System.exit(0);//exits the game to prevent system from crashing.
+        logError.log(Level.SEVERE, "IO Exception: "+ message, e);//logs the error
+        logError.log(Level.INFO, "NonRecoverableError. Prompted user to exit.");//logs resulting action
+        EventLogger.logEvent("IO Exception occurred, prompted user to exit. Description: " + message);
+        fhError.close();
+        Object[] options = { "OK", "CANCEL" };
+        int num = JOptionPane.showOptionDialog(null, "A non-recoverable error has occurred. Press OK to exit.", "Warning",
+        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        if(num == JOptionPane.YES_OPTION)
+        {
+            CrashLogger.logCrash(message, e);
+            System.exit(0);//exits the game
+        }
     }    
 }

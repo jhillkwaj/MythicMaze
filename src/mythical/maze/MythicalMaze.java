@@ -12,6 +12,7 @@ public class MythicalMaze
      */
     public static void main(String[] args) {
         MainMenu m = new MainMenu();//initiates main menu
-        m.start();//starts menu
+        m.start();//starts menu;
+        ErrorLogger.logIOError("THIS IS A TEST", new NullPointerException());
     }
 }
