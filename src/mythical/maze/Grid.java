@@ -129,83 +129,85 @@ public class Grid
     */
     public Shape randomShape()
     {
-        if(level==-1 && Math.random()>.1f)
+        try
         {
-            if(Math.random()<.6){
-                if(Math.random()<.5)
-                    return new MiniOShape(5,2,level);
-                else
-                    return new SuperMiniIShape(5,2,level);
-            }
-            else{
-                if(Math.random()<.5)
-                    return new MiniOShape(5,2,level,2);
-                else
-                    return new SuperMiniIShape(5,2,level,2);
-            }
-        }
-        else{
-        int randNum = (int)(Math.random()*17);
-        if(randNum==0)
-        {
-            int randNum = (int)(Math.random()*16);
-            if(randNum==0)
+            if(level==-1 && Math.random()>.1f)
             {
-                return new LShape(5,2,level);
-            }
-            else if(randNum==1)
-            {
-                return new JShape(5,2,level);
-            }
-            else if(randNum==2)
-            {
-                return new SShape(5,2,level);
-            }
-            else if(randNum==3)
-            {
-                return new ZShape(5,2,level);
-            }
-            else if(randNum==4)
-            {
-                return new IShape(5,2,level);
-            }
-            else if(randNum<=6)
-            {
-                if(Math.random()<.7f)
-                    return new OShape(5,2,level);
-                else
-                    return new OShape(5,2,level,2);
-            }
-            else if(randNum==7)
-            {
-                if(Math.random()<.5f)
-                    return new TShape(5,2,level);
-                else
-                    return new TShape(5,2,level,2);
-            }
-            else if(randNum<=9)
-            {
-                return new MiniLShape(5,2,level);
-            }
-            else if(randNum<=11)
-            {
-                 return new MiniJShape(5,2,level);
-            }
-            else if(randNum<=13)
-            {
-                if(Math.random()<.5f)
-                    return new MiniIShape(5,2,level);
-                else if(Math.random()<.5f)
-                    return new MiniIShape(5,2,level,2);
-                else
-                    return new MiniIShape(5,2,level,3);
+                if(Math.random()<.6){
+                    if(Math.random()<.5)
+                        return new MiniOShape(5,2,level);
+                    else
+                        return new SuperMiniIShape(5,2,level);
+                }
+                else{
+                    if(Math.random()<.5)
+                        return new MiniOShape(5,2,level,2);
+                    else
+                        return new SuperMiniIShape(5,2,level,2);
+                }
             }
             else
             {
-                if(Math.random()<.5)
-                    return new MiniOShape(5,2,level);
+                int randNum = (int)(Math.random()*17);
+
+                if(randNum==0)
+                {
+                    return new LShape(5,2,level);
+                }
+                else if(randNum==1)
+                {
+                    return new JShape(5,2,level);
+                }
+                else if(randNum==2)
+                {
+                    return new SShape(5,2,level);
+                }
+                else if(randNum==3)
+                {
+                    return new ZShape(5,2,level);
+                }
+                else if(randNum==4)
+                {
+                    return new IShape(5,2,level);
+                }
+                else if(randNum<=6)
+                {
+                    if(Math.random()<.7f)
+                        return new OShape(5,2,level);
+                    else
+                        return new OShape(5,2,level,2);
+                }
+                else if(randNum==7)
+                {
+                    if(Math.random()<.5f)
+                        return new TShape(5,2,level);
+                    else
+                        return new TShape(5,2,level,2);
+                }
+                else if(randNum<=9)
+                {
+                    return new MiniLShape(5,2,level);
+                }
+                else if(randNum<=11)
+                {
+                     return new MiniJShape(5,2,level);
+                }
+                else if(randNum<=13)
+                {
+                    if(Math.random()<.5f)
+                        return new MiniIShape(5,2,level);
+                    else if(Math.random()<.5f)
+                        return new MiniIShape(5,2,level,2);
+                    else
+                        return new MiniIShape(5,2,level,3);
+                }
                 else
-                    return new MiniOShape(5,2,level,2);
+                {
+                    if(Math.random()<.5)
+                        return new MiniOShape(5,2,level);
+                    else
+                        return new MiniOShape(5,2,level,2);
+                }
             }
         }
         catch(Exception ex)
@@ -213,43 +215,6 @@ public class Grid
             ErrorLogger.logRuntimeError("Could not create random shape", ex);
             return null;//no shape returned
         }   
-            if(Math.random()<.5f)
-                return new TShape(5,2,level);
-            else
-                return new TShape(5,2,level,2);
-        }
-        else if(randNum<=9)
-        {
-            return new MiniLShape(5,2,level);
-        }
-        else if(randNum<=11)
-        {
-             return new MiniJShape(5,2,level);
-        }
-        else if(randNum<=13)
-        {
-            if(Math.random()<.5f)
-                return new MiniIShape(5,2,level);
-            else if(Math.random()<.5f)
-                return new MiniIShape(5,2,level,2);
-            else
-                return new MiniIShape(5,2,level,3);
-        }
-        else if(randNum<=14)
-        {
-            if(Math.random()<.7f)
-                return new SuperMiniIShape(5,2,level);
-            else
-                return new SuperMiniIShape(5,2,level,2);
-        }
-        else
-        {
-            if(Math.random()<.5)
-                return new MiniOShape(5,2,level);
-            else
-                return new MiniOShape(5,2,level,2);
-        }
-        }
     }
    
     //Methods below rotate and move shapes located on the grid.
@@ -451,16 +416,15 @@ public class Grid
     public void checkDead()
     {
         try
-        isDead = false;
-        for(Block b:deadBlocks)
         {
+            isDead = false;
             for(Block b:deadBlocks)
             {
                 if(b.getY()<=upperBound)//over the top of the screen
                 {
                     isDead = true;
                 }
-            }
+            }     
         }
         catch(Exception ex)
         {
@@ -839,69 +803,8 @@ public class Grid
             g.fillRect(0, 0, 2000,2000);//draw over the previous with a black screen.
             //find the correct background image to draw.
             if(level==2)
-             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level ==3)
-        {
-             g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 1)
-        {
-             g.drawImage(ImageManager.getImage(17), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 4)
-        {
-             g.drawImage(ImageManager.getImage(21), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 5)
-        {
-             g.drawImage(ImageManager.getImage(19), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 6)
-        {
-             g.drawImage(ImageManager.getImage(20), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 7)
-        {
-             g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level == 8)
-        {
-             g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level==9)
-        {
-             g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else if(level==-1)
-        {
-             g.drawImage(ImageManager.getImage(23), 0, 0, gridSizeX, gridSizeY, null);
-        }
-        else
-        {
-            g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
-        }
-       
-        //calculations to make sure the grid is resizable with the screen size,
-        //also makes sure grid spaces stay as squares.
-        gridSizeX-=uiArea;
-        gridSizeY-=70;
-        
-        float idealRatio = 1.7f;
-        if(gridSizeY/gridSizeX!=idealRatio)
-        {
-            gridSizeX=(int)(gridSizeY/idealRatio);//sets to ideal square size.
-        }
-        //draw the HUD background
-        g.setColor(new Color(0f,0f,0f,.5f));
-        g.fillRect((int)(14*(gridSizeX/((float)rightBound)))+150, gridSizeY/40, (int)(10*(gridSizeX/((float)rightBound))), gridSizeY - (gridSizeY/4));
-        //draw the grid
-        g.setColor(new Color(1f,1f,1f,.3f));//slight shading to indicate grid spaces.
-        for(int i = 0; i < rightBound; i++)//draws individual grid spaces
-        {
-            for(int j = 0; j < 22; j++)
             {
-                 g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
+                g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
             }
             else if(level ==3)
             {
@@ -935,17 +838,19 @@ public class Grid
             {
                  g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
             }
+            else if(level==-1)
+            {
+                 g.drawImage(ImageManager.getImage(23), 0, 0, gridSizeX, gridSizeY, null);
+            }
             else
             {
                 g.drawImage(ImageManager.getImage(18), 0, 0, gridSizeX, gridSizeY, null);
             }
-
             //calculations to make sure the grid is resizable with the screen size,
             //also makes sure grid spaces stay as squares.
             gridSizeX-=uiArea;
             gridSizeY-=70;
-
-            float idealRatio = 1.7f;
+            float idealRatio =1.7f;
             if(gridSizeY/gridSizeX!=idealRatio)
             {
                 gridSizeX=(int)(gridSizeY/idealRatio);//sets to ideal square size.
@@ -990,6 +895,7 @@ public class Grid
             character.draw(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the character
             nextShape.drawShape(g, gridSizeX, gridSizeY, offsetX, rightBound);//draws the next shape
         }
+       
         catch(Exception ex)
         {
             ErrorLogger.logRuntimeError("Could not draw grid with components",ex);

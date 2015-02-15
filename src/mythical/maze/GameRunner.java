@@ -311,56 +311,59 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void newLevel()
     {
-        if(level == -1)
+        try
         {
-            eventTime = (int)(900f / ((1)/3.0f));
-            startY = 2;
-            endY = 1;
-            intro = true;
-        }
-        else if(level % 2 == 1)
-        {
-            score+=500*level;//scores are increased based on level beaten
-            if(level % 2 == 1)
+            if(level == -1)
             {
-                eventTime = (int)(900f / ((1+(level))/3.0f));
-                startY = level+1;//add difficulty
-                endY = level+1;
-                if(level==1)
-                    intro = true;
-            }
-            else if(level == 2)
-            {
-                eventTime = (int)(900f / ((1+(level))/3.0f));
-                startY = 3;
-                endY = 2;
-            }
-            else if(level == 4)
-            {
-                eventTime = (int)(900f / ((1+3.5)/3.0f));
-                startY = 4;
-                endY = 3;
-            }
-            else if(level == 6)
-            {
-                eventTime = (int)(900f / ((1+3.5)/3.0f));
+                eventTime = (int)(900f / ((1)/3.0f));
                 startY = 2;
-                endY = 6;
+                endY = 1;
+                intro = true;
             }
-            else if(level == 8)
+            else if(level % 2 == 1)
             {
-                eventTime = (int)(900f / ((1+4.5)/3.0f));
-                startY = 6;
-                endY = 8;
-            }
-            else if(level == 10)
-            {
-                eventTime = (int)(900f / ((1+5)/3.0f));
-                startY = 1;
-                endY = 11;
-            }
-            startY = 21 - startY;
-            endY = 21 - endY;
+                score+=500*level;//scores are increased based on level beaten
+                if(level % 2 == 1)
+                {
+                    eventTime = (int)(900f / ((1+(level))/3.0f));
+                    startY = level+1;//add difficulty
+                    endY = level+1;
+                    if(level==1)
+                        intro = true;
+                }
+                else if(level == 2)
+                {
+                    eventTime = (int)(900f / ((1+(level))/3.0f));
+                    startY = 3;
+                    endY = 2;
+                }
+                else if(level == 4)
+                {
+                    eventTime = (int)(900f / ((1+3.5)/3.0f));
+                    startY = 4;
+                    endY = 3;
+                }
+                else if(level == 6)
+                {
+                    eventTime = (int)(900f / ((1+3.5)/3.0f));
+                    startY = 2;
+                    endY = 6;
+                }
+                else if(level == 8)
+                {
+                    eventTime = (int)(900f / ((1+4.5)/3.0f));
+                    startY = 6;
+                    endY = 8;
+                }
+                else if(level == 10)
+                {
+                    eventTime = (int)(900f / ((1+5)/3.0f));
+                    startY = 1;
+                    endY = 11;
+                }
+                startY = 21 - startY;
+                endY = 21 - endY;
+            }  
         }
         catch(Exception ex)
         {
@@ -427,7 +430,7 @@ public class GameRunner extends JPanel implements KeyListener {
                 frame.dispose();
             }
         }
-        catch(Exception ex)
+        else//level lost
         {
             if(level!=-1)
             {
@@ -442,8 +445,7 @@ public class GameRunner extends JPanel implements KeyListener {
                 gameGrid.clearDeadBlocks();
                 gameGrid.checkDead();
             }
-        }
-        
+        } 
     }
     
     

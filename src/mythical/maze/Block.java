@@ -54,13 +54,13 @@ public class Block
             west = w;
             east = e;
             //code below creates random walls as an extra feature
-            if(Math.random()<.02f)
+            if(Math.random()<.017f)
             { north = true;}
-            if(Math.random()<.02f)
+            if(Math.random()<.017f)
             { south = true;}
-            if(Math.random()<.02f)
+            if(Math.random()<.017f)
             { east = true;}
-            if(Math.random()<.02f)
+            if(Math.random()<.017f)
             { west = true;}
             if(Math.random()<.15f)
             { north = false; }
@@ -75,29 +75,6 @@ public class Block
         {
             ErrorLogger.logRuntimeError("Could not initialize block",ex);
         }
-        xPos = x;
-        yPos = y;
-        north = n;
-        south = s;
-        west = w;
-        east = e;
-        
-        if(Math.random()<.017f)
-        { north = true;}
-        if(Math.random()<.017f)
-        { south = true;}
-        if(Math.random()<.017f)
-        { east = true;}
-        if(Math.random()<.017f)
-        { west = true;}
-        if(Math.random()<.15f)
-        { north = false; }
-        if(Math.random()<.15f)
-        { south = false; }
-        if(Math.random()<.15f)
-        { east = false; }
-        if(Math.random()<.15f)
-        { west = false; }
     }
     
     /**
