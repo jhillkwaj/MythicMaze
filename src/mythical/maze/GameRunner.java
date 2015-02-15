@@ -274,36 +274,43 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void playLevelMusic()
     {
-        if(level==1)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Lost"); }
-        else if(level==2)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Moar Chinese"); }
-        else if(level==3)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Dancing in the Halls of Pie.mscz"); }
-        else if(level==4)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Chinese Theme"); }
-        else if(level==5)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("RR_1_RichardW.mscz"); }
-        else if(level==6)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Race_Car_Music"); }
-        else if(level==7)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Moar Chinese"); }
-        else if(level==8)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Chinese Theme"); }
-        if(level==9)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Lost"); }
-        else if(level==10)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Dancing in the Halls of Pie"); }
+        try
+        {
+            if(level==1)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Lost"); }
+            else if(level==2)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Moar Chinese"); }
+            else if(level==3)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Dancing in the Halls of Pie.mscz"); }
+            else if(level==4)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Chinese Theme"); }
+            else if(level==5)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("RR_1_RichardW.mscz"); }
+            else if(level==6)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Race_Car_Music"); }
+            else if(level==7)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Moar Chinese"); }
+            else if(level==8)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Chinese Theme"); }
+            if(level==9)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Lost"); }
+            else if(level==10)
+            { BackgroundMusic.stop();
+                   BackgroundMusic.play("Dancing in the Halls of Pie"); }
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not switch music", ex);
+        }
     }
     
     /**
