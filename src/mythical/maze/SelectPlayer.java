@@ -179,7 +179,7 @@ public class SelectPlayer extends JPanel
             }
             else
             {
-                g.start(playerName);
+                g.start(playerName, slot);
             }     
         }
         else//new player
@@ -190,7 +190,7 @@ public class SelectPlayer extends JPanel
                 name = JOptionPane.showInputDialog(frame, "No. That's not it. What was his name?");
             }
             SaveLoad.saveNewProfile(name);//saves in new profile
-            g.start(name);//start game
+            g.start(name, slot);//start game
         }
     }
     

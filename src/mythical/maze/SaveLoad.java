@@ -56,9 +56,11 @@ public class SaveLoad
     /**
      * Saves a new profile to the local database.
      * @param name the new profile to save.
+     * @return the slot number for the new player
      */
-    public static void saveNewProfile(String name)
+    public static int saveNewProfile(String name)
     {
+        int slot = 0;
         ArrayList<String> profileNames = new ArrayList<>();
         try 
         {
@@ -77,6 +79,7 @@ public class SaveLoad
             {
                 out.write(s);//write in original lines
                 out.newLine();
+                slot++;
             }
             out.write(name);//add in new profile
             out.close();
@@ -86,6 +89,7 @@ public class SaveLoad
         {
             ErrorLogger.logIOError("Cannot save new profile", e);
         }
+        return slot;
     }
     
     /**

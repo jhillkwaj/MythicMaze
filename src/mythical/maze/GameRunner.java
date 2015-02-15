@@ -170,7 +170,7 @@ public class GameRunner extends JPanel implements KeyListener {
         if(level==1)
         { BackgroundMusic.stop();
                BackgroundMusic.play("Race_Car_Music"); }
-        start(name);
+        start(name, Integer.parseInt(data[1]));
     }
     
     /**
@@ -179,8 +179,9 @@ public class GameRunner extends JPanel implements KeyListener {
      * @param name the player name
      * @see JFrame
      */
-    public void start(String name)
+    public void start(String name, int slot)
     {
+        this.slot = slot;
         MainMenu.closeMenu();
         this.frame = new JFrame();
         this.removeAll();//clears frame from menu or previous level
