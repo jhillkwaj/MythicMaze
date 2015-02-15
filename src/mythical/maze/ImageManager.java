@@ -4,10 +4,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
@@ -70,6 +67,10 @@ public class ImageManager
             ErrorLogger.logIOError("Unable to Import Graphics",ex);
             //log an error to fix local file placement, interrupted extraction.
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Unknown error, unable to import graphics",ex);
+        }
     }
     
     /**
@@ -90,33 +91,29 @@ public class ImageManager
         }
         else//not in parameters, image doesn't exist
         {
-            try 
-            {
-                //The image you wanted dosn't exist
-                Map m = Thread.getAllStackTraces();
-                //print the stack trase and log the error
-                for(int i = 0; i < m.size(); i++)
-                {
-                    System.out.print(m.get(i));
-                }
-                //close image stream (prevents memory leak)
-                return null;
-            } 
-            catch (Exception ex) 
-            {
-                ErrorLogger.logIOError("Image not found",ex);//log error
-            }
+            ErrorLogger.logRuntimeError("Image does not exist", new NullPointerException());
+            return null;
         }
-        return null;
     } 
     
+    /**
+     * Adds a font to the game for later use.
+     */
     public static void addFont()
     {
-        try{
+        try
+        {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             Font font = Font.createFont(Font.TRUETYPE_FONT, ImageManager.class.getResource("Graphics/wlm_carton.ttf").openStream());
             ge.registerFont(font);
-        }catch(Exception e)
-        { ErrorLogger.logIOError("Could not import Font", e);}
+        }
+        catch(IOException | FontFormatException e)
+        { 
+            ErrorLogger.logIOError("Could not import Font", e);
+        } 
+        catch (Exception ex) 
+        {
+            ErrorLogger.logRuntimeError("Unknown error, unable to import font", ex);
+        }
     }
 }

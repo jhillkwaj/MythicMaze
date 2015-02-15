@@ -230,7 +230,7 @@ public class Grid
         }
         catch(Exception ex)
         {
-            ErrorLogger.logRuntimeError("Could not rotate shape to the right", ex);
+            ErrorLogger.logRuntimeError("Could not make calculations to rotate shape to the right", ex);
         }
     }
     
@@ -264,7 +264,7 @@ public class Grid
         }
         catch(Exception ex)
         {
-            ErrorLogger.logRuntimeError("Could not rotate shape to the left", ex);
+            ErrorLogger.logRuntimeError("Could not make calculations for shape to rotate the left", ex);
         }     
     }
     
@@ -297,7 +297,7 @@ public class Grid
         }
         catch(Exception ex)
         {
-            ErrorLogger.logRuntimeError("Could not move shape to the right", ex);
+            ErrorLogger.logRuntimeError("Could not make calculations to move shape to the right", ex);
         }     
     }
     
@@ -330,7 +330,7 @@ public class Grid
         }
         catch(Exception ex)
         {
-            ErrorLogger.logRuntimeError("Could not move shape to the left", ex);
+            ErrorLogger.logRuntimeError("Could not make calculations for shape to move to the left", ex);
         }
     }
     

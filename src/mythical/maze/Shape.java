@@ -21,9 +21,16 @@ public class Shape
      */
     public Shape(int x, int y, int l)
     {
-        xPos = x;
-        yPos = y;
-        level = l;
+        try
+        {
+            xPos = x;
+            yPos = y;
+            level = l;
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not initialize shape",ex);
+        }   
     }
 
     /**
@@ -36,10 +43,17 @@ public class Shape
      */
     public void drawShape(Graphics g, int boardSizeX, int boardSizeY, int offsetX, int rightBound)
     {
-        for(Block b:blockList)
+        try
         {
-            b.drawBlock(g,level,boardSizeX,boardSizeY,offsetX, rightBound);
+            for(Block b:blockList)
+            {
+                b.drawBlock(g,level,boardSizeX,boardSizeY,offsetX, rightBound);
+            }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not draw shape",ex);
+        }   
     }
 
     /**
@@ -47,11 +61,18 @@ public class Shape
      */
     public void moveDown()
     {
-        yPos+=1;
-        for(Block b:blockList)
+        try
         {
-            b.setY(b.getY()+1);
+            yPos+=1;
+            for(Block b:blockList)
+            {
+                b.setY(b.getY()+1);
+            }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not move shape down",ex);
+        } 
     }
     
     /**
@@ -59,11 +80,18 @@ public class Shape
      */
     public void moveUp()
     {
-        yPos-=1;
-        for(Block b:blockList)
+        try
         {
-            b.setY(b.getY()-1);
+            yPos-=1;
+            for(Block b:blockList)
+            {
+                b.setY(b.getY()-1);
+            }
         }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not move shape up",ex);
+        }   
     }
     
     /**
@@ -71,10 +99,17 @@ public class Shape
      */
     public void moveRight()
     {
-        xPos+=1;
-        for(Block b:blockList)
+        try
         {
-            b.setX(b.getX()+1);
+            xPos+=1;
+            for(Block b:blockList)
+            {
+                b.setX(b.getX()+1);
+            } 
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not move shape to the right",ex);
         }     
     }
 
@@ -83,42 +118,65 @@ public class Shape
      */
     public void moveLeft()
     {
-        xPos-=1;
-        for(Block b:blockList)
+        try
         {
-            b.setX(b.getX()-1);
+            xPos-=1;
+            for(Block b:blockList)
+            {
+                b.setX(b.getX()-1);
+            }
         }
-    }
-
-    /**
-     * Rotates each block of the shape clockwise.
-     */
-    public void rotateClockwise() {
-        for(Block b:blockList)
+        catch(Exception ex)
         {
-            //each block is translated with respect to the center of the shape.
-            int xDistance = b.getX()-xPos;//distance to center
-            int yDistance = b.getY()-yPos;//distance to center
-            b.setX(xPos-yDistance-1);//-1 offsets due to block size
-            b.setY(yPos+xDistance);
-            b.rotateClockwise();
+            ErrorLogger.logRuntimeError("Could not move shape to the left",ex);
         }
         
     }
 
     /**
+     * Rotates each block of the shape clockwise.
+     */
+    public void rotateClockwise() 
+    {
+        try
+        {
+            for(Block b:blockList)
+            {
+                //each block is translated with respect to the center of the shape.
+                int xDistance = b.getX()-xPos;//distance to center
+                int yDistance = b.getY()-yPos;//distance to center
+                b.setX(xPos-yDistance-1);//-1 offsets due to block size
+                b.setY(yPos+xDistance);
+                b.rotateClockwise();
+            }
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not rotate shape clockwise",ex);
+        }  
+    }
+
+    /**
      * Rotates each block of the shape counterclockwise.
      */
-    public void rotateCounterClockwise() {
-        for(Block b:blockList)
+    public void rotateCounterClockwise() 
+    {
+        try
         {
-            //same logical rules apply as above, only in reverse.
-            int xDistance = b.getX()-xPos;
-            int yDistance = b.getY()-yPos;
-            b.setX(xPos+yDistance);
-            b.setY(yPos-xDistance-1);
-            b.rotateCounterClockwise();
-        }        
+            for(Block b:blockList)
+            {
+                //same logical rules apply as above, only in reverse.
+                int xDistance = b.getX()-xPos;
+                int yDistance = b.getY()-yPos;
+                b.setX(xPos+yDistance);
+                b.setY(yPos-xDistance-1);
+                b.rotateCounterClockwise();
+            } 
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not roates shape counterclockwise",ex);
+        }           
     }
 
     /**
@@ -128,14 +186,22 @@ public class Shape
      */
     public ArrayList<Block>getClockwiseOccupied()
     {
-        occupy = new ArrayList<>();
-        for(Block b:blockList)
+        try
         {
-            int xDistance = b.getX()-xPos;
-            int yDistance = b.getY()-yPos;
-            occupy.add(new Block(xPos-yDistance-1,yPos+xDistance));
+            occupy = new ArrayList<>();
+            for(Block b:blockList)
+            {
+                int xDistance = b.getX()-xPos;
+                int yDistance = b.getY()-yPos;
+                occupy.add(new Block(xPos-yDistance-1,yPos+xDistance));
+            }
+            return occupy;
         }
-        return occupy;
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not create list of occupied blocks after clockwise rotation",ex);
+            return null;
+        }  
     }
 
     /**
@@ -145,14 +211,22 @@ public class Shape
      */
     public ArrayList<Block>getCounterClockwiseOccupied()
     {
-        occupy = new ArrayList<>();
-        for(Block b:blockList)
+        try
         {
-            int xDistance = b.getX()-xPos;
-            int yDistance = b.getY()-yPos;
-            occupy.add(new Block(xPos+yDistance,yPos-xDistance-1));
+            occupy = new ArrayList<>();
+            for(Block b:blockList)
+            {
+                int xDistance = b.getX()-xPos;
+                int yDistance = b.getY()-yPos;
+                occupy.add(new Block(xPos+yDistance,yPos-xDistance-1));
+            }
+            return occupy;
         }
-        return occupy;
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not create list of occupied blocks after counterclockwise rotation",ex);
+            return null;
+        } 
     }
 
     /**
