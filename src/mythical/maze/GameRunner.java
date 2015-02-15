@@ -16,12 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Character.toUpperCase;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -58,13 +53,11 @@ public class GameRunner extends JPanel implements KeyListener {
     private int slot;
     private int highscore;
    
-    //Due to the length of the class, methods in this class are organized
+    //NOTE::Due to the length of the class, methods in this class are organized
     //into the following categories from top to bottom: graphics, starting the game,
     //the game itself, ending the game, and listener controls.
     
     //Methods below are for graphics
-        
-    
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -79,74 +72,82 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g)
     {
-        if(intro)
+        try
         {
-            double time = System.currentTimeMillis()-startTime;
-            if(level==1){
-                if(time<3000)
-                 g.drawImage(ImageManager.getImage(23), 0, 0, this.getWidth(), this.getHeight(), this);
-                if(time > 1000 && time < 3000)
-                {
-                   g.setColor(new Color(0f,0f,0f,(float)(time-1000)/2000.0f));
-                   g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                }
-                if(time>3000&&time<17000)
-                {
-                    g.setColor(Color.black);
-                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                    if(time>4000){
-                        g.drawImage(ImageManager.getImage(24+(int)(time-4000)/2000), 0, 0, this.getWidth(), this.getHeight(), this);
+            if(intro)//paints intro animation
+            {
+                double time = System.currentTimeMillis()-startTime;
+                if(level==1){
+                    if(time<3000)
+                    {
+                        g.drawImage(ImageManager.getImage(23), 0, 0, this.getWidth(), this.getHeight(), this);
+                    }
+                    if(time > 1000 && time < 3000)
+                    {
+                       g.setColor(new Color(0f,0f,0f,(float)(time-1000)/2000.0f));
+                       g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
+                    if(time>3000&&time<17000)
+                    {
+                        g.setColor(Color.black);
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        if(time>4000){
+                            g.drawImage(ImageManager.getImage(24+(int)(time-4000)/2000), 0, 0, this.getWidth(), this.getHeight(), this);
+                        }
+                    }
+                    else if(time > 19000 && time < 23000)
+                    {
+                        g.drawImage(ImageManager.getImage(30), 0, 0, this.getWidth(), this.getHeight(), this);
+                        g.setColor(new Color(0f,0f,0f,(float)(time-19000)/4000.0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
+                    else if(time > 24001&&time<25999)
+                    {
+                        g.drawImage(ImageManager.getImage(17), 0, 0, this.getWidth(), this.getHeight(), this);
+                        g.setColor(new Color(0f,0f,0f,1.0f-(float)(time-24000)/2000.0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
+                    else if(time > 27000)
+                    {
+                        g.drawImage(ImageManager.getImage(17), 0, 0, this.getWidth(), this.getHeight(), this);
+
+                    }
+                    if(time>28000)
+                    {
+                        intro = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
                     }
                 }
-                else if(time > 19000 && time < 23000)
-                {
-                    g.drawImage(ImageManager.getImage(30), 0, 0, this.getWidth(), this.getHeight(), this);
-                    g.setColor(new Color(0f,0f,0f,(float)(time-19000)/4000.0f));
-                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                }
-                else if(time > 24001&&time<25999)
-                {
-                    g.drawImage(ImageManager.getImage(17), 0, 0, this.getWidth(), this.getHeight(), this);
-                    g.setColor(new Color(0f,0f,0f,1.0f-(float)(time-24000)/2000.0f));
-                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                }
-                else if(time > 27000)
-                {
-                    g.drawImage(ImageManager.getImage(17), 0, 0, this.getWidth(), this.getHeight(), this);
-                   
-                }
-                if(time>28000)
-                {
-                    intro = false;
-                    startTime = System.currentTimeMillis();
-                    updateTime = startTime;
-                }
-                
-                
-                
+                repaint();
             }
-            repaint();
-        }else{
-        if(hud==null)
+            else//normal painting graphics
+            {
+                if(hud==null)
+                {
+                    hud = new HUD(rightBound,bottomBound,level,score,playerName);//new heads up display
+                    hud.startTimer();//start level timer, which determines end score.
+                }
+                if(back==null)//if canvas has not been created, create canvsas
+                {
+                    back=(BufferedImage)createImage(1920,1070);
+                }
+                Graphics2D twoDGraph = (Graphics2D)g;
+                Graphics graphToBack= back.createGraphics(); //prepares drawing onto bufferedimage graphics
+                gameGrid.draw(graphToBack,1920,1070,700);//draws gamegrid, includes blocks
+                hud.drawHUD(graphToBack,1920,1070,700);//draws heads up display
+                twoDGraph.drawImage(back,0,0,frame.getWidth(),frame.getHeight(),null);//draws bufferedimage to frame
+                if(System.currentTimeMillis()-updateTime >= eventTime)//updates based on refresh rate
+                {
+                    update();
+                }
+                repaint();//redo again in loop
+            }
+        }
+        catch(Exception ex)
         {
-            hud = new HUD(rightBound,bottomBound,level,score,playerName);//new heads up display
-            hud.startTimer();//start level timer, which determines end score.
-        }
-        if(back==null)//if canvas has not been created, create canvsas
-        {
-            back=(BufferedImage)createImage(1920,1070);
-        }
-        Graphics2D twoDGraph = (Graphics2D)g;
-        Graphics graphToBack= back.createGraphics(); //prepares drawing onto bufferedimage graphics
-        gameGrid.draw(graphToBack,1920,1070,700);//draws gamegrid, includes blocks
-        hud.drawHUD(graphToBack,1920,1070,700);//draws heads up display
-        twoDGraph.drawImage(back,0,0,frame.getWidth(),frame.getHeight(),null);//draws bufferedimage to frame
-        if(System.currentTimeMillis()-updateTime >= eventTime)//updates based on refresh rate
-        {
-            update();
-        }
-        repaint();//redo again in loop
-        }
+            ErrorLogger.logRuntimeError("Could not execute painting all graphics",ex);
+        }  
     }
    
     //Methods below deal with starting the game and levels
@@ -159,18 +160,27 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void start(String[] data, String name, int slot)
     {
+        try
+        {
+            startY = Integer.parseInt(data[3]);
+            endY = Integer.parseInt(data[4]);
+            highscore = Integer.parseInt(data[2]);
+            level = Integer.parseInt(data[1]);
+            score = Integer.parseInt(data[0]);
+            eventTime = 900 / ((1+level)/2);
+            hud = null;
+            if(level==1)
+            { 
+                BackgroundMusic.stop();
+                BackgroundMusic.play("Race_Car_Music"); 
+            }
+            start(name, slot);
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not start level", ex);
+        }
         
-        startY = Integer.parseInt(data[3]);
-        endY = Integer.parseInt(data[4]);
-        highscore = Integer.parseInt(data[2]);
-        level = Integer.parseInt(data[1]);
-        score = Integer.parseInt(data[0]);
-        eventTime = 900 / ((1+level)/2);
-        hud = null;
-        if(level==1)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Race_Car_Music"); }
-        start(name, slot);
     }
     
     /**
@@ -181,39 +191,48 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void start(String name, int slot)
     {
-        this.slot = slot;
-        MainMenu.closeMenu();
-        this.frame = new JFrame();
-        this.removeAll();//clears frame from menu or previous level
-        //calculates and sets a refresh rate.
-        startTime = System.currentTimeMillis();
-        updateTime = startTime;
-        
-        //sets the screen size to full screen, resizable.
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-        frame.setSize((int)width, (int)height);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
-        
-        //adds other micellaneous items, such as frame name, exit button, and listeners.
-        frame.setTitle("Mythical Maze");
-        frame.setLocation((int)(width/4), 0);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.addKeyListener(this);
-
-        //sets player name, starts level
-        playerName = name;
-        if(level==0||level==1)//if new player
+        try
         {
-            level = 1;
-            newLevel();
+            this.slot = slot;
+            MainMenu.closeMenu();
+            this.frame = new JFrame();
+            this.removeAll();//clears frame from menu or previous level
+            //calculates and sets a refresh rate.
+            startTime = System.currentTimeMillis();
+            updateTime = startTime;
+
+            //sets the screen size to full screen, resizable.
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            double width = screenSize.getWidth();
+            double height = screenSize.getHeight();
+            frame.setSize((int)width, (int)height);
+            frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+
+            //adds other micellaneous items, such as frame name, exit button, and listeners.
+            frame.setTitle("Mythical Maze");
+            frame.setLocation((int)(width/4), 0);
+            frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+            frame.addKeyListener(this);
+
+            //sets player name, starts level
+            playerName = name;
+            if(level==0||level==1)//if new player
+            {
+                level = 1;
+                newLevel();
+            }
+            if(level==1)
+            { 
+                BackgroundMusic.stop();
+                BackgroundMusic.play("Lost"); 
+            }
+            startLevel();//start level
         }
-        if(level==1)
-        { BackgroundMusic.stop();
-               BackgroundMusic.play("Lost"); }
-        startLevel();//start level
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not create starting level screen", ex);
+        } 
     }
     
     /**
@@ -221,23 +240,29 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void startLevel()
     {
-        //new timer for refresh rate
-        ActionListener timerListener = new ActionListener() 
-   	{
-                @Override
-   		public void actionPerformed(ActionEvent e){}
-   	};
-        timer = new Timer(timerSpeed, timerListener);
-        
-        timer.start();
-        frame.repaint();
-        frame.add(this); 
-                
-        //system for determining start/end Y value based on difficulty, higher 
-        //values indicate harder levels as users have less space to create paths
-        gameGrid = new Grid(rightBound, bottomBound, startY, endY,level);//new grid
-        gameGrid.startLevel();
-        
+        try
+        { 
+            //new timer for refresh rate
+            ActionListener timerListener = new ActionListener() 
+            {
+                    @Override
+                    public void actionPerformed(ActionEvent e){}
+            };
+            timer = new Timer(timerSpeed, timerListener);
+
+            timer.start();
+            frame.repaint();
+            frame.add(this); 
+
+            //system for determining start/end Y value based on difficulty, higher 
+            //values indicate harder levels as users have less space to create paths
+            gameGrid = new Grid(rightBound, bottomBound, startY, endY,level);//new grid
+            gameGrid.startLevel();    
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not perform actions to start level", ex);
+        }
     }
     
     /**
@@ -245,49 +270,54 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void newLevel()
     {
-        score+=500*level;//scores are increased based on level beaten
-        if(level % 2 == 1)
+        try
         {
-            eventTime = (int)(900f / ((1+(level))/3.0f));
-            startY = level+1;//add difficulty
-            endY = level+1;
-            if(level==1)
-                intro = true;
+            score+=500*level;//scores are increased based on level beaten
+            if(level % 2 == 1)
+            {
+                eventTime = (int)(900f / ((1+(level))/3.0f));
+                startY = level+1;//add difficulty
+                endY = level+1;
+                if(level==1)
+                    intro = true;
+            }
+            else if(level == 2)
+            {
+                eventTime = (int)(900f / ((1+(level))/3.0f));
+                startY = 3;
+                endY = 2;
+            }
+            else if(level == 4)
+            {
+                eventTime = (int)(900f / ((1+3.5)/3.0f));
+                startY = 4;
+                endY = 3;
+            }
+            else if(level == 6)
+            {
+                eventTime = (int)(900f / ((1+3.5)/3.0f));
+                startY = 2;
+                endY = 6;
+            }
+            else if(level == 8)
+            {
+                eventTime = (int)(900f / ((1+4.5)/3.0f));
+                startY = 6;
+                endY = 8;
+            }
+            else if(level == 10)
+            {
+                eventTime = (int)(900f / ((1+5)/3.0f));
+                startY = 1;
+                endY = 11;
+            }
+            startY = 21 - startY;
+            endY = 21 - endY;
         }
-        else if(level == 2)
+        catch(Exception ex)
         {
-            eventTime = (int)(900f / ((1+(level))/3.0f));
-            startY = 3;
-            endY = 2;
-        }
-        else if(level == 4)
-        {
-            eventTime = (int)(900f / ((1+3.5)/3.0f));
-            startY = 4;
-            endY = 3;
-        }
-        else if(level == 6)
-        {
-            eventTime = (int)(900f / ((1+3.5)/3.0f));
-            startY = 2;
-            endY = 6;
-        }
-        else if(level == 8)
-        {
-            eventTime = (int)(900f / ((1+4.5)/3.0f));
-            startY = 6;
-            endY = 8;
-        }
-        else if(level == 10)
-        {
-            eventTime = (int)(900f / ((1+5)/3.0f));
-            startY = 1;
-            endY = 11;
-        }
-        
-        startY = 21 - startY;
-        endY = 21 - endY;
-            
+            ErrorLogger.logRuntimeError("Could not make calculations for new level", ex);
+        }     
     }
     
     //Methods below are for the logic during the gameplay itself.
@@ -298,22 +328,29 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void update()
     {
-        if(!intro)
+        try
         {
-       if(gameGrid.hasWon())//user has created a successful path, can move character
-       {
-           hud.stopTimer();
-           hud.setCharacterPhase();
-       }
-       updateTime += eventTime;
-       if(gameGrid.isDead()||gameGrid.hasWonLevel())//level lost, calls to end level
-       {
-           endLevel();
-       }
-       else
-       {
-           gameGrid.moveDown();//game has not ended, blocks continue falling
-       }
+            if(!intro)
+            {
+                if(gameGrid.hasWon())//user has created a successful path, can move character
+                {
+                    hud.stopTimer();
+                    hud.setCharacterPhase();
+                }
+                updateTime += eventTime;
+                if(gameGrid.isDead()||gameGrid.hasWonLevel())//level lost, calls to end level
+                {
+                    endLevel();
+                }
+                else
+                {
+                    gameGrid.moveDown();//game has not ended, blocks continue falling
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not update movement", ex);
         }
     }
     
@@ -324,26 +361,32 @@ public class GameRunner extends JPanel implements KeyListener {
     */
     public void endLevel()
     {
-        frame.dispose();
-        if(gameGrid.hasWonLevel())//level won
+        try
         {
-            //prompt save, etc.
-            level++;
-            newLevel();
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
-            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+            frame.dispose();
+            if(gameGrid.hasWonLevel())//level won
+            {
+                //prompt save, etc.
+                level++;
+                newLevel();
+                SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
+                start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+            }
+            else//level lost
+            {
+                //prompt save, etc.
+                SaveLoad.saveGlobalHighscore(playerName, score);
+                score -= 500 * level;
+                score = score / 2;
+                SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
+                SoundFX.payFX("f");//play sound effect for losing
+                start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+            }
         }
-        else//level lost
+        catch(Exception ex)
         {
-            //prompt save, etc.
-            SaveLoad.saveGlobalHighscore(playerName, score);
-            score -= 500 * level;
-            score = score / 2;
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
-            SoundFX.payFX("f");//play sound effect for losing
-            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
-        }
-        
+            ErrorLogger.logRuntimeError("Could not end level and save scores", ex);
+        }       
     }
     
     

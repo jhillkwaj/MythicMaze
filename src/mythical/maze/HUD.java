@@ -13,9 +13,9 @@ import javax.swing.Timer;
  */
 public class HUD {
     
-    private final int rightBound,bottomBound, level, score;//boundary indicators, statistics to display.
+    private int rightBound,bottomBound, level, score;//boundary indicators, statistics to display.
     private double time;//elapsed time.
-    private final String profile;//name of user.
+    private String profile;//name of user.
     private Timer timer;
     private boolean characterPhase;
     
@@ -29,13 +29,20 @@ public class HUD {
      */
     public HUD(int right,int bottom, int l, int s, String p)
     {
-        rightBound = right;
-        bottomBound = bottom;
-        level = l;
-        score = s;
-        time = 0.0;
-        profile = p;
-        characterPhase = false; //timer is running during block phase.
+        try
+        {
+            rightBound = right;
+            bottomBound = bottom;
+            level = l;
+            score = s;
+            time = 0.0;
+            profile = p;
+            characterPhase = false; //timer is running during block phase.
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not initialize HUD",ex);
+        }
     }
     
     /**
@@ -43,16 +50,23 @@ public class HUD {
      */
     public void startTimer()
     {
-        int delay = 100;
-        ActionListener task = new ActionListener() 
+        try
         {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-               time=time+0.1;//counts in tenthes of a second.
-            }
-        };
-        timer =new Timer(delay, task);
-        timer.start();
+            int delay = 100;
+            ActionListener task = new ActionListener() 
+            {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                   time=time+0.1;//counts in tenthes of a second.
+                }
+            };
+            timer =new Timer(delay, task);
+            timer.start();
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not start HUD timer",ex);
+        }
     }
 
     /**
@@ -60,7 +74,14 @@ public class HUD {
      */
     public void stopTimer()
     {
-        timer.stop();
+        try
+        {
+            timer.stop();
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not stop HUD timer",ex);
+        } 
     }
    
     /**
@@ -72,26 +93,26 @@ public class HUD {
      */
     public void drawHUD(Graphics g,int gridSizeX, int gridSizeY, int uiArea)
     {
-        //calculate the correct dimmensions of the display
-        gridSizeX-=uiArea;
-        gridSizeY-=90;
-        float idealRatio = 1.7f;
-        if(gridSizeY/gridSizeX!=idealRatio)
+        try
         {
-            gridSizeX=(int)(gridSizeY/idealRatio);
-        }
-        
-        
-        //start to write headings
-        Font myFont=new Font("Impact",Font.PLAIN, 50);
+            //calculate the correct dimmensions of the display
+            gridSizeX-=uiArea;
+            gridSizeY-=90;
+            float idealRatio = 1.7f;
+            if(gridSizeY/gridSizeX!=idealRatio)
+            {
+                gridSizeX=(int)(gridSizeY/idealRatio);
+            }
+            //start to write headings
+            Font myFont=new Font("Impact",Font.PLAIN, 50);
             g.setColor(Color.white);
             g.setFont(myFont);
             g.drawString("NEXT",(int)(14*(gridSizeX/((float)rightBound)))+200,
                 (int)(1.5*gridSizeY/20));//next shape label
-            
+
             g.drawString("TIME:",(int)(14*(gridSizeX/((float)rightBound)))+200,
                 8*gridSizeY/20);//time label
-            
+
             //format time correctly to one decimal place.
             String displayTime=time+"";
             if(time<10)
@@ -133,6 +154,11 @@ public class HUD {
                 g.drawString("GO",(int)(14*(gridSizeX/((float)rightBound)))+200,
                 18*gridSizeY/20);
             }
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not draw HUD with components",ex);
+        }  
     }
 
     /**
