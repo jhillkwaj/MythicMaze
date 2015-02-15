@@ -27,7 +27,8 @@ public class ImageManager
      */
     public static void importAll()
     {
-        try {
+        try 
+        {
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/CTM.png"))); //0
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/ContractedBy.png"))); //1
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/DevelopedBy.png"))); //2
@@ -51,6 +52,16 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_SydneyoperaHouse.png")));//20
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Tajmahal.png")));//21
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Wood_Crate_Enlarged_Three.png")));//22
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Chichen Itza Happy.png")));//23
+            for(int i = 1; i <= 7; i++) //24-30
+            {
+                images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Slide" + i + ".png")));
+            }
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob.png")));//31
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob1.png")));//32
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob2.png")));//33
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob3.png")));//34
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob4.png")));//35
             Thread.sleep(100);    
         } 
         catch (IOException | InterruptedException ex) 

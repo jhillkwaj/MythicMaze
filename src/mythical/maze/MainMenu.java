@@ -41,6 +41,9 @@ public class MainMenu extends JPanel implements KeyListener
      */
     public void start()
     {
+        EventLogger.setupEvent();//set up logs
+        ErrorLogger.setupError();
+        CrashLogger.setupCrash();
         thisPanel = this;
         this.removeAll();//remove anything from frame, clean slate.
         frame = new JFrame();
@@ -58,7 +61,7 @@ public class MainMenu extends JPanel implements KeyListener
         frame.repaint();
         frame.setVisible(true);
         frame.repaint();
-        BackgroundMusic b = new BackgroundMusic(1);//start music
+        BackgroundMusic.play("Race_Car_Music");//start music
         frame.addKeyListener(this);//enable controls
     }
    
@@ -306,4 +309,9 @@ public class MainMenu extends JPanel implements KeyListener
     public void keyPressed(KeyEvent e) {}
     @Override
     public void keyReleased(KeyEvent e) {}
+    
+    public static void closeMenu()
+    {
+        frame.dispose();
+    }
 }

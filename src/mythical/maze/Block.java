@@ -44,6 +44,23 @@ public class Block
         south = s;
         west = w;
         east = e;
+        
+        if(Math.random()<.02f)
+        { north = true;}
+        if(Math.random()<.02f)
+        { south = true;}
+        if(Math.random()<.02f)
+        { east = true;}
+        if(Math.random()<.02f)
+        { west = true;}
+        if(Math.random()<.15f)
+        { north = false; }
+        if(Math.random()<.15f)
+        { south = false; }
+        if(Math.random()<.15f)
+        { east = false; }
+        if(Math.random()<.15f)
+        { west = false; }
     }
     
     /**
@@ -89,19 +106,23 @@ public class Block
         int levelImage = 10;//default
         if(level == 2)
         { 
-            levelImage = 8; 
+            levelImage = 8;
+            c = new Color(250,0,0);
         }
         else if(level == 3)
         { 
-            levelImage = 11; 
+            levelImage = 11;
+            c = new Color(0,250,0);
         }
         else if(level == 4)
         { 
-            levelImage = 12; 
+            levelImage = 12;
+            c = new Color(250,0,255);
         }
         else if(level == 5)
         { 
-            levelImage = 9; 
+            levelImage = 9;
+            c = new Color(0,250,255);
         }
         
         g.setColor(c);//set color for the walls.
@@ -121,21 +142,21 @@ public class Block
         //if walls exist, offset.
         if(west)
         { 
-            xStart+=3;
-            xSize-=3;
+            xStart+=5;
+            xSize-=5;
         }
         if(east)
         { 
-            xSize-=3;
+            xSize-=5;
         }
         if(north)
         { 
-            yStart+=3;
-            ySize-=3;
+            yStart+=5;
+            ySize-=5;
         }
         if(south)
         { 
-            ySize-=3;
+            ySize-=5;
         }
         //finally, draw the image on top with calculated offset values.
         g.drawImage(ImageManager.getImage(levelImage),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 

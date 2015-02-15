@@ -9,7 +9,7 @@ import java.awt.Graphics;
 public class Character 
 {
     private int xPos,yPos;
-    
+    private int imageNum = 31;
     /**
     * Constructor that takes two integers, x and y, and sets private integers
     * xPos and yPos to represent the location of the character.
@@ -32,9 +32,9 @@ public class Character
     */
     public void draw(Graphics g,int gridSizeX, int gridSizeY, int offSetX, int xBlocks)
     {
-        g.drawImage(ImageManager.getImage(7),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX, 
+        g.drawImage(ImageManager.getImage(imageNum),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX+(int)(gridSizeX/((float)xBlocks)), 
                 (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)), 
-                (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0),null);
+                -(int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0),null);
         //draws the character onto the screen with calculations on size based on 
         //the grid so that character size changes with screen size.
     }
@@ -65,6 +65,7 @@ public class Character
     public void setX(int x)
     {
         xPos = x;
+        imageNum = 31+(int)Math.random()*5;
     }
     
    /**
@@ -74,5 +75,6 @@ public class Character
     public void setY(int y)
     {
         yPos = y;
+        imageNum = 31+(int)Math.random()*5;
     } 
 }

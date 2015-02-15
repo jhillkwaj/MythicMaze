@@ -11,53 +11,46 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * Runs the music for the Mythical Maze game.
  * @author Justin Hill
  */
-public class BackgroundMusic implements Runnable 
+public class BackgroundMusic
 {
-    private Thread thread;
-    private final int choice;
-    private Clip clip;
-    
+    private static Clip clip;
+
     /**
-     * Takes an input choice plays a specific song according to the parameter.
-     * @param choice an integer that represents the choice of which song to play.
+     * Plays a specific song
+     * @param name the song to play.
      */
-    public BackgroundMusic(int choice)
+    public static void play(String name)
     {
-        this.choice = choice;//sets the local variable to the parameter.
-        start();//starts the music.
+        final String songName = name;
+        Thread thread;
+        thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run() 
+            {
+                AudioInputStream audioIn = null;//initiates audio stream
+                try 
+                {
+                    audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+songName+".wav"));//set path
+                    clip = AudioSystem.getClip();//gets clip
+                    clip.open(audioIn);//opens clip
+                    clip.start();//plays song
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+                } 
+                catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
+                {
+                    ErrorLogger.logIOError("Cannot play sound effect",ex);
+                }
+            }
+        });
+        thread.start();//runs the music playing thread
     }
     
-    /**    
-     * Starts a music stream from a selected music file to play during the game.
-     */
-    @Override
-    public void run()
-    {
-        AudioInputStream audioIn = null;
-        try
-        {
-            //gets audio, plays, and loops
-            audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/Race_Car_Music.wav"));
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } 
-        catch(UnsupportedAudioFileException | IOException | LineUnavailableException ex) 
-        {
-            ErrorLogger.logIOError("Music file could not be played" ,ex);//logs potential IOException
-        }
-    }
-   
     /**
-     * Starts a thread to play game music.
+     * Stops the current song from playing
      */
-    private void start()
+    public static void stop()
     {
-       if (thread == null)
-       {
-          thread = new Thread (this, "Background Music");
-          thread.start();
-       }
-    }  
+        clip.stop();
+    }
 }

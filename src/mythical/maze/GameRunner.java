@@ -16,9 +16,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Character.toUpperCase;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -61,6 +64,12 @@ public class GameRunner extends JPanel implements KeyListener {
     
     //Methods below are for graphics
         
+    
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+    }
+    
    /**
     * Creates the canvas; calls out to object classes to paint grid, blocks, 
     * heads up display, character, and much more.
@@ -72,15 +81,49 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         if(intro)
         {
+            double time = System.currentTimeMillis()-startTime;
             if(level==1){
-                g.setColor(Color.black);
-                g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                if(System.currentTimeMillis()-startTime>4000)
+                if(time<3000)
+                 g.drawImage(ImageManager.getImage(23), 0, 0, this.getWidth(), this.getHeight(), this);
+                if(time > 1000 && time < 3000)
+                {
+                   g.setColor(new Color(0f,0f,0f,(float)(time-1000)/2000.0f));
+                   g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                }
+                if(time>3000&&time<17000)
+                {
+                    g.setColor(Color.black);
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    if(time>4000){
+                        g.drawImage(ImageManager.getImage(24+(int)(time-4000)/2000), 0, 0, this.getWidth(), this.getHeight(), this);
+                    }
+                }
+                else if(time > 19000 && time < 23000)
+                {
+                    g.drawImage(ImageManager.getImage(30), 0, 0, this.getWidth(), this.getHeight(), this);
+                    g.setColor(new Color(0f,0f,0f,(float)(time-19000)/4000.0f));
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                }
+                else if(time > 24001&&time<25999)
+                {
+                    g.drawImage(ImageManager.getImage(17), 0, 0, this.getWidth(), this.getHeight(), this);
+                    g.setColor(new Color(0f,0f,0f,1.0f-(float)(time-24000)/2000.0f));
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                }
+                else if(time > 27000)
+                {
+                    g.drawImage(ImageManager.getImage(17), 0, 0, this.getWidth(), this.getHeight(), this);
+                   
+                }
+                if(time>28000)
                 {
                     intro = false;
                     startTime = System.currentTimeMillis();
                     updateTime = startTime;
                 }
+                
+                
+                
             }
             repaint();
         }else{
@@ -124,6 +167,9 @@ public class GameRunner extends JPanel implements KeyListener {
         score = Integer.parseInt(data[0]);
         eventTime = 900 / ((1+level)/2);
         hud = null;
+        if(level==1)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Race_Car_Music"); }
         start(name);
     }
     
@@ -135,6 +181,7 @@ public class GameRunner extends JPanel implements KeyListener {
      */
     public void start(String name)
     {
+        MainMenu.closeMenu();
         this.frame = new JFrame();
         this.removeAll();//clears frame from menu or previous level
         //calculates and sets a refresh rate.
@@ -162,6 +209,9 @@ public class GameRunner extends JPanel implements KeyListener {
             level = 1;
             newLevel();
         }
+        if(level==1)
+        { BackgroundMusic.stop();
+               BackgroundMusic.play("Lost"); }
         startLevel();//start level
     }
     
@@ -276,6 +326,7 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             //prompt save, etc.
             level++;
+            newLevel();
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName);//restart
         }
@@ -322,7 +373,7 @@ public class GameRunner extends JPanel implements KeyListener {
     */
     @Override
     public void keyReleased(KeyEvent ke)
-    {
+    { intro = false;
         if(!gameGrid.hasWon())//block phase
         {
             if (ke.getKeyCode() == KeyEvent.VK_UP)
