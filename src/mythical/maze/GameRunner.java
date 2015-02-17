@@ -80,7 +80,19 @@ public class GameRunner extends JPanel implements KeyListener {
             if(intro)//paints intro animation
             {
                 double time = System.currentTimeMillis()-startTime;
-                if(level==1){
+                if(level==-1){
+                if(imageNum < 15)
+                {
+                    g.setColor(new Color(1f,1f,1f));
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    g.drawImage(ImageManager.getImage(imageNum+37), (this.getWidth()/2)-400, (this.getHeight()/2)-300, this);
+                }else{
+                    intro = false;
+                    startTime = System.currentTimeMillis();
+                    updateTime = startTime;
+                }
+            }
+            else if(level==1){
                     if(time<3000)
                     {
                         g.drawImage(ImageManager.getImage(23), 0, 0, this.getWidth(), this.getHeight(), this);
@@ -232,8 +244,7 @@ public class GameRunner extends JPanel implements KeyListener {
         playerName = name;
         if(level==0||level==1)//if new player
         {level = 1;}
-        if(level==-1)
-        { newLevel();}
+        newLevel();
         //play level spacific music
         playLevelMusic();
         startLevel();//start level
@@ -305,7 +316,11 @@ public class GameRunner extends JPanel implements KeyListener {
                    BackgroundMusic.play("Lost"); }
             else if(level==10)
             { BackgroundMusic.stop();
-                   BackgroundMusic.play("Dancing in the Halls of Pie"); }
+                   BackgroundMusic.play("Background"); }
+            else if(level==-1){
+                BackgroundMusic.stop();
+                   BackgroundMusic.play("Background");
+            }
         }
         catch(Exception ex)
         {
@@ -327,9 +342,9 @@ public class GameRunner extends JPanel implements KeyListener {
                 endY = 1;
                 intro = true;
             }
-            else if(level % 2 == 1)
+            else
             {
-                score+=500*level;//scores are increased based on level beaten
+                
                 if(level % 2 == 1)
                 {
                     eventTime = (int)(900f / ((1+(level))/3.0f));
@@ -368,9 +383,10 @@ public class GameRunner extends JPanel implements KeyListener {
                     startY = 1;
                     endY = 11;
                 }
+            }
                 startY = 21 - startY;
                 endY = 21 - endY;
-            }  
+              
         }
         catch(Exception ex)
         {

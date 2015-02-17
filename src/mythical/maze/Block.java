@@ -174,6 +174,10 @@ public class Block
             { 
                 levelImage = 11;
                 c = new Color(250,255,255);
+            }else if(level == -1)
+           { 
+               levelImage = 11;
+               c = new Color(250,180,0);
             }
 
 
