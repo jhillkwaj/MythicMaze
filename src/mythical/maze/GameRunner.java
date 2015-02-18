@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import static java.lang.Character.toUpperCase;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -140,7 +141,7 @@ public class GameRunner extends JPanel implements KeyListener {
             {
                 if(hud==null)
                 {
-                    hud = new HUD(rightBound,bottomBound,level,score,playerName);//new heads up display
+                    hud = new HUD(rightBound,bottomBound,level,score,playerName, this);//new heads up display
                     hud.startTimer();//start level timer, which determines end score.
                 }
                 if(back==null)//if canvas has not been created, create canvsas
@@ -457,12 +458,7 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             if(level!=-1)
             {
-            //prompt save, etc.
-            SaveLoad.saveGlobalHighscore(playerName, score);
-            score = score - (score / 6);
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
-            SoundFX.playFX("f");//play sound effect for losing
-            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+                restart();
             }
             else{
                 gameGrid.clearDeadBlocks();
@@ -569,5 +565,23 @@ public class GameRunner extends JPanel implements KeyListener {
                 case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y); break; 
             }
         }
+    }
+    
+    /**
+     * Restarts the level
+     */
+    public void restart()
+    {
+            //prompt save, etc.
+            SaveLoad.saveGlobalHighscore(playerName, score);
+            score = score - (score / 6);
+            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
+            SoundFX.playFX("f");//play sound effect for losing
+            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+    }
+    
+    public void addButton(JButton b)
+    {
+        frame.add(b);
     }
 }

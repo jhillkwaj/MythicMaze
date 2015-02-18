@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,9 +19,9 @@ import javax.swing.SwingConstants;
  * Creates a frame in which the user can select a player slot.
  * @author Justin Hill
  */
-public class SelectPlayer extends JPanel 
+public class SelectPlayer extends JPanel
 {
-    public JFrameExitOnFocusLost frame;//initiates variation on frame
+    public static JFrame frame = new JFrame();//initiates variation on frame
     
     /**
      * Creates frame for selecting player slot.
@@ -29,8 +30,8 @@ public class SelectPlayer extends JPanel
     {
         try
         {
+            frame.dispose();
             Font font = new Font("Arial", Font.PLAIN, 12);//set font
-            frame = new JFrameExitOnFocusLost();
             frame.setSize(400, 120);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//size
             frame.setLocation((int)(screenSize.getWidth()/2)-200,(int)(screenSize.getHeight()/2)-100);//set location to center
@@ -78,8 +79,8 @@ public class SelectPlayer extends JPanel
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                    startGame(names[0],0);
                     frame.dispose();
+                    startGame(names[0],0);
                 }
             });
             one.setBounds(0, 0, 100, 100);//set location
@@ -97,8 +98,8 @@ public class SelectPlayer extends JPanel
                     @Override
                     public void actionPerformed(ActionEvent e) 
                     {
-                        startGame(names[1],1);
                         frame.dispose();
+                        startGame(names[1],1);
                     }
             });
             two.setBounds(100, 0, 100, 100);
@@ -116,8 +117,8 @@ public class SelectPlayer extends JPanel
                     @Override
                     public void actionPerformed(ActionEvent e) 
                     {
-                        startGame(names[2],2);
                         frame.dispose();
+                        startGame(names[2],2);
                     }
             });
             three.setBounds(200, 0, 100, 100);
@@ -135,8 +136,8 @@ public class SelectPlayer extends JPanel
                     @Override
                     public void actionPerformed(ActionEvent e) 
                     {
-                        startGame(names[3],3);
                         frame.dispose();
+                        startGame(names[3],3);
                     }
             });
             four.setBounds(300, 0, 100, 100);
@@ -215,19 +216,6 @@ public class SelectPlayer extends JPanel
             ErrorLogger.logRuntimeError("Could not start game",ex);
         }
     }
-    
-    /**
-     * Disposes of the frame on loss of focus.
-     */
-    public static class JFrameExitOnFocusLost extends JFrame{
 
-        /**
-         * Disposes the frame.
-         * @param fe indicates the focus.
-         */
-        public void focusLost(FocusEvent fe)
-        {
-            this.dispose();
-        }
-    }
+   
 }

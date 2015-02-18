@@ -33,6 +33,8 @@ public class MainMenu extends JPanel implements KeyListener
     private double draws = 0;
     private double mythicPos = 0;
     private double mazePos = 0;
+    private long startTime;
+    private int lastDraw = 0;
     
     private ArrayList<Shape> shapes = new ArrayList<>();
     
@@ -60,12 +62,12 @@ public class MainMenu extends JPanel implements KeyListener
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
             //start painting screen onto frame.
             frame.getContentPane().add(this);
-            frame.repaint();
+            startTime = System.currentTimeMillis();
             frame.setVisible(true);
-            frame.repaint();
             BackgroundMusic.play("Race_Car_Music");//start music
             frame.addKeyListener(this);//enable controls
             EventLogger.logEvent("Game menu load successful");
+            frame.repaint();
         }
         catch(Exception ex)
         {
@@ -99,6 +101,7 @@ public class MainMenu extends JPanel implements KeyListener
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
+                    SoundFX.playFX("Select");
                     SelectPlayer p = new SelectPlayer();
                 }
             });
@@ -114,6 +117,7 @@ public class MainMenu extends JPanel implements KeyListener
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
+                    SoundFX.playFX("Select");
                     GameRunner g = new GameRunner();
                     g.start("Tutorial", -1);
                 }
@@ -130,6 +134,7 @@ public class MainMenu extends JPanel implements KeyListener
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
+                    SoundFX.playFX("Select");
                     TreeMap<Integer, String> t = SaveLoad.getHighScores();//calls to get high scores to display.
                     String scores = "";
                     for(int i = 0; i < 4; i++)
@@ -153,6 +158,7 @@ public class MainMenu extends JPanel implements KeyListener
            credits.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
+                                SoundFX.playFX("Select");
                                  JOptionPane.showMessageDialog(null, "                                                Credits\n"
                                          + "                                Developed By The Techs\n"
                                          + "Project Manager:                Justin Hill\n"
@@ -183,6 +189,7 @@ public class MainMenu extends JPanel implements KeyListener
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
+                    SoundFX.playFX("Select");
                     System.exit(1);
                 }
             });
@@ -208,6 +215,9 @@ public class MainMenu extends JPanel implements KeyListener
     @Override
     public void paintComponent(Graphics g)
     {
+        draws = (int)(40*(System.currentTimeMillis()-startTime)/1000.0);
+        while(lastDraw<draws)
+        {
         try 
         {
             //fills a black background with background image
@@ -293,7 +303,7 @@ public class MainMenu extends JPanel implements KeyListener
                 {
                     addButtons();
                 }
-                if(draws%400 <= 100)//move around title in pattern back and forth
+                if(draws%400 < 100)//move around title in pattern back and forth
                 {
                     mythicPos+=this.getWidth()/350.0f;
                     mazePos-=this.getWidth()/300.0f;
@@ -309,25 +319,21 @@ public class MainMenu extends JPanel implements KeyListener
                 g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4+(7*(frame.getHeight()/16)), 280,97+2* frame.getHeight()/16, this);
                 g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(9*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
             }
-            
-            Thread.sleep(20);//pause after moving
-            draws++;//increase to further develop pattern
-            repaint();//refresh screen
         } 
-        catch (InterruptedException ex) 
-        {
-            ErrorLogger.logIOError("Interruption in displaying main menu",ex);
-        }
         catch(Exception ex)
         {
             ErrorLogger.logRuntimeError("Unknown exception in displaying menu",ex);
         }
+        lastDraw++;
+        }
+        repaint();//refresh screen
     }
 
     @Override
     public void keyTyped(KeyEvent e) 
     {
-        draws = 302;//skip past main menu introduction.
+        draws = 300;//skip past main menu introduction.
+        lastDraw = 300;
         blackStartFilter = new Color(0.0f,0.0f,0.0f,0.4f);//fade right into menu
     }
     @Override

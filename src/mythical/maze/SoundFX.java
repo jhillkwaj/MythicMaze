@@ -21,6 +21,8 @@ public class SoundFX
      */
     public static void playFX(String name)
     {
+        if(Settings.soundEffectsOn)
+        {
         final String clipName = name;
         Thread thread;
         thread = new Thread(new Runnable()
@@ -48,5 +50,6 @@ public class SoundFX
             }
         });
         thread.start();//runs the sound creating thread
+    }
     }
 }

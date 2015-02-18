@@ -1,9 +1,16 @@
 package mythical.maze;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  * Creates a Grid that the game will be played on; includes blocks and characters.
@@ -17,6 +24,7 @@ public class Grid
     private int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;//constants for grid
     private boolean hasWon,hasWonLevel,isDead;//variables for whether game has been won, lost, etc.
     private int scoreToAdd;//scores gained from winning level
+    
     
     //NOTE:: due to the length of the class, methods have been organized into the 
     //following categories: creating new shapes, moving shapes, checking if game has
@@ -390,11 +398,12 @@ public class Grid
                     deadBlocks.add(b);//add the shape to the list of nonmoving shapes
                 }
                 checkDead();//see if the game has ended
-                if(findPath(0, startY, rightBound-1, endY)) //see if a correct path has been created
+                if(findPath(0, startY, rightBound-1, endY)&&!hasWon) //see if a correct path has been created
                 {
+                    SoundFX.playFX("Make Path");
                     hasWon = true;
                 }
-                else //has not won nor lost, but new shape must be created
+                else if(!hasWon) //has not won nor lost, but new shape must be created
                 {
                     checkRow();
                     addShape();
@@ -469,6 +478,8 @@ public class Grid
     {
         try
         {
+            if(!hasWon)
+            {
             Block toRemove = null;
             for(Block b:deadBlocks)
             {
@@ -493,11 +504,14 @@ public class Grid
                 }
                 scoreToAdd+=100;//earn points for removing rows
             }
+            SoundFX.playFX("clear_row");
+            }
         }
         catch(Exception ex)
         {
             ErrorLogger.logRuntimeError("Could not remove a full row",ex);
         }  
+        
     }
     
     
@@ -594,7 +608,7 @@ public class Grid
         try
         {
             if(block==endBlock)//base case, end reached
-            { 
+            {
                 return true; 
             }
             ArrayList<Block> links = blocks.get(block);
@@ -959,8 +973,12 @@ public class Grid
         return scoreToAdd;
     }
     
+    /**
+     * Removes all the blocks during the tutorial.
+     */
     public void clearDeadBlocks()
     {
         deadBlocks.clear();
     }
+    
 }

@@ -14,8 +14,8 @@ import java.util.ArrayList;
  */
 public class Settings 
 {
-    public static boolean musicOn;
-    public static boolean soundEffectsOn;
+    public static boolean musicOn = true;
+    public static boolean soundEffectsOn = true;
     
     /**
      * Scans in the information in a saved settings file and sets game settings.
@@ -123,6 +123,7 @@ public class Settings
      */
     public static void turnMusicOff()
     {
+        BackgroundMusic.stop();
         musicOn = false;
         saveSettings();
     }
@@ -132,6 +133,7 @@ public class Settings
      */
     public static void turnMusicOn()
     {
+        BackgroundMusic.unMute();
         musicOn = true;
         saveSettings();
     }
