@@ -218,116 +218,116 @@ public class MainMenu extends JPanel implements KeyListener
         draws = (int)(40*(System.currentTimeMillis()-startTime)/1000.0);
         while(lastDraw<draws)
         {
-        try 
-        {
-            //fills a black background with background image
-            g.setColor(new Color(0,0,0));
-            g.fillRect(0, 0, this.getWidth(), this.getHeight());
-            switch (((int)(draws-200)/300)%7)
+            try 
             {
-                case 0:
-                    g.drawImage(ImageManager.getImage(16),0,0, this.getWidth(), this.getHeight(), this);
-                break;
-                
-                case 1:
-                    g.drawImage(ImageManager.getImage(21),0,0, this.getWidth(), this.getHeight(), this);
-                break;
-                    
-                case 2:
-                   g.drawImage(ImageManager.getImage(20),0,0, this.getWidth(), this.getHeight(), this);
-                break;
-                
-                case 3:
-                    g.drawImage(ImageManager.getImage(15),0,0, this.getWidth(), this.getHeight(), this);
-                break;
-                
-                case 4:
-                    g.drawImage(ImageManager.getImage(14),0,0, this.getWidth(), this.getHeight(), this);
-                break;
-                
-                case 5:
-                    g.drawImage(ImageManager.getImage(19),0,0, this.getWidth(), this.getHeight(), this);
-                    break;  
-                case 6:
-                    g.drawImage(ImageManager.getImage(52),0,0, this.getWidth(), this.getHeight(), this);
-                break;   
-            }
-            if(draws>300&&(int)(draws-200)%300>270)
-            {
-                blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)+.02f);
-            }
-            else if(draws>300&&(int)(draws-200)%300<29)
-            {
-                if((blackStartFilter.getAlpha()/255.0f)-.02f>0)
+                //fills a black background with background image
+                g.setColor(new Color(0,0,0));
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                switch (((int)(draws-200)/300)%7)
                 {
-                    blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.02f);
-                }
-                    
-                else
-                {
-                    blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
-                }            
-            }                   
-            //fade in main menu elements
-            g.setColor(blackStartFilter);
-            g.fillRect(0, 0, this.getWidth(), this.getHeight());
-            if(draws<100)
-            {
-                g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
-                g.setColor(new Color(255,144,0));
-                g.drawImage(ImageManager.getImage(2), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
-                g.drawImage(ImageManager.getImage(3), this.getWidth()/4, this.getHeight()/2, this.getWidth()/2, this.getWidth()/10, null);
+                    case 0:
+                        g.drawImage(ImageManager.getImage(16),0,0, this.getWidth(), this.getHeight(), this);
+                    break;
 
-            }
-            else if(draws<200)//continuing fade in...
-            {
-                g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
-                g.setColor(new Color(255,144,0));
-                g.drawImage(ImageManager.getImage(1), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
-                g.drawImage(ImageManager.getImage(0), this.getWidth()/3, (int)(this.getHeight()/2.5f), this.getWidth()/3, (int)(((this.getWidth()/3.0f)/800.0f)*600.0f), null);
-            }
-            if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)//complete fade in at end
-            {
-                blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
-            }
-            //draw some pieces
-            for(Shape s : shapes)
-            {
-                s.drawShape(g, this.getWidth(), this.getHeight(), 0, 0);
-            }
-            if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)//animation for title
-            {
-                //set font and color, get images
-                g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
-                g.setColor(new Color(100,0,0));
-                g.drawImage(ImageManager.getImage(6) , this.getWidth()/4 + (int)mythicPos, this.getHeight()/20, this.getWidth()/3, this.getWidth()/10, null);
-                g.drawImage(ImageManager.getImage(5), this.getWidth()/4 + this.getWidth()/3 + (int)mazePos, this.getHeight()/20, this.getWidth()/4, this.getWidth()/10, null);
-                if(this.getComponentCount()==0)//add to blank menu
-                {
-                    addButtons();
+                    case 1:
+                        g.drawImage(ImageManager.getImage(21),0,0, this.getWidth(), this.getHeight(), this);
+                    break;
+
+                    case 2:
+                       g.drawImage(ImageManager.getImage(20),0,0, this.getWidth(), this.getHeight(), this);
+                    break;
+
+                    case 3:
+                        g.drawImage(ImageManager.getImage(15),0,0, this.getWidth(), this.getHeight(), this);
+                    break;
+
+                    case 4:
+                        g.drawImage(ImageManager.getImage(14),0,0, this.getWidth(), this.getHeight(), this);
+                    break;
+
+                    case 5:
+                        g.drawImage(ImageManager.getImage(19),0,0, this.getWidth(), this.getHeight(), this);
+                        break;  
+                    case 6:
+                        g.drawImage(ImageManager.getImage(52),0,0, this.getWidth(), this.getHeight(), this);
+                    break;   
                 }
-                if(draws%400 < 100)//move around title in pattern back and forth
+                if(draws>300&&(int)(draws-200)%300>270)
                 {
-                    mythicPos+=this.getWidth()/350.0f;
-                    mazePos-=this.getWidth()/300.0f;
+                    blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)+.02f);
                 }
-                else if(draws%400 >= 200 && draws%400 < 300)
+                else if(draws>300&&(int)(draws-200)%300<29)
                 {
-                    mythicPos-=this.getWidth()/350.0f;
-                    mazePos+=this.getWidth()/300.0f;
+                    if((blackStartFilter.getAlpha()/255.0f)-.02f>0)
+                    {
+                        blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.02f);
+                    }
+
+                    else
+                    {
+                        blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
+                    }            
+                }                   
+                //fade in main menu elements
+                g.setColor(blackStartFilter);
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                if(draws<100)
+                {
+                    g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
+                    g.setColor(new Color(255,144,0));
+                    g.drawImage(ImageManager.getImage(2), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
+                    g.drawImage(ImageManager.getImage(3), this.getWidth()/4, this.getHeight()/2, this.getWidth()/2, this.getWidth()/10, null);
+
                 }
-                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4, 280,97+2* frame.getHeight()/16, this);
-                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(3*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
-                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(5*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
-                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4+(7*(frame.getHeight()/16)), 280,97+2* frame.getHeight()/16, this);
-                g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(9*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
+                else if(draws<200)//continuing fade in...
+                {
+                    g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
+                    g.setColor(new Color(255,144,0));
+                    g.drawImage(ImageManager.getImage(1), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
+                    g.drawImage(ImageManager.getImage(0), this.getWidth()/3, (int)(this.getHeight()/2.5f), this.getWidth()/3, (int)(((this.getWidth()/3.0f)/800.0f)*600.0f), null);
+                }
+                if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)//complete fade in at end
+                {
+                    blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
+                }
+                //draw some pieces
+                for(Shape s : shapes)
+                {
+                    s.drawShape(g, this.getWidth(), this.getHeight(), 0, 0);
+                }
+                if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)//animation for title
+                {
+                    //set font and color, get images
+                    g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
+                    g.setColor(new Color(100,0,0));
+                    g.drawImage(ImageManager.getImage(6) , this.getWidth()/4 + (int)mythicPos, this.getHeight()/20, this.getWidth()/3, this.getWidth()/10, null);
+                    g.drawImage(ImageManager.getImage(5), this.getWidth()/4 + this.getWidth()/3 + (int)mazePos, this.getHeight()/20, this.getWidth()/4, this.getWidth()/10, null);
+                    if(this.getComponentCount()==0)//add to blank menu
+                    {
+                        addButtons();
+                    }
+                    if(draws%400 < 100)//move around title in pattern back and forth
+                    {
+                        mythicPos+=this.getWidth()/350.0f;
+                        mazePos-=this.getWidth()/300.0f;
+                    }
+                    else if(draws%400 >= 200 && draws%400 < 300)
+                    {
+                        mythicPos-=this.getWidth()/350.0f;
+                        mazePos+=this.getWidth()/300.0f;
+                    }
+                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4, 280,97+2* frame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(3*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(5*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4+(7*(frame.getHeight()/16)), 280,97+2* frame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(9*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
+                }
+            } 
+            catch(Exception ex)
+            {
+                ErrorLogger.logRuntimeError("Unknown exception in displaying menu",ex);
             }
-        } 
-        catch(Exception ex)
-        {
-            ErrorLogger.logRuntimeError("Unknown exception in displaying menu",ex);
-        }
-        lastDraw++;
+                lastDraw++;
         }
         repaint();//refresh screen
     }

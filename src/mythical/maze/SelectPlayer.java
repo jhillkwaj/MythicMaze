@@ -18,7 +18,10 @@ import javax.swing.SwingConstants;
  */
 public class SelectPlayer extends JPanel
 {
-    public static AutoCloseFrame frame = new AutoCloseFrame();//initiates variation on frame
+    public static AutoCloseFrame selectPlayerFrame = new AutoCloseFrame();//initiates variation on frame
+    private String[] names, playerNames;
+    private Font font;
+    private ImageIcon backgroundImage;
     
     /**
      * Creates frame for selecting player slot.
@@ -27,19 +30,19 @@ public class SelectPlayer extends JPanel
     {
         try
         {
-            frame.dispose();
-            Font font = new Font("Arial", Font.PLAIN, 12);//set font
-            frame.setSize(405, 130);
+            selectPlayerFrame.dispose();
+            font = new Font("Arial", Font.PLAIN, 12);//set font
+            selectPlayerFrame.setSize(405, 130);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//size
-            frame.setLocation((int)(screenSize.getWidth()/2)-200,(int)(screenSize.getHeight()/2)-100);//set location to center
-            frame.setTitle("Select User");//title
-            frame.setResizable(false);
-            frame.getContentPane().add(this);
-            frame.repaint();//paints on info
-            frame.setVisible(true);
+            selectPlayerFrame.setLocation((int)(screenSize.getWidth()/2)-200,(int)(screenSize.getHeight()/2)-100);//set location to center
+            selectPlayerFrame.setTitle("Select User");//title
+            selectPlayerFrame.setResizable(false);
+            selectPlayerFrame.getContentPane().add(this);
+            selectPlayerFrame.repaint();//paints on info
+            selectPlayerFrame.setVisible(true);
             this.setLayout(null);
-            ImageIcon image = new ImageIcon(ImageManager.getImage(66).getScaledInstance(100, 100, 0));//background added
-            String[] playerNames = SaveLoad.getProfiles();//retrieves slots from file
+            backgroundImage = new ImageIcon(ImageManager.getImage(66).getScaledInstance(100, 100, 0));//background added
+            playerNames = SaveLoad.getProfiles();//retrieves slots from file
             if(playerNames==null)
             { 
                 playerNames = new String[4]; //no profiles exist
@@ -62,87 +65,48 @@ public class SelectPlayer extends JPanel
                      playerNames[i] = "New Player";
                  }
             }
-            final String[] names = playerNames;
-            JButton one = new JButton(image);
-            //draws out the player name onto buttone
-            one.setBorderPainted(false);
-            one.setContentAreaFilled(false);
-            one.setHorizontalTextPosition(SwingConstants.CENTER);
-            one.setText("<html>" + getText(playerNames[0],0) + "</html>");
-            one.setFont(font);
-            one.setForeground(Color.black);
-            one.addActionListener(new ActionListener() 
+            names = playerNames;
+            for(int i=0;i<=3;i++)
             {
-                @Override
-                public void actionPerformed(ActionEvent e) 
-                {
-                    frame.dispose();
-                    startGame(names[0],0);
-                }
-            });
-            one.setBounds(0, 0, 100, 100);//set location
-            this.add(one);//add to frame.
-            //same for second player
-            JButton two = new JButton(image);
-            two.setBorderPainted(false);
-            two.setContentAreaFilled(false);
-            two.setHorizontalTextPosition(SwingConstants.CENTER);
-            two.setText("<html>" + getText(playerNames[1],1) + "</html>");
-            two.setFont(font);
-            two.setForeground(Color.black);
-            two.addActionListener(new ActionListener() 
-            {
-                    @Override
-                    public void actionPerformed(ActionEvent e) 
-                    {
-                        frame.dispose();
-                        startGame(names[1],1);
-                    }
-            });
-            two.setBounds(100, 0, 100, 100);
-            this.add(two);
-            //same for third player
-            JButton three = new JButton(image);
-            three.setBorderPainted(false);
-            three.setContentAreaFilled(false);
-            three.setHorizontalTextPosition(SwingConstants.CENTER);
-            three.setText("<html>" + getText(playerNames[2],2) + "</html>");
-            three.setFont(font);
-            three.setForeground(Color.black);
-            three.addActionListener(new ActionListener() 
-            {
-                    @Override
-                    public void actionPerformed(ActionEvent e) 
-                    {
-                        frame.dispose();
-                        startGame(names[2],2);
-                    }
-            });
-            three.setBounds(200, 0, 100, 100);
-            this.add(three);
-            //same for fourth player
-            JButton four = new JButton(image);
-            four.setBorderPainted(false);
-            four.setContentAreaFilled(false);
-            four.setHorizontalTextPosition(SwingConstants.CENTER);
-            four.setText("<html>" + getText(playerNames[3],3) + "</html>");
-            four.setFont(font);
-            four.setForeground(Color.black);
-            four.addActionListener(new ActionListener() 
-            {
-                    @Override
-                    public void actionPerformed(ActionEvent e) 
-                    {
-                        frame.dispose();
-                        startGame(names[3],3);
-                    }
-            });
-            four.setBounds(300, 0, 100, 100);
-            this.add(four);
+                createButton(i);
+            }
         }
         catch(Exception ex)
         {
             ErrorLogger.logRuntimeError("Could not select a player from frame",ex);
+        }
+    }
+    
+    /**
+     * Creates and adds a button for selecting player slot.
+     */
+    private void createButton(final int slot)
+    {
+        try
+        {
+            JButton button = new JButton(backgroundImage);
+            //draws out the player name onto buttone
+            button.setBorderPainted(false);
+            button.setContentAreaFilled(false);
+            button.setHorizontalTextPosition(SwingConstants.CENTER);
+            button.setText("<html>" + getText(playerNames[slot],slot) + "</html>");
+            button.setFont(font);
+            button.setForeground(Color.black);
+            button.addActionListener(new ActionListener() 
+            {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    selectPlayerFrame.dispose();
+                    startGame(names[slot],slot);
+                }
+            });
+            button.setBounds(100*slot, 0, 100, 100);//set location
+            this.add(button);//add to frame.
+        }
+        catch(Exception ex)
+        {
+            ErrorLogger.logRuntimeError("Could not create select player buttons", ex);
         }
     }
     
@@ -152,7 +116,7 @@ public class SelectPlayer extends JPanel
      * @param slot the key for indicating the player.
      * @return name the modified player name.
      */
-    public String getText(String name, int slot)
+    private String getText(String name, int slot)
     {
         try
         {

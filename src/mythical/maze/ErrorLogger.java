@@ -58,7 +58,17 @@ public class ErrorLogger
             EventLogger.logEvent("Runtime Error occurred, warning message displayed: "+message);
             fhError.close();
             JOptionPane.showMessageDialog(null, "A Runtime Exception occurred. Description:" + message,
-                    "Error", JOptionPane.WARNING_MESSAGE);//display message to user
+                    "Error", JOptionPane.WARNING_MESSAGE);//display message to user, prompt for crash.
+            int selectedOption = JOptionPane.showConfirmDialog(null, 
+                                  "A Runtime Exception occurred. Description:" + message+" - Press Yes to exit.",
+                                  "Error", JOptionPane.WARNING_MESSAGE, 
+                                  JOptionPane.YES_NO_OPTION); 
+            if (selectedOption == JOptionPane.YES_OPTION) //select to shutdown
+            {
+                EventLogger.logEvent("User selected to exit the game after RuntimeError");
+                CrashLogger.logCrash(message, e);
+                System.exit(0);
+            }
         }
         catch(Exception ex)
         {
@@ -88,6 +98,7 @@ public class ErrorLogger
             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
             if(num == JOptionPane.YES_OPTION)
             {
+                EventLogger.logEvent("User selected to end game after IOException");
                 CrashLogger.logCrash(message, e);
                 System.exit(0);//exits the game
             }
