@@ -311,7 +311,7 @@ public class MainMenu extends JPanel implements KeyListener
                     mythicPos+=this.getWidth()/350.0f;
                     mazePos-=this.getWidth()/300.0f;
                 }
-                if(draws%400 >= 200 && draws%400 < 300)
+                else if(draws%400 >= 200 && draws%400 < 300)
                 {
                     mythicPos-=this.getWidth()/350.0f;
                     mazePos+=this.getWidth()/300.0f;
