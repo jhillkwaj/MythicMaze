@@ -38,7 +38,7 @@ public class SelectPlayer extends JPanel
             frame.repaint();//paints on info
             frame.setVisible(true);
             this.setLayout(null);
-            ImageIcon image = new ImageIcon(ImageManager.getImage(24).getScaledInstance(100, 100, 0));//background added
+            ImageIcon image = new ImageIcon(ImageManager.getImage(66).getScaledInstance(100, 100, 0));//background added
             String[] playerNames = SaveLoad.getProfiles();//retrieves slots from file
             if(playerNames==null)
             { 

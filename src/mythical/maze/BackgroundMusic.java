@@ -66,8 +66,11 @@ public class BackgroundMusic
     {
         try
         {
-            clip.stop();
-            clip = null;
+            if(clip!=null)
+            {
+                clip.stop();
+                clip = null;
+            }
         }
         catch(Exception ex)
         {
