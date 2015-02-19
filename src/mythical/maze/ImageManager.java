@@ -47,6 +47,8 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Tajmahal.png")));//21
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Wood_Crate_Enlarged_Three.png")));//22
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Chichen Itza Happy.png")));//23
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/SelectPlayer_Screen.png")));//24
+            
             for(int i = 1; i <= 7; i++) //24-30
             {
                 images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Slide" + i + ".png")));
