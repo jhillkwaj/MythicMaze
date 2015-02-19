@@ -17,22 +17,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-    
 /**
  * Class that runs the game, including starting and ending the game
  * @author Justin Hill and Richard Dong
  */
 public class GameRunner extends JPanel implements KeyListener {
     
-    private static JFrame frame;//frame for game
-    private boolean[] keys = new boolean[10];//represents which keys are pressed
+    private static JFrame gameFrame;//frame for game
+    private boolean[] controlKeys = new boolean[10];//represents which keys are pressed
     private static Timer timer;//times the refresh rate
     private final int timerSpeed = 60;//refresh rate
     private long startTime;
     private long updateTime = 0;
     private int eventTime = 900;
-    private boolean intro = false;
-    
+    private boolean introPlaying = false;
+    private boolean tutorialPlaying = false;
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;//backdrop where images are drawn
    
@@ -47,10 +46,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private HUD hud;//heads up display for statistics and buttons
 
     private String playerName;
-    private int slot;
-    private int highscore;
-    
-    private boolean tutorial = false;
+    private int slot, highScore;    
     private int imageNum = 0;
    
     //NOTE::Due to the length of the class, methods in this class are organized
@@ -74,7 +70,7 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         try
         {
-            if(intro)//paints intro animation
+            if(introPlaying)//paints intro animation
             {
                 double time = System.currentTimeMillis()-startTime;
                 if(level==-1){
@@ -84,7 +80,7 @@ public class GameRunner extends JPanel implements KeyListener {
                     g.fillRect(0, 0, this.getWidth(), this.getHeight());
                     g.drawImage(ImageManager.getImage(imageNum+37), (this.getWidth()/2)-400, (this.getHeight()/2)-300, this);
                 }else{
-                    intro = false;
+                    introPlaying = false;
                     startTime = System.currentTimeMillis();
                     updateTime = startTime;
                 }
@@ -126,7 +122,7 @@ public class GameRunner extends JPanel implements KeyListener {
                     }
                     if(time>28000)
                     {
-                        intro = false;
+                        introPlaying = false;
                         startTime = System.currentTimeMillis();
                         updateTime = startTime;
                     }
@@ -148,7 +144,7 @@ public class GameRunner extends JPanel implements KeyListener {
                 Graphics graphToBack= back.createGraphics(); //prepares drawing onto bufferedimage graphics
                 gameGrid.draw(graphToBack,1920,1070,700);//draws gamegrid, includes blocks
                 hud.drawHUD(graphToBack,1920,1070,700);//draws heads up display
-                twoDGraph.drawImage(back,0,0,frame.getWidth(),frame.getHeight(),null);//draws bufferedimage to frame
+                twoDGraph.drawImage(back,0,0,gameFrame.getWidth(),gameFrame.getHeight(),null);//draws bufferedimage to frame
                 if(System.currentTimeMillis()-updateTime >= eventTime)//updates based on refresh rate
                 {
                     update();
@@ -176,7 +172,7 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             startY = Integer.parseInt(data[3]);
             endY = Integer.parseInt(data[4]);
-            highscore = Integer.parseInt(data[2]);
+            highScore = Integer.parseInt(data[2]);
             level = Integer.parseInt(data[1]);
             score = Integer.parseInt(data[0]);
             eventTime = 900 / ((1+level)/2);
@@ -204,9 +200,9 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         this.slot = slot;
         if(slot==-1)
-        { level = -1; tutorial = true; intro = true; }
+        { level = -1; tutorialPlaying = true; introPlaying = true; }
         MainMenu.closeMenu();
-        this.frame = new JFrame();
+        this.gameFrame = new JFrame();
         this.removeAll();//clears frame from menu or previous level
         //calculates and sets a refresh rate.
         startTime = System.currentTimeMillis();
@@ -216,15 +212,15 @@ public class GameRunner extends JPanel implements KeyListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
-        frame.setSize((int)width, (int)height);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        gameFrame.setSize((int)width, (int)height);
+        gameFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
         
         //adds other micellaneous items, such as frame name, exit button, and listeners.
-        frame.setTitle("Mythical Maze");
-        frame.setLocation((int)(width/4), 0);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.addKeyListener(this);
+        gameFrame.setTitle("Mythical Maze");
+        gameFrame.setLocation((int)(width/4), 0);
+        gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
+        gameFrame.setVisible(true);
+        gameFrame.addKeyListener(this);
 
         //sets player name, starts level
         playerName = name;
@@ -252,8 +248,8 @@ public class GameRunner extends JPanel implements KeyListener {
             timer = new Timer(timerSpeed, timerListener);
 
             timer.start();
-            frame.repaint();
-            frame.add(this); 
+            gameFrame.repaint();
+            gameFrame.add(this); 
 
             //system for determining start/end Y value based on difficulty, higher 
             //values indicate harder levels as users have less space to create paths
@@ -326,7 +322,7 @@ public class GameRunner extends JPanel implements KeyListener {
                 eventTime = (int)(900f / ((1)/3.0f));
                 startY = 2;
                 endY = 1;
-                intro = true;
+                introPlaying = true;
             }
             else
             {
@@ -337,7 +333,7 @@ public class GameRunner extends JPanel implements KeyListener {
                     startY = level+1;//add difficulty
                     endY = level+1;
                     if(level==1)
-                        intro = true;
+                        introPlaying = true;
                 }
                 else if(level == 2)
                 {
@@ -390,7 +386,7 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         try
         {
-            if(!intro)
+            if(!introPlaying)
             {
                 if(gameGrid.hasWon())//user has created a successful path, can move character
                 {
@@ -422,7 +418,7 @@ public class GameRunner extends JPanel implements KeyListener {
     public void endLevel()
     {
         if(level!=-1)
-            frame.dispose();
+            gameFrame.dispose();
         if(gameGrid.hasWonLevel())//level won
         {
             if(level!=-1){
@@ -431,7 +427,7 @@ public class GameRunner extends JPanel implements KeyListener {
             score+=500*level;//scores are increased based on level beaten
             score += 30000/((System.currentTimeMillis()-startTime)/10000);
             newLevel();
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
+            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highScore + "%%" + startY + "%%" + endY);//save data
             System.out.println("reached here");
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
             }
@@ -440,14 +436,14 @@ public class GameRunner extends JPanel implements KeyListener {
                 BackgroundMusic.stop();
                 MainMenu m = new MainMenu();
                 m.start();
-                frame.dispose();
+                gameFrame.dispose();
             }
         }
         else//level lost
         {
             if(level!=-1)
             {
-                restart();
+                restartLevel();
             }
             else{
                 gameGrid.clearDeadBlocks();
@@ -490,104 +486,113 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent ke)
     { 
-        if(intro)
+        if(introPlaying)
         {
-    if(tutorial)
-            imageNum++;
-    else
-        intro = false;
+            if(tutorialPlaying)//flip tutorial slide
+            {
+                imageNum++;
+            }       
+            else
+            {
+                introPlaying = false;//end of tutorial, end intro
+            }  
         }
         else
         {
-            if (ke.getKeyCode() == KeyEvent.VK_ESCAPE)
+            if (ke.getKeyCode() == KeyEvent.VK_ESCAPE)//pull up options menu
             {
                 OptionsMenu o = new OptionsMenu(this);
             }
-        if(!gameGrid.hasWon())//block phase
-        {
-            if (ke.getKeyCode() == KeyEvent.VK_UP)
+            if(!gameGrid.hasWon())//block phase
             {
-                gameGrid.rotateRight();
+                if (ke.getKeyCode() == KeyEvent.VK_UP)
+                {
+                    gameGrid.rotateRight();
+                }
+                if (ke.getKeyCode() == KeyEvent.VK_SHIFT)
+                {
+                    gameGrid.rotateLeft();
+                }
+                if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
+                {
+                    gameGrid.moveRight();
+                }
+                if (ke.getKeyCode() == KeyEvent.VK_LEFT)
+                {
+                    gameGrid.moveLeft();
+                }
+                if(ke.getKeyCode() == KeyEvent.VK_SPACE)
+                {
+                    gameGrid.drop();//move all the way down
+                }
+                //alternative WASD controls
+                switch(toUpperCase(ke.getKeyChar()))
+                {
+                    case KeyEvent.VK_W : gameGrid.rotateRight(); break; //clockwise
+                    case KeyEvent.VK_A : gameGrid.moveLeft(); break; //left
+                    case KeyEvent.VK_D : gameGrid.moveRight(); break; //right
+                    case KeyEvent.VK_R : gameGrid.rotateLeft(); break; //counterclockwise
+                }
             }
-            if (ke.getKeyCode() == KeyEvent.VK_SHIFT)
+            else//character phase
             {
-                gameGrid.rotateLeft();
+                int x = gameGrid.getCharacter().getX();
+                int y = gameGrid.getCharacter().getY();
+                if (ke.getKeyCode() == KeyEvent.VK_UP)
+                {
+                    gameGrid.moveCharacterUp(x,y);
+                }
+                if (ke.getKeyCode() == KeyEvent.VK_DOWN)
+                {
+                    gameGrid.moveCharacterDown(x,y);
+                }
+                if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
+                {
+                    gameGrid.moveCharacterRight(x,y);
+                }
+                if (ke.getKeyCode() == KeyEvent.VK_LEFT)
+                {
+                    gameGrid.moveCharacterLeft(x,y);
+                }
+                //alternative WASD controls.
+                switch(toUpperCase(ke.getKeyChar()))
+                {
+                    case KeyEvent.VK_W : gameGrid.moveCharacterUp(x,y); break;
+                    case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y); break;
+                    case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y); break;
+                    case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y); break; 
+                }
             }
-            if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
-            {
-                gameGrid.moveRight();
-            }
-            if (ke.getKeyCode() == KeyEvent.VK_LEFT)
-            {
-                gameGrid.moveLeft();
-            }
-            if(ke.getKeyCode() == KeyEvent.VK_SPACE)
-            {
-                gameGrid.drop();//move all the way down
-            }
-            //alternative WASD controls
-            switch(toUpperCase(ke.getKeyChar()))
-            {
-                case KeyEvent.VK_W : gameGrid.rotateRight(); break; //clockwise
-                case KeyEvent.VK_A : gameGrid.moveLeft(); break; //left
-                case KeyEvent.VK_D : gameGrid.moveRight(); break; //right
-                case KeyEvent.VK_R : gameGrid.rotateLeft(); break; //counterclockwise
-            }
-        }
-        else//character phase
-        {
-            int x = gameGrid.getCharacter().getX();
-            int y = gameGrid.getCharacter().getY();
-            if (ke.getKeyCode() == KeyEvent.VK_UP)
-            {
-                gameGrid.moveCharacterUp(x,y);
-            }
-            if (ke.getKeyCode() == KeyEvent.VK_DOWN)
-            {
-                gameGrid.moveCharacterDown(x,y);
-            }
-            if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
-            {
-                gameGrid.moveCharacterRight(x,y);
-            }
-            if (ke.getKeyCode() == KeyEvent.VK_LEFT)
-            {
-                gameGrid.moveCharacterLeft(x,y);
-            }
-            //alternative WASD controls.
-            switch(toUpperCase(ke.getKeyChar()))
-            {
-                case KeyEvent.VK_W : gameGrid.moveCharacterUp(x,y); break;
-                case KeyEvent.VK_A : gameGrid.moveCharacterLeft(x,y); break;
-                case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y); break;
-                case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y); break; 
-            }
-        }
         }
     }
     
     /**
-     * Restarts the level
+     * Restarts the level.
      */
-    public void restart()
+    public void restartLevel()
     {
-            //prompt save, etc.
-            SaveLoad.saveGlobalHighscore(playerName, score);
-            score = score - (score / 6);
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
-            SoundFX.playFX("f");//play sound effect for losing
-            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+        //prompt save, etc.
+        SaveLoad.saveGlobalHighscore(playerName, score);
+        score = score - (score / 6);
+        SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highScore + "%%" + startY + "%%" + endY);//save data
+        SoundFX.playFX("f");//play sound effect for losing
+        start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
     }
     
+    /**
+     * Adds button to frame.
+     * @param b the button object to add.
+     */
     public void addButton(JButton b)
     {
-        frame.add(b);
+        gameFrame.add(b);
     }
     
+    /**
+     * Closes the game frame.
+     */
     public void closeFrame()
     {
-        frame.dispose();
-    }
-    
-   
+        gameFrame.dispose();
+    }  
 }

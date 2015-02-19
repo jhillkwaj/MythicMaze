@@ -45,7 +45,7 @@ public class OptionsMenu extends JPanel {
         restrt.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
                     reference.closeFrame();
-			reference.restart();
+			reference.restartLevel();
 		}    
 	});
         restrt.setBounds(0, 0, 200, 100);
