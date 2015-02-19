@@ -350,7 +350,7 @@ public class MainMenu extends JPanel implements KeyListener
     public static void closeMenu()
     {
         try
-        {
+        {   
             frame.dispose();
         }
         catch(Exception ex)

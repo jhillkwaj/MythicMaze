@@ -192,17 +192,6 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             ErrorLogger.logRuntimeError("Could not start level", ex);
         }
-        
-        startY = Integer.parseInt(data[3]);
-        endY = Integer.parseInt(data[4]);
-        highscore = Integer.parseInt(data[2]);
-        level = Integer.parseInt(data[1]);
-        score = Integer.parseInt(data[0]);
-        eventTime = 900 / ((1+level)/2);
-        hud = null;
-        //play level spacific music
-        playLevelMusic();
-        start(name, slot);
     }
     
     /**
@@ -443,8 +432,11 @@ public class GameRunner extends JPanel implements KeyListener {
             score += 30000/((System.currentTimeMillis()-startTime)/10000);
             newLevel();
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
+            System.out.println("reached here");
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
-            }else{
+            }
+            else
+            {
                 BackgroundMusic.stop();
                 MainMenu m = new MainMenu();
                 m.start();
