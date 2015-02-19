@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -200,20 +199,21 @@ public class SelectPlayer extends JPanel
             }
             else//new player
             {
-                String name = JOptionPane.showInputDialog(frame, "What was the name of that boy that is lost?");
-                while(name==null||name.length()<1||name.contains("%"))//prevents bad names...
+                String name = JOptionPane.showInputDialog(null, "What was the name of that boy that is lost?");
+                if(name!=null&&name.length()>1&&!name.contains("%"))//proper name passes to game
                 {
-                    name = JOptionPane.showInputDialog(frame, "No. That's not it. What was his name?");
+                    SaveLoad.saveNewProfile(name);
+                    g.start(name,slot);
                 }
-                slot = SaveLoad.saveNewProfile(name);//saves in new profile
-                g.start(name, slot);//start game
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Please try again. We hope to see you soon!");
+                }
             }
         }
         catch(Exception ex)
         {
             ErrorLogger.logRuntimeError("Could not start game",ex);
         }
-    }
-
-   
+    }   
 }

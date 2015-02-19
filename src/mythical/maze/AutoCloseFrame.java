@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mythical.maze;
 
 import java.awt.event.WindowEvent;
@@ -11,8 +6,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 
 /**
- *
- * @author 100032528
+ * Closes a frame when focus is lost.
+ * @author Justin HIll
  */
 public class AutoCloseFrame extends JFrame implements WindowFocusListener,  WindowListener {
     
