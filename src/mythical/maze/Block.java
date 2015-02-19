@@ -134,6 +134,7 @@ public class Block
     {
         try
         {
+            c = new Color(0,230,50);
             int levelImage = 10;//default
             if(level == 2)
             { 

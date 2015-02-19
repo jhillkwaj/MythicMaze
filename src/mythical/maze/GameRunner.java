@@ -28,7 +28,7 @@ import javax.swing.Timer;
  */
 public class GameRunner extends JPanel implements KeyListener {
     
-    private JFrame frame;//frame for game
+    private static JFrame frame;//frame for game
     private boolean[] keys = new boolean[10];//represents which keys are pressed
     private static Timer timer;//times the refresh rate
     private final int timerSpeed = 60;//refresh rate
@@ -449,6 +449,7 @@ public class GameRunner extends JPanel implements KeyListener {
             SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highscore + "%%" + startY + "%%" + endY);//save data
             start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
             }else{
+                BackgroundMusic.stop();
                 MainMenu m = new MainMenu();
                 m.start();
                 frame.dispose();
@@ -501,10 +502,15 @@ public class GameRunner extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent ke)
     { 
+        if(intro)
+        {
     if(tutorial)
             imageNum++;
     else
         intro = false;
+        }
+        else
+        {
         if(!gameGrid.hasWon())//block phase
         {
             if (ke.getKeyCode() == KeyEvent.VK_UP)
@@ -564,6 +570,7 @@ public class GameRunner extends JPanel implements KeyListener {
                 case KeyEvent.VK_D : gameGrid.moveCharacterRight(x,y); break;
                 case KeyEvent.VK_S : gameGrid.moveCharacterDown(x,y); break; 
             }
+        }
         }
     }
     

@@ -223,7 +223,7 @@ public class MainMenu extends JPanel implements KeyListener
             //fills a black background with background image
             g.setColor(new Color(0,0,0));
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
-            switch (((int)(draws-200)/300)%6)
+            switch (((int)(draws-200)/300)%7)
             {
                 case 0:
                     g.drawImage(ImageManager.getImage(16),0,0, this.getWidth(), this.getHeight(), this);
@@ -247,6 +247,9 @@ public class MainMenu extends JPanel implements KeyListener
                 
                 case 5:
                     g.drawImage(ImageManager.getImage(19),0,0, this.getWidth(), this.getHeight(), this);
+                    break;  
+                case 6:
+                    g.drawImage(ImageManager.getImage(52),0,0, this.getWidth(), this.getHeight(), this);
                 break;   
             }
             if(draws>300&&(int)(draws-200)%300>270)

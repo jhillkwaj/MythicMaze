@@ -22,7 +22,6 @@ public class HUD {
     private Timer timer;
     private boolean characterPhase;
     
-     private JButton restart, muteMusic, muteFX;
      
      private GameRunner reference = null;
     
@@ -111,9 +110,6 @@ public class HUD {
             {
                 gridSizeX=(int)(gridSizeY/idealRatio);
             }
-            if(muteMusic==null)
-            { makeButtons(gridSizeX, gridSizeY); }
-            muteMusic.repaint();
             //start to write headings
             Font myFont=new Font("Impact",Font.PLAIN, 50);
             g.setColor(Color.white);
@@ -193,21 +189,7 @@ public class HUD {
     
     private void makeButtons(int gridSizeX, int gridSizeY)
     {
-        muteMusic = new JButton();
-        //muteMusic.setOpaque(false);
-        //muteMusic.setContentAreaFilled(false);
-        //muteMusic.setBorderPainted(false);
-        muteMusic.setIcon(new ImageIcon(ImageManager.getImage(60)));
-        muteMusic.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                SoundFX.playFX("Select");
-                                reference.restart();
-                            }
-                    });
-            muteMusic.setBounds((int)(14*(gridSizeX/((float)rightBound)))+150, (int)(gridSizeY/1.3), 59, 28);
-        System.out.println(""+((int)(14*(gridSizeX/((float)rightBound)))+150)+"  "+(int)(gridSizeY/1.5));
-        reference.addButton(muteMusic);
+      
     }
     
 }

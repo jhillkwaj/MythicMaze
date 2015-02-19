@@ -6,11 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -21,7 +18,7 @@ import javax.swing.SwingConstants;
  */
 public class SelectPlayer extends JPanel
 {
-    public static JFrame frame = new JFrame();//initiates variation on frame
+    public static AutoCloseFrame frame = new AutoCloseFrame();//initiates variation on frame
     
     /**
      * Creates frame for selecting player slot.
