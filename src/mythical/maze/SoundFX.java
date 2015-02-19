@@ -44,9 +44,7 @@ public class SoundFX
                     ErrorLogger.logIOError("Cannot play sound effect",ex);
                 }
                 catch(Exception ex)
-                {
-                    ErrorLogger.logRuntimeError("Unknown error, cannot play sound effect", ex);
-                }
+                {}
             }
         });
         thread.start();//runs the sound creating thread

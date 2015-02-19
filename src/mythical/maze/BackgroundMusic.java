@@ -23,6 +23,8 @@ public class BackgroundMusic
      */
     public static void play(String name)
     {
+        if(clip!=null)
+        { clip.stop(); }
         lastSong = name;
         if(Settings.musicOn)
         {
@@ -65,6 +67,7 @@ public class BackgroundMusic
         try
         {
             clip.stop();
+            clip = null;
         }
         catch(Exception ex)
         {

@@ -69,10 +69,12 @@ public class ImageManager
             images.add(null);//57
             images.add(null);//58
             images.add(null);//59
-            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Music_Button.png")));
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Music_Button.png")));//60
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Muted_Music_Button.png")));
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Sound_Effects_Button.png")));
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Muted_Sound_Effects_Button.png")));
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Main_Menu_Button.png")));
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Restart_Level_Button.png")));//65
             Thread.sleep(100);    
             EventLogger.logEvent("Images successfully loaded");
         } 

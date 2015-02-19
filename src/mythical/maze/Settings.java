@@ -133,8 +133,8 @@ public class Settings
      */
     public static void turnMusicOn()
     {
-        BackgroundMusic.unMute();
         musicOn = true;
+        BackgroundMusic.unMute();
         saveSettings();
     }
 

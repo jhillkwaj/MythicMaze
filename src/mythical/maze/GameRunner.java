@@ -511,6 +511,10 @@ public class GameRunner extends JPanel implements KeyListener {
         }
         else
         {
+            if (ke.getKeyCode() == KeyEvent.VK_ESCAPE)
+            {
+                OptionsMenu o = new OptionsMenu(this);
+            }
         if(!gameGrid.hasWon())//block phase
         {
             if (ke.getKeyCode() == KeyEvent.VK_UP)
@@ -591,4 +595,6 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         frame.add(b);
     }
+    
+   
 }

@@ -19,6 +19,7 @@ public class AutoCloseFrame extends JFrame implements WindowFocusListener,  Wind
     public AutoCloseFrame()
     {
         super();
+        setResizable(false);
         addWindowFocusListener(this);
         addWindowListener(this);
     }

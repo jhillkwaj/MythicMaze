@@ -5,9 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.Timer;
 
 /**
@@ -22,8 +19,7 @@ public class HUD {
     private Timer timer;
     private boolean characterPhase;
     
-     
-     private GameRunner reference = null;
+    
     
     /**
      * Constructor that sets up the heads up display.
@@ -37,7 +33,6 @@ public class HUD {
     {
         try
         {
-            reference = g;
             rightBound = right;
             bottomBound = bottom;
             level = l;
