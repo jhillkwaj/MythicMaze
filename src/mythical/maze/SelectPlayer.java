@@ -203,7 +203,7 @@ public class SelectPlayer extends JPanel
                 if(name!=null&&name.length()>1&&!name.contains("%"))//proper name passes to game
                 {
                     SaveLoad.saveNewProfile(name);
-                    g.start(playerName,slot);
+                    g.start(name,slot);
                 }
                 else
                 {
