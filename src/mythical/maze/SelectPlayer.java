@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -29,7 +30,7 @@ public class SelectPlayer extends JPanel
         {
             frame.dispose();
             Font font = new Font("Arial", Font.PLAIN, 12);//set font
-            frame.setSize(400, 120);
+            frame.setSize(405, 130);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//size
             frame.setLocation((int)(screenSize.getWidth()/2)-200,(int)(screenSize.getHeight()/2)-100);//set location to center
             frame.setTitle("Select User");//title
@@ -38,7 +39,7 @@ public class SelectPlayer extends JPanel
             frame.repaint();//paints on info
             frame.setVisible(true);
             this.setLayout(null);
-            ImageIcon image = new ImageIcon(ImageManager.getImage(9).getScaledInstance(100, 100, 0));//background added
+            ImageIcon image = new ImageIcon(ImageManager.getImage(24).getScaledInstance(100, 100, 0));//background added
             String[] playerNames = SaveLoad.getProfiles();//retrieves slots from file
             if(playerNames==null)
             { 
@@ -46,7 +47,7 @@ public class SelectPlayer extends JPanel
             }
             if(playerNames.length<4)
             { 
-                String[] temp = playerNames;//create clone array
+                String[] temp = playerNames;//create clone array, fill empty slots with "New Player" next
                 playerNames = new String[4];
                 for(int i = 0; i < temp.length; i++)
                 {
@@ -164,7 +165,7 @@ public class SelectPlayer extends JPanel
             String[] dataParts = data.split("%%");//splits the array
             if(dataParts!=null&&dataParts.length>3)
             {
-                return name + "<br>"+ dataParts[1]+"<br>" + dataParts[2];//modifies name with statistics
+                return "Name: "+name + "<br>"+"Level: "+ dataParts[1]+"<br>" +"Score: "+ dataParts[0];//modifies name with statistics
             }
             return name;
         }
@@ -188,7 +189,7 @@ public class SelectPlayer extends JPanel
             if(!playerName.equals("New Player"))//existing profile
             {
                 String[] data = SaveLoad.getProfileData(playerName, slot).split("%%");
-                if(data!=null&&data.length>3)
+                if(data!=null&&data.length>3)//new player
                 {
                     g.start(SaveLoad.getProfileData(playerName, slot).split("%%"), playerName, slot);//send information over
                 }
