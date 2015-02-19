@@ -9,8 +9,13 @@ import javax.swing.JFrame;
  * Closes a frame when focus is lost.
  * @author Justin HIll
  */
-public class AutoCloseFrame extends JFrame implements WindowFocusListener,  WindowListener {
-    
+public class AutoCloseFrame extends JFrame implements WindowFocusListener,  WindowListener 
+{
+
+    /**
+     * Constructor for a variation on a JFrame.
+     * @see JFrame
+     */
     public AutoCloseFrame()
     {
         super();
@@ -18,15 +23,14 @@ public class AutoCloseFrame extends JFrame implements WindowFocusListener,  Wind
         addWindowFocusListener(this);
         addWindowListener(this);
     }
-    
-
+   
     @Override
     public void windowGainedFocus(WindowEvent e) 
     {}
 
     @Override
     public void windowLostFocus(WindowEvent e) {
-        this.dispose();
+        this.dispose();//dispose of window when focus is lost
     }
 
     @Override

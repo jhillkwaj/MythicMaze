@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package mythical.maze;
 
 import java.awt.Dimension;
@@ -21,109 +15,141 @@ import javax.swing.JPanel;
  */
 public class OptionsMenu extends JPanel {
     
-    private AutoCloseFrame frame = new AutoCloseFrame(); 
-    private GameRunner reference = null;
+    private final AutoCloseFrame frame = new AutoCloseFrame(); 
+    private GameRunner reference = null;//reference to main game frame, used for location, parentComponent
     
+    /**
+     * Creates an options menu, which contains several settings and options.
+     * @param g a reference to the main game running class.
+     */
     public OptionsMenu(GameRunner g)
     {
         reference = g;
-        //name
-        frame.setTitle("Options");
-        
+        frame.setTitle("Options");//title of menu
+        //calculate right size
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
         
-        //size
+        //size set
         this.setPreferredSize(new Dimension(200, 400));
         
         //location
         frame.setLocation((int)(width/2)-100,(int)(height/2)-200);
         
         //Restart Level
-        JButton restrt = new JButton();
-        restrt.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
+        JButton restart = new JButton();
+        restart.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(confirmAction())
+                {
                     reference.closeFrame();
-			reference.restartLevel();
-		}    
+                    reference.restartLevel();
+                }
+            }    
 	});
-        restrt.setBounds(0, 0, 200, 100);
-        restrt.setIcon(new ImageIcon(ImageManager.getImage(65).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
+        restart.setBounds(0, 200, 200, 100);
+        restart.setIcon(new ImageIcon(ImageManager.getImage(65).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
         this.setLayout(null);
-        this.add(restrt);
+        this.add(restart);
         
-        //Must Music
+        //Mute Music
         JButton muteMusic = new JButton();
-        muteMusic.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-                    if(Settings.musicOn)
-			Settings.turnMusicOff();
-                    else
-                        Settings.turnMusicOn();
-                    OptionsMenu o = new OptionsMenu(reference);
-		}    
+        muteMusic.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if(Settings.musicOn)
+                {
+                    Settings.turnMusicOff();
+                } 
+                else//music is off
+                {
+                    Settings.turnMusicOn();
+                } 
+                OptionsMenu o = new OptionsMenu(reference);//relaunch options menu with change
+            }    
 	});
-        muteMusic.setBounds(0, 100, 200, 100);
+        muteMusic.setBounds(0, 0, 200, 100);
+        //draw icons to indicate music status
         if(Settings.musicOn)
-            muteMusic.setIcon(new ImageIcon(ImageManager.getImage(60).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
+        {
+             muteMusic.setIcon(new ImageIcon(ImageManager.getImage(60).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
+        }  
         else
+        {
             muteMusic.setIcon(new ImageIcon(ImageManager.getImage(61).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
+        }
         this.add(muteMusic);
         
         //Must Sounds
-        JButton muteSounds = new JButton();
-        muteSounds.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-                    if(Settings.soundEffectsOn)
-			Settings.turnSoundEffectsOff();
-                    else
-                        Settings.turnSoundEffectsOn();
-                    OptionsMenu o = new OptionsMenu(reference);
-		}    
+        JButton muteSoundEffects = new JButton();
+        muteSoundEffects.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(Settings.soundEffectsOn)
+                {
+                    Settings.turnSoundEffectsOff();
+                }   
+                else
+                {
+                    Settings.turnSoundEffectsOn();
+                } 
+                OptionsMenu o = new OptionsMenu(reference);//relaunch options menu
+            }    
 	});
-        muteSounds.setBounds(0, 200, 200, 100);
+        muteSoundEffects.setBounds(0, 100, 200, 100);
         if(Settings.soundEffectsOn)
-            muteSounds.setIcon(new ImageIcon(ImageManager.getImage(62).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
+        {
+            muteSoundEffects.setIcon(new ImageIcon(ImageManager.getImage(62).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
+        }   
         else
-            muteSounds.setIcon(new ImageIcon(ImageManager.getImage(63).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
-        this.add(muteSounds);
-        
-        
-        
+        {
+            muteSoundEffects.setIcon(new ImageIcon(ImageManager.getImage(63).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
+        }
+        this.add(muteSoundEffects);
+                
         //Exit Level
         JButton mainMenu = new JButton();
-        mainMenu.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			reference.closeFrame();
-                        MainMenu m = new MainMenu();
-                        m.start();
-		}    
+        mainMenu.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(confirmAction())
+                {
+                    reference.closeFrame();//close game menu
+                    MainMenu m = new MainMenu();//create new menu
+                    m.start();
+                }  
+            }    
 	});
         mainMenu.setBounds(0, 300, 200, 100);
         mainMenu.setIcon(new ImageIcon(ImageManager.getImage(64).getScaledInstance(200, 100,  java.awt.Image.SCALE_SMOOTH)));
         this.add(mainMenu);
         
-        
-        
-       frame.setAlwaysOnTop(true); 
+        frame.setAlwaysOnTop(true); 
         frame.add(this);
         frame.setVisible(true);
         frame.pack();
         frame.repaint();
     }
     
-    private boolean confirm(String message)
+    /**
+     * Creates a confirm dialog, which returns the user's response.
+     * @return reply whether the user chose to confirm the preemptive action.
+     */
+    private boolean confirmAction()
     {
-       int reply = JOptionPane.showConfirmDialog(null, message, "Confirm Exit",
+       int reply = JOptionPane.showConfirmDialog(null,"Are you sure?", "Confirm Exit",
                JOptionPane.YES_NO_OPTION);
         
-       if (reply == JOptionPane.YES_OPTION) {
-          return true;
-        }
-        else {
-           return false;
-        }
+        return reply == JOptionPane.YES_OPTION;//return if confirmed
    }
-    
 }

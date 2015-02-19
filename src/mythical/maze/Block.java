@@ -9,23 +9,23 @@ import java.awt.Graphics;
  */
 public class Block 
 {
-    private int xPos, yPos; //variables for location on grid.
-    private boolean north, south, west, east;//true = wall; false = no wall.
-    private Color c;//color of walls.
+    private int xPosition, yPosition; //variables for location on grid.
+    private boolean northWallExists, southWallExists, westWallExists, eastWallExists;//true = wall; false = no wall.
+    private Color wallColor;//color of walls.
 
     /**
-     * Takes two parameters, x and y, and sets private integers xPos and yPos, 
-     * respectively.
-     * @param x the integer value to be represented by xPos.
-     * @param y the integer value to be represented by yPos.
+     * Takes two parameters, x and y, and sets private integers xPosition and yPosition, 
+ respectively.
+     * @param x the integer value to be represented by xPosition.
+     * @param y the integer value to be represented by yPosition.
      */
     public Block(int x, int y)
     {
         try
         {
-            xPos = x;
-            yPos = y;
-            c = new Color(250,250,0);
+            xPosition = x;
+            yPosition = y;
+            wallColor = new Color(250,250,0);
         }
         catch(Exception ex)
         {
@@ -36,40 +36,40 @@ public class Block
     /**
      * Alternative constructor that takes in parameters for location, in the 
      * form x and y, and parameters for wall locations, in the form n, e, s, and w.
-     * @param x the integer value to be represented by xPos.
-     * @param y the integer value to be represented by yPos.
-     * @param n a boolean value to be represented by north wall.
-     * @param e a boolean value to be represented by east wall.
-     * @param s a boolean value to be represented by south wall.
-     * @param w a boolean value to be represented by west wall.
+     * @param x the integer value to be represented by xPosition.
+     * @param y the integer value to be represented by yPosition.
+     * @param n a boolean value to be represented by northWallExists wall.
+     * @param e a boolean value to be represented by eastWallExists wall.
+     * @param s a boolean value to be represented by southWallExists wall.
+     * @param w a boolean value to be represented by westWallExists wall.
      */
     public Block(int x, int y, boolean n, boolean  e, boolean s, boolean w)
     {
         try
         {
-            xPos = x;
-            yPos = y;
-            north = n;
-            south = s;
-            west = w;
-            east = e;
+            xPosition = x;
+            yPosition = y;
+            northWallExists = n;
+            southWallExists = s;
+            westWallExists = w;
+            eastWallExists = e;
             //code below creates random walls as an extra feature
             if(Math.random()<.017f)
-            { north = true;}
+            { northWallExists = true;}
             if(Math.random()<.017f)
-            { south = true;}
+            { southWallExists = true;}
             if(Math.random()<.017f)
-            { east = true;}
+            { eastWallExists = true;}
             if(Math.random()<.017f)
-            { west = true;}
+            { westWallExists = true;}
             if(Math.random()<.15f)
-            { north = false; }
+            { northWallExists = false; }
             if(Math.random()<.15f)
-            { south = false; }
+            { southWallExists = false; }
             if(Math.random()<.15f)
-            { east = false; }
+            { eastWallExists = false; }
             if(Math.random()<.15f)
-            { west = false; }
+            { westWallExists = false; }
         }
         catch(Exception ex)
         {
@@ -85,12 +85,12 @@ public class Block
     {
         try
         {
-            boolean temp = north;//create a temporary variable.
+            boolean temp = northWallExists;//create a temporary variable.
             //start setting values to those appearing further clockwise.
-            north = west;
-            west = south;
-            south = east;
-            east = temp;//sets final wall to temporary value, finishes swap.
+            northWallExists = westWallExists;
+            westWallExists = southWallExists;
+            southWallExists = eastWallExists;
+            eastWallExists = temp;//sets final wall to temporary value, finishes swap.
         }
         catch(Exception ex)
         {
@@ -107,12 +107,12 @@ public class Block
     {
         try
         {
-            boolean temp = north;//create a temporary variable.
+            boolean temp = northWallExists;//create a temporary variable.
             //start setting values to those appearing further counterclockwise.
-            north = east;
-            east = south;
-            south = west;
-            west = temp;//sets final wall to temporary value, finishes swap.
+            northWallExists = eastWallExists;
+            eastWallExists = southWallExists;
+            southWallExists = westWallExists;
+            westWallExists = temp;//sets final wall to temporary value, finishes swap.
         }
         catch(Exception ex)
         {
@@ -134,60 +134,61 @@ public class Block
     {
         try
         {
-            c = new Color(0,230,50);
+            //set custom wall colors to complement the backgrounds to stand out.
+            wallColor = new Color(0,230,50);
             int levelImage = 10;//default
             if(level == 2)
             { 
                 levelImage = 8;
-                c = new Color(250,30,30);
+                wallColor = new Color(250,30,30);
             }
             else if(level == 3)
             { 
                 levelImage = 11;
-                c = new Color(30,250,30);
+                wallColor = new Color(30,250,30);
             }
             else if(level == 4)
             { 
                 levelImage = 12;
-                c = new Color(250,30,255);
+                wallColor = new Color(250,30,255);
             }
             else if(level == 5)
             { 
                 levelImage = 9;
-                c = new Color(30,250,255);
+                wallColor = new Color(30,250,255);
             }
             else if(level == 6)
             { 
                 levelImage = 36;
-                c = new Color(255,250,100);
+                wallColor = new Color(255,250,100);
             }
             else if(level == 7)
             { 
                 levelImage = 12;
-                c = new Color(255,150,60);
+                wallColor = new Color(255,150,60);
             }
             else if(level == 8)
             { 
                 levelImage = 8;
-                c = new Color(250,00,00);
+                wallColor = new Color(250,00,00);
             }
             else if(level == 9)
             { 
                 levelImage = 11;
-                c = new Color(250,255,255);
-            }else if(level == -1)
-           { 
+                wallColor = new Color(250,255,255);
+            }
+            else if(level == -1)
+            { 
                levelImage = 11;
-               c = new Color(250,180,0);
+               wallColor = new Color(250,180,0);
             }
 
-
-            g.setColor(c);//set color for the walls.
-            g.fillRect((int)(((xPos)*(gridSizeX/((float)xBlocks))))+offSetX,
-                    (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)),
+            g.setColor(wallColor);//set color for the walls.
+            g.fillRect((int)(((xPosition)*(gridSizeX/((float)xBlocks))))+offSetX,
+                    (int)(((yPosition)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0)),
                     (int)(gridSizeX/((float)xBlocks)), (int)(gridSizeY/20.0));
-            //draws a box, larger than the image, in which the image will rest upon.
-            //since the box is larger than the image in some spots, this will indicate
+            //draws a box, larger than the image, in which the block image will rest upon.
+            //since the box is larger than the block image in some spots, this will indicate
             //a wall.
 
             //instantiate values to determine offset due to walls.
@@ -197,27 +198,27 @@ public class Block
             int ySize = 0;
 
             //if walls exist, offset.
-            if(west)
+            if(westWallExists)
             { 
                 xStart+=5;
                 xSize-=5;
             }
-            if(east)
+            if(eastWallExists)
             { 
                 xSize-=5;
             }
-            if(north)
+            if(northWallExists)
             { 
                 yStart+=5;
                 ySize-=5;
             }
-            if(south)
+            if(southWallExists)
             { 
                 ySize-=5;
             }
             //finally, draw the image on top with calculated offset values.
-            g.drawImage(ImageManager.getImage(levelImage),(int)(((xPos)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
-                    (int)(((yPos)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
+            g.drawImage(ImageManager.getImage(levelImage),(int)(((xPosition)*(gridSizeX/((float)xBlocks))))+xStart+offSetX, 
+                    (int)(((yPosition)*(gridSizeY/20)))-(2*(int)(gridSizeY/20.0))+yStart, 
                     (int)(gridSizeX/((float)xBlocks))+xSize, (int)(gridSizeY/20.0)+ySize,null);
         }
         catch(Exception ex)
@@ -229,157 +230,156 @@ public class Block
         if(level == 2)
         { 
             levelImage = 8;
-            c = new Color(250,30,30);
+            wallColor = new Color(250,30,30);
         }
         else if(level == 3)
         { 
             levelImage = 11;
-            c = new Color(30,250,30);
+            wallColor = new Color(30,250,30);
         }
         else if(level == 4)
         { 
             levelImage = 12;
-            c = new Color(250,30,255);
+            wallColor = new Color(250,30,255);
         }
         else if(level == 5)
         { 
             levelImage = 9;
-            c = new Color(30,250,255);
+            wallColor = new Color(30,250,255);
         }
         else if(level == 6)
         { 
             levelImage = 36;
-            c = new Color(255,250,100);
+            wallColor = new Color(255,250,100);
         }
         else if(level == 7)
         { 
             levelImage = 12;
-            c = new Color(255,150,60);
+            wallColor = new Color(255,150,60);
         }
         else if(level == 8)
         { 
             levelImage = 8;
-            c = new Color(250,00,00);
+            wallColor = new Color(250,00,00);
         }
         else if(level == 9)
         { 
             levelImage = 11;
-            c = new Color(250,255,255);
+            wallColor = new Color(250,255,255);
         }else if(level == -1)
         { 
             levelImage = 11;
-            c = new Color(250,180,0);
-        }
-        
+            wallColor = new Color(250,180,0);
+        }  
     }
 
     //Instance methods below
    /**
-    * Gets an integer x and sets private integer xPos to this value.
-    * @param x the integer value to be represented by xPos
+    * Gets an integer x and sets private integer xPosition to this value.
+    * @param x the integer value to be represented by xPosition
     */
     public void setX(int x)
     {
-        xPos = x;
+        xPosition = x;
     }
     
    /**
-    * Gets an integer y and sets private integer yPos to this value.
-    * @param y the integer value to be represented by yPos
+    * Gets an integer y and sets private integer yPosition to this value.
+    * @param y the integer value to be represented by yPosition
     */
     public void setY(int y)
     {
-        yPos = y;
+        yPosition = y;
     }
     
    /**
-    * Gets a boolean b and sets private boolean north to this value.
-    * @param b a boolean value to be represented by north
+    * Gets a boolean b and sets private boolean northWallExists to this value.
+    * @param b a boolean value to be represented by northWallExists
     */
-    public void setNorth(boolean b)
+    public void setNorthWallExists(boolean b)
     {
-        north = b;
+        northWallExists = b;
     }
     
    /**
-    * Gets a boolean b and sets private boolean south to this value.
-    * @param b a boolean value to be represented by south
+    * Gets a boolean b and sets private boolean southWallExists to this value.
+    * @param b a boolean value to be represented by southWallExists
     */
-    public void setSouth(boolean b)
+    public void setSouthWallExists(boolean b)
     {
-        south = b;
+        southWallExists = b;
     }
     
    /**
-    * Gets a boolean b and sets private boolean east to this value.
-    * @param b a boolean value to be represented by east
+    * Gets a boolean b and sets private boolean eastWallExists to this value.
+    * @param b a boolean value to be represented by eastWallExists
     */
-    public void setEast(boolean b)
+    public void setEastWallExists(boolean b)
     {
-        east = b;
+        eastWallExists = b;
     }
     
    /**
-    * Gets a boolean b and sets private boolean west to this value.
-    * @param b a boolean value to be represented by west
+    * Gets a boolean b and sets private boolean westWallExists to this value.
+    * @param b a boolean value to be represented by westWallExists
     */
-    public void setWest(boolean b)
+    public void setWestWallExists(boolean b)
     {
-        west = b;
+        westWallExists = b;
     }
     
     
    /**
-    * Returns the value of xPos as an integer.
-    * @return xPos an integer that represents the block's x coordinate
+    * Returns the value of xPosition as an integer.
+    * @return xPosition an integer that represents the block's x coordinate
     */
     public int getX()
     {
-        return xPos;
+        return xPosition;
     }
     
    /**
-    * Returns the value of yPos as an integer.
-    * @return yPos an integer that represents the block's y coordinate
+    * Returns the value of yPosition as an integer.
+    * @return yPosition an integer that represents the block's y coordinate
     */
     public int getY()
     {
-        return yPos;
+        return yPosition;
     }
     
    /**
-    * Returns if the north side of the block contains a wall.
-    * @return north a boolean that represents if the block has a north wall.
+    * Returns if the northWallExists side of the block contains a wall.
+    * @return northWallExists a boolean that represents if the block has a northWallExists wall.
     */
     public boolean getNorth()
     {
-        return north;
+        return northWallExists;
     }
     
    /**
-    * Returns if the south side of the block contains a wall.
-    * @return north, a boolean that represents if the block has a south wall.
+    * Returns if the southWallExists side of the block contains a wall.
+    * @return northWallExists, a boolean that represents if the block has a southWallExists wall.
     */
     public boolean getSouth()
     {
-        return south;
+        return southWallExists;
     }
     
    /**
-    * Returns if the east side of the block contains a wall.
-    * @return east, a boolean that represents if the block has a east wall.
+    * Returns if the eastWallExists side of the block contains a wall.
+    * @return eastWallExists, a boolean that represents if the block has a eastWallExists wall.
     */
     public boolean getEast()
     {
-        return east;
+        return eastWallExists;
     }
     
    /**
-    * Returns if the west side of the block contains a wall.
-    * @return north a boolean that represents if the block has a west wall.
+    * Returns if the westWallExists side of the block contains a wall.
+    * @return northWallExists a boolean that represents if the block has a westWallExists wall.
     */
     public boolean getWest()
     {
-        return west;
+        return westWallExists;
     }
 }

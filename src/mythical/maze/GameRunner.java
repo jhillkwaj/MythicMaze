@@ -24,7 +24,6 @@ import javax.swing.Timer;
 public class GameRunner extends JPanel implements KeyListener {
     
     private static JFrame gameFrame;//frame for game
-    private boolean[] controlKeys = new boolean[10];//represents which keys are pressed
     private static Timer timer;//times the refresh rate
     private final int timerSpeed = 60;//refresh rate
     private long startTime;
@@ -32,7 +31,7 @@ public class GameRunner extends JPanel implements KeyListener {
     private int eventTime = 900;
     private boolean introPlaying = false;
     private boolean tutorialPlaying = false;
-    private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
+    private final Color blackStartFilter = new Color(0.0f,0.0f,0.0f,0.0f);
     private BufferedImage back;//backdrop where images are drawn
    
 
@@ -79,7 +78,9 @@ public class GameRunner extends JPanel implements KeyListener {
                     g.setColor(new Color(1f,1f,1f));
                     g.fillRect(0, 0, this.getWidth(), this.getHeight());
                     g.drawImage(ImageManager.getImage(imageNum+37), (this.getWidth()/2)-400, (this.getHeight()/2)-300, this);
-                }else{
+                }
+                else
+                {
                     introPlaying = false;
                     startTime = System.currentTimeMillis();
                     updateTime = startTime;
@@ -133,7 +134,7 @@ public class GameRunner extends JPanel implements KeyListener {
             {
                 if(hud==null)
                 {
-                    hud = new HUD(rightBound,bottomBound,level,score,playerName, this);//new heads up display
+                    hud = new HUD(rightBound,level,score,playerName);//new heads up display
                     hud.startTimer();//start level timer, which determines end score.
                 }
                 if(back==null)//if canvas has not been created, create canvsas
@@ -193,16 +194,21 @@ public class GameRunner extends JPanel implements KeyListener {
     /**
      * Creates a frame for the game to be played in; calculates frame size, refresh rate
      * and adds listeners and starts the appropriate level.
-     * @param name the player name
+     * @param name the player name.
+     * @param slot the key that references the player value.
      * @see JFrame
      */
     public void start(String name, int slot)
     {
         this.slot = slot;
         if(slot==-1)
-        { level = -1; tutorialPlaying = true; introPlaying = true; }
+        { 
+            level = -1;//-1 indicates tutorial
+            tutorialPlaying = true; 
+            introPlaying = true; 
+        }
         MainMenu.closeMenu();
-        this.gameFrame = new JFrame();
+        GameRunner.gameFrame = new JFrame();
         this.removeAll();//clears frame from menu or previous level
         //calculates and sets a refresh rate.
         startTime = System.currentTimeMillis();
@@ -263,7 +269,7 @@ public class GameRunner extends JPanel implements KeyListener {
     }
     
     /**
-     * Plays the song for the level the player is on
+     * Plays the song for the level the player is on.
      */
     public void playLevelMusic()
     {
@@ -325,15 +331,16 @@ public class GameRunner extends JPanel implements KeyListener {
                 introPlaying = true;
             }
             else
-            {
-                
+            {       
                 if(level % 2 == 1)
                 {
                     eventTime = (int)(900f / ((1+(level))/3.0f));
                     startY = level+1;//add difficulty
                     endY = level+1;
                     if(level==1)
+                    {
                         introPlaying = true;
+                    }           
                 }
                 else if(level == 2)
                 {
@@ -418,20 +425,22 @@ public class GameRunner extends JPanel implements KeyListener {
     public void endLevel()
     {
         if(level!=-1)
-            gameFrame.dispose();
+        {
+            gameFrame.dispose();//new frame for new level
+        }   
         if(gameGrid.hasWonLevel())//level won
         {
-            if(level!=-1){
-            //prompt save, etc.
-            level++;
-            score+=500*level;//scores are increased based on level beaten
-            score += 30000/((System.currentTimeMillis()-startTime)/10000);
-            newLevel();
-            SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highScore + "%%" + startY + "%%" + endY);//save data
-            System.out.println("reached here");
-            start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
+            if(level!=-1)
+            {
+                level++;//level up
+                score+=500*level;//scores are increased based on level beaten
+                score += 30000/((System.currentTimeMillis()-startTime)/10000);//substract score for higher times
+                newLevel();
+                SaveLoad.setProfileData(playerName, slot, score + "%%" + level + "%%" + highScore + "%%" + startY + "%%" + endY);//save data
+                System.out.println("reached here");
+                start(SaveLoad.getProfileData(playerName, slot).split("%%"),playerName, slot);//restart
             }
-            else
+            else//back to menu
             {
                 BackgroundMusic.stop();
                 MainMenu m = new MainMenu();

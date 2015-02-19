@@ -18,11 +18,11 @@ import javax.swing.JOptionPane;
  */
 public class Grid 
 {
-    private ArrayList<Block> deadBlocks = new ArrayList<>();//list of non-moving blocks
+    private ArrayList<Block> nonMovingBlocks = new ArrayList<>();//list of non-moving blocks
     private Shape fallingShape,nextShape;//shape that can be moved, next shape in queue
     private Character character;//character that user moves
     private int upperBound,bottomBound,rightBound,leftBound,startY,endY, level;//constants for grid
-    private boolean hasWon,hasWonLevel,isDead;//variables for whether game has been won, lost, etc.
+    private boolean hasWonBlockPhase,hasWonEntireLevel,isDead;//variables for whether game has been won, lost, etc.
     private int scoreToAdd;//scores gained from winning level
     
     
@@ -52,8 +52,8 @@ public class Grid
             upperBound = 2;//leaves 2 spaces for shape to be created above screen
             leftBound = 0;//left most position
 
-            hasWon = false;//obviously, when game starts, the user has not won
-            hasWonLevel = false;//same
+            hasWonBlockPhase = false;//obviously, when game starts, the user has not won
+            hasWonEntireLevel = false;//same
             isDead = false;//same
             scoreToAdd=0;
             character  = new Character(-1,start);//character is in space of starting position
@@ -238,7 +238,7 @@ public class Grid
             boolean canMove = true;
             for(Block b:fallingShape.getClockwiseOccupied())
             {
-                for(Block d:deadBlocks)
+                for(Block d:nonMovingBlocks)
                 {
                     if(b.getX()==d.getX()&&b.getY()==d.getY())
                     {
@@ -272,7 +272,7 @@ public class Grid
             boolean canMove = true;
             for(Block b:fallingShape.getCounterClockwiseOccupied())
             {
-                for(Block d:deadBlocks)
+                for(Block d:nonMovingBlocks)
                 {
                     if(b.getX()==d.getX()&&b.getY()==d.getY())
                     {
@@ -309,7 +309,7 @@ public class Grid
                 {
                     canMove = false;
                 }
-                for(Block d :deadBlocks)
+                for(Block d :nonMovingBlocks)
                 {
                     if(b.getX()+1==d.getX()&&b.getY()==d.getY())
                     {
@@ -342,7 +342,7 @@ public class Grid
                 {
                     canMove = false;
                 }
-                for(Block d :deadBlocks)
+                for(Block d :nonMovingBlocks)
                 {
                     if(b.getX()-1==d.getX()&&b.getY()==d.getY())
                     {
@@ -378,7 +378,7 @@ public class Grid
                 {
                     canMove = false;
                 }
-                for(Block d :deadBlocks)
+                for(Block d :nonMovingBlocks)
                 {
                     if(b.getX()==d.getX()&&b.getY()+1==d.getY())
                     {
@@ -395,15 +395,15 @@ public class Grid
             {
                 for(Block b : fallingShape.getBlockList())
                 {
-                    deadBlocks.add(b);//add the shape to the list of nonmoving shapes
+                    nonMovingBlocks.add(b);//add the shape to the list of nonmoving shapes
                 }
                 checkDead();//see if the game has ended
-                if(findPath(0, startY, rightBound-1, endY)&&!hasWon) //see if a correct path has been created
+                if(findPath(0, startY, rightBound-1, endY)&&!hasWonBlockPhase) //see if a correct path has been created
                 {
                     SoundFX.playFX("Make Path");
-                    hasWon = true;
+                    hasWonBlockPhase = true;
                 }
-                else if(!hasWon) //has not won nor lost, but new shape must be created
+                else if(!hasWonBlockPhase) //has not won nor lost, but new shape must be created
                 {
                     checkRow();
                     addShape();
@@ -427,7 +427,7 @@ public class Grid
         try
         {
             isDead = false;
-            for(Block b:deadBlocks)
+            for(Block b:nonMovingBlocks)
             {
                 if(b.getY()<=upperBound)//over the top of the screen
                 {
@@ -451,7 +451,7 @@ public class Grid
             for(int y=upperBound;y<=bottomBound;y++)
             {
                 int count = 0;
-                for(Block b:deadBlocks)
+                for(Block b:nonMovingBlocks)
                 {
                     if(b.getY()==y)
                     {
@@ -478,40 +478,39 @@ public class Grid
     {
         try
         {
-            if(!hasWon)
+            if(!hasWonBlockPhase)
             {
-            Block toRemove = null;
-            for(Block b:deadBlocks)
-            {
-                if(b.getY() == y)
+                Block toRemove = null;
+                for(Block b:nonMovingBlocks)
                 {
-                    toRemove = b;
-                }
-            }
-            if(toRemove != null)
-            {
-                deadBlocks.remove(toRemove);
-                removeRow(y);
-            }
-            else
-            {
-                for(Block b:deadBlocks)
-                {
-                    if(b.getY()<y)
+                    if(b.getY() == y)
                     {
-                        b.setY(b.getY()+1);
+                        toRemove = b;
                     }
                 }
-                scoreToAdd+=100;//earn points for removing rows
-            }
-            SoundFX.playFX("clear_row");
+                if(toRemove != null)
+                {
+                    nonMovingBlocks.remove(toRemove);
+                    removeRow(y);
+                }
+                else
+                {
+                    for(Block b:nonMovingBlocks)
+                    {
+                        if(b.getY()<y)
+                        {
+                            b.setY(b.getY()+1);
+                        }
+                    }
+                    scoreToAdd+=100;//earn points for removing rows
+                }
+                SoundFX.playFX("clear_row");
             }
         }
         catch(Exception ex)
         {
             ErrorLogger.logRuntimeError("Could not remove a full row",ex);
-        }  
-        
+        }      
     }
     
     
@@ -539,7 +538,7 @@ public class Grid
             Block startBlock = null;
             Block endBlock = null;
             //check to see if there are start and end blocks
-            for(Block block : deadBlocks)
+            for(Block block : nonMovingBlocks)
             {
                 if(block.getX()==xStart&&block.getY()==yStart && !block.getWest())
                 {
@@ -559,10 +558,10 @@ public class Grid
 
             HashMap<Block,ArrayList<Block>> blocks = new HashMap<>();
 
-            for(Block block : deadBlocks)
+            for(Block block : nonMovingBlocks)
             {
                 ArrayList<Block> linkedBlocks = new ArrayList<>();
-                for(Block otherBlock : deadBlocks)//traverse the blocks to form linked paths
+                for(Block otherBlock : nonMovingBlocks)//traverse the blocks to form linked paths
                 {
                     if(otherBlock.getX()==block.getX())
                     {
@@ -645,13 +644,13 @@ public class Grid
         try
         {
             boolean hasNotMoved = true;
-            for(Block b:deadBlocks)
+            for(Block b:nonMovingBlocks)
             {
                 if(b.getX()==x&&b.getY()==y)//find the current block the character is in.
                 {
                     if(!b.getSouth())//check if current block has a wall to the south.
                     {
-                        for(Block d:deadBlocks)
+                        for(Block d:nonMovingBlocks)
                         {
                             if(d.getX()==x&&d.getY()==y+1)//find the block the character is moving into.
                             {
@@ -682,13 +681,13 @@ public class Grid
         try
         {
             boolean hasNotMoved = true;
-            for(Block b:deadBlocks)
+            for(Block b:nonMovingBlocks)
             {
                 if(b.getX()==x&&b.getY()==y)//find block character is currently in.
                 {
                     if(!b.getNorth())//if the block doesn't have a wall to the north.
                     {
-                        for(Block d:deadBlocks)
+                        for(Block d:nonMovingBlocks)
                         {
                             if(d.getX()==x&&d.getY()==y-1)//find the block character is moving into.
                             {
@@ -719,13 +718,13 @@ public class Grid
         try
         {
             boolean hasNotMoved = true;
-            for(Block b:deadBlocks)
+            for(Block b:nonMovingBlocks)
             {
                 if(b.getX()==x&&b.getY()==y)//find block character is currently in.
                 {
                     if(!b.getWest())//if block has a wall to the west.
                     {
-                        for(Block d:deadBlocks)
+                        for(Block d:nonMovingBlocks)
                         {
                             if(d.getX()==x-1&&d.getY()==y)//find block character is moving into.
                             {
@@ -756,7 +755,7 @@ public class Grid
         try
         {
             boolean hasNotMoved = true;
-            for(Block b:deadBlocks)
+            for(Block b:nonMovingBlocks)
             {
                 if(x==-1)//initial start outside grid, moves into grid
                 {
@@ -770,12 +769,12 @@ public class Grid
                            &&hasNotMoved)//checks if one to the left of the finish.
                         {
                             character.setX(rightBound);//move into finish.
-                            hasWonLevel=true;//level won!!
+                            hasWonEntireLevel=true;//level won!!
                             hasNotMoved = false;
                         }
                         else
                         {
-                            for(Block d:deadBlocks)
+                            for(Block d:nonMovingBlocks)
                             {
                                 if(d.getX()==x+1&&d.getY()==y)//check block moving into.
                                 {
@@ -896,7 +895,7 @@ public class Grid
                     (int)(gridSizeX/((float)rightBound)) - 10, (int)(gridSizeY/20.0) - 10);
 
             //draws individual blocks onto grid.
-            for(Block b : deadBlocks)
+            for(Block b : nonMovingBlocks)
             {
                 b.drawBlock(g,level, gridSizeX, gridSizeY, offsetX, rightBound);
             }
@@ -930,11 +929,11 @@ public class Grid
     
    /**
     * Returns the <code>ArrayList</code> of the blocks that are non-moving.
-    * @return deadBlocks an <code>ArrayList</code> consisting of all the blocks that are dead
+    * @return nonMovingBlocks an <code>ArrayList</code> consisting of all the blocks that are dead
     */
-    public ArrayList<Block> getDeadBlocks()
+    public ArrayList<Block> getNonMovingBlocks()
     {
-        return deadBlocks;
+        return nonMovingBlocks;
     }
     
    /**
@@ -943,7 +942,7 @@ public class Grid
     */
     public boolean hasWonLevel()
     {
-        return hasWonLevel;
+        return hasWonEntireLevel;
     }
     
    /**
@@ -952,7 +951,7 @@ public class Grid
     */
     public boolean hasWon()
     {
-        return hasWon;
+        return hasWonBlockPhase;
     }
     
    /**
@@ -978,7 +977,7 @@ public class Grid
      */
     public void clearDeadBlocks()
     {
-        deadBlocks.clear();
+        nonMovingBlocks.clear();
     }
     
 }

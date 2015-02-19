@@ -13,33 +13,29 @@ import javax.swing.Timer;
  */
 public class HUD {
     
-    private int rightBound,bottomBound, level, score;//boundary indicators, statistics to display.
+    private int rightBound, level, score;//boundary indicators, statistics to display.
     private double time;//elapsed time.
-    private String profile;//name of user.
+    private String profileName;//name of user.
     private Timer timer;
-    private boolean characterPhase;
-    
-    
+    private boolean isInCharacterPhase;
     
     /**
      * Constructor that sets up the heads up display.
      * @param right the right bound for the size of the display.
-     * @param bottom the bottom bound for the size of the display.
      * @param l the level of the player.
      * @param s the score of the player.
      * @param p the name of the player.
      */
-    public HUD(int right,int bottom, int l, int s, String p, GameRunner g)
+    public HUD(int right, int l, int s, String p)
     {
         try
         {
             rightBound = right;
-            bottomBound = bottom;
             level = l;
             score = s;
             time = 0.0;
-            profile = p;
-            characterPhase = false; //timer is running during block phase.
+            profileName = p;
+            isInCharacterPhase = false; //timer is running during block phase.
         }
         catch(Exception ex)
         {
@@ -147,20 +143,20 @@ public class HUD {
             g.drawString(""+score,(int)(((18)*(gridSizeX/((float)rightBound))))+200,
                 12*gridSizeY/20);//draw score value.
             g.drawString("PROFILE:",(int)(((14)*(gridSizeX/((float)rightBound))))+200,
-                14*gridSizeY/20);//draw profile label.
-            g.drawString(profile,(int)(14*(gridSizeX/((float)rightBound)))+200,
-                15*gridSizeY/20);//draw profile name.
+                14*gridSizeY/20);//draw profileName label.
+            g.drawString(profileName,(int)(14*(gridSizeX/((float)rightBound)))+200,
+                15*gridSizeY/20);//draw profileName name.
             }
             g.drawString("Press ESC for options menu.",(int)(14*(gridSizeX/((float)rightBound)))+200,
                 (int)(17*gridSizeY/20));//information label for options menu pullup
             //tells user if block phase has transitioned into character phase.
-            if(characterPhase)
+            if(isInCharacterPhase)
             {
                 Font newFont=new Font("Times New Roman",Font.BOLD, 100);
                 g.setColor(Color.RED);
                 g.setFont(newFont);
                 g.drawString("GO",(int)(14*(gridSizeX/((float)rightBound)))+200,
-                18*gridSizeY/20);
+                19*gridSizeY/20);
             }
         }
         catch(Exception ex)
@@ -174,7 +170,7 @@ public class HUD {
      */
     public void setCharacterPhase()
     {
-        characterPhase = true;
+        isInCharacterPhase = true;
     }
 
     /**
@@ -185,10 +181,4 @@ public class HUD {
     {
         return time;
     }
-    
-    private void makeButtons(int gridSizeX, int gridSizeY)
-    {
-      
-    }
-    
 }
