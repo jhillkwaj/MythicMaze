@@ -26,8 +26,8 @@ import javax.swing.plaf.FontUIResource;
  */
 public class MainMenu extends JPanel implements KeyListener 
 {
-    private static JFrame frame = new JFrame();
-    private JPanel thisPanel;
+    private static JFrame menuFrame = new JFrame();
+    private JPanel menuPanel;
     private JButton play, tutorial, credits, highScore, exit;  
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,1.0f);
     private double draws = 0;
@@ -48,26 +48,27 @@ public class MainMenu extends JPanel implements KeyListener
             EventLogger.setupEvent();//set up logs
             ErrorLogger.setupError();
             CrashLogger.setupCrash();
-            thisPanel = this;
+            ImageManager.importAll();//import all images
+            menuPanel = this;
             this.removeAll();//remove anything from frame, clean slate.
-            frame = new JFrame();
+            menuFrame = new JFrame();
             //set correct dimmensions.
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            double width = screenSize.getWidth();
-            double height = screenSize.getHeight();
-            frame.setSize((int)width, (int)height);
+            double menuWidth = screenSize.getWidth();
+            double menuHeight = screenSize.getHeight();
+            menuFrame.setSize((int)menuWidth, (int)menuHeight);
             //set title, exit and size buttons.
-            frame.setTitle("Mythical Maze");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+            menuFrame.setTitle("Mythical Maze");
+            menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
             //start painting screen onto frame.
-            frame.getContentPane().add(this);
-            startTime = System.currentTimeMillis();
-            frame.setVisible(true);
+            menuFrame.getContentPane().add(this);
+            startTime = System.currentTimeMillis();//have default start time for comparison
+            menuFrame.setVisible(true);
             BackgroundMusic.play("Race_Car_Music");//start music
-            frame.addKeyListener(this);//enable controls
-            EventLogger.logEvent("Game menu load successful");
-            frame.repaint();
+            menuFrame.addKeyListener(this);//enable controls
+            EventLogger.logEvent("Game menu load successful");//log menu load
+            menuFrame.repaint();//start updatin graphics
         }
         catch(Exception ex)
         {
@@ -102,7 +103,7 @@ public class MainMenu extends JPanel implements KeyListener
                 public void actionPerformed(ActionEvent e) 
                 {
                     SoundFX.playFX("Select");
-                    SelectPlayer p = new SelectPlayer();
+                    SelectPlayer p = new SelectPlayer();//opens select player menu
                 }
             });
             //add tutorial button        
@@ -194,16 +195,16 @@ public class MainMenu extends JPanel implements KeyListener
                 }
             });
             //set positions and size of buttons, which change with screen size; add to screen. 
-            play.setBounds(frame.getWidth()/4, frame.getHeight()/4, frame.getWidth()/2, frame.getHeight()/16);
+            play.setBounds(menuFrame.getWidth()/4, menuFrame.getHeight()/4, menuFrame.getWidth()/2, menuFrame.getHeight()/16);
             this.setLayout(null);
             this.add(play);
-            tutorial.setBounds(frame.getWidth()/4, frame.getHeight()/4+(3*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            tutorial.setBounds(menuFrame.getWidth()/4, menuFrame.getHeight()/4+(3*(menuFrame.getHeight()/16)), menuFrame.getWidth()/2, menuFrame.getHeight()/16);
             this.add(tutorial);
-            highScore.setBounds(frame.getWidth()/4, frame.getHeight()/4+(5*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            highScore.setBounds(menuFrame.getWidth()/4, menuFrame.getHeight()/4+(5*(menuFrame.getHeight()/16)), menuFrame.getWidth()/2, menuFrame.getHeight()/16);
             this.add(highScore);
-            credits.setBounds(frame.getWidth()/4, frame.getHeight()/4+(7*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            credits.setBounds(menuFrame.getWidth()/4, menuFrame.getHeight()/4+(7*(menuFrame.getHeight()/16)), menuFrame.getWidth()/2, menuFrame.getHeight()/16);
             this.add(credits);
-            exit.setBounds((int)(frame.getWidth()/4), frame.getHeight()/4+(9*(frame.getHeight()/16)), frame.getWidth()/2, frame.getHeight()/16);
+            exit.setBounds((int)(menuFrame.getWidth()/4), menuFrame.getHeight()/4+(9*(menuFrame.getHeight()/16)), menuFrame.getWidth()/2, menuFrame.getHeight()/16);
             this.add(exit);   
         }
         catch(Exception ex)
@@ -316,11 +317,11 @@ public class MainMenu extends JPanel implements KeyListener
                         mythicPos-=this.getWidth()/350.0f;
                         mazePos+=this.getWidth()/300.0f;
                     }
-                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4, 280,97+2* frame.getHeight()/16, this);
-                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(3*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
-                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(5*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
-                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140, frame.getHeight()/4+(7*(frame.getHeight()/16)), 280,97+2* frame.getHeight()/16, this);
-                    g.drawImage(ImageManager.getImage(22), (frame.getWidth()/2)-140+280, frame.getHeight()/4+(9*(frame.getHeight()/16)), -280,97+2* frame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (menuFrame.getWidth()/2)-140, menuFrame.getHeight()/4, 280,97+2* menuFrame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (menuFrame.getWidth()/2)-140+280, menuFrame.getHeight()/4+(3*(menuFrame.getHeight()/16)), -280,97+2* menuFrame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (menuFrame.getWidth()/2)-140+280, menuFrame.getHeight()/4+(5*(menuFrame.getHeight()/16)), -280,97+2* menuFrame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (menuFrame.getWidth()/2)-140, menuFrame.getHeight()/4+(7*(menuFrame.getHeight()/16)), 280,97+2* menuFrame.getHeight()/16, this);
+                    g.drawImage(ImageManager.getImage(22), (menuFrame.getWidth()/2)-140+280, menuFrame.getHeight()/4+(9*(menuFrame.getHeight()/16)), -280,97+2* menuFrame.getHeight()/16, this);
                 }
             } 
             catch(Exception ex)
@@ -351,7 +352,7 @@ public class MainMenu extends JPanel implements KeyListener
     {
         try
         {   
-            frame.dispose();
+            menuFrame.dispose();
         }
         catch(Exception ex)
         {
