@@ -133,7 +133,9 @@ public class HUD {
             {
                 displayTime=displayTime.substring(0,6);
             }
-            g.drawString(displayTime,(int)(17*(gridSizeX/((float)rightBound)))+200,
+            //NOTE: values in parentheses, such as (17), represent grid locations
+            //Labels are also located in the grid coordinate system.
+            g.drawString(displayTime,(int)((17)*(gridSizeX/((float)rightBound)))+200,
                 8*gridSizeY/20);//draw time value.
             if(level!=-1){
             g.drawString("LEVEL:",(int)(((14)*(gridSizeX/((float)rightBound))))+200,
@@ -149,6 +151,8 @@ public class HUD {
             g.drawString(profile,(int)(14*(gridSizeX/((float)rightBound)))+200,
                 15*gridSizeY/20);//draw profile name.
             }
+            g.drawString("Press ESC for options menu.",(int)(14*(gridSizeX/((float)rightBound)))+200,
+                (int)(17*gridSizeY/20));//information label for options menu pullup
             //tells user if block phase has transitioned into character phase.
             if(characterPhase)
             {

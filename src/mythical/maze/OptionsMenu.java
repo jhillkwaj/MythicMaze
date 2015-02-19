@@ -7,7 +7,6 @@
 package mythical.maze;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
+ * Pulls up a menu for user to change settings.
  * @author Justin Hill
  */
 public class OptionsMenu extends JPanel {
