@@ -584,5 +584,10 @@ public class GameRunner extends JPanel implements KeyListener {
         frame.add(b);
     }
     
+    public void closeFrame()
+    {
+        frame.dispose();
+    }
+    
    
 }

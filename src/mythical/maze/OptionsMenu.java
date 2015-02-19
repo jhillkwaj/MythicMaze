@@ -45,6 +45,7 @@ public class OptionsMenu extends JPanel {
         JButton restrt = new JButton();
         restrt.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+                    reference.closeFrame();
 			reference.restart();
 		}    
 	});
@@ -95,7 +96,9 @@ public class OptionsMenu extends JPanel {
         JButton mainMenu = new JButton();
         mainMenu.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			reference.endLevel();
+			reference.closeFrame();
+                        MainMenu m = new MainMenu();
+                        m.start();
 		}    
 	});
         mainMenu.setBounds(0, 300, 200, 100);
