@@ -254,16 +254,20 @@ public class GameRunner extends JPanel implements KeyListener {
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-8000)/2000.0f)));
                         g2d.drawImage(ImageManager.getImage(59),0,0,this.getWidth(),this.getHeight(),null);}
                     
-                    else{
+                    else
+                    {
                         introPlaying = false;
                         startTime = System.currentTimeMillis();
                         updateTime = startTime;
                     }
-                }else if((level%11)==5)
+                }
+                else if((level%11)==5)
                 {
                     if(time<=1000)
-                    {g.setColor(new Color(0f,0f,0f));
-                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    {
+                        g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
                     else if(time<4000)
                     {
                         g.setColor(new Color(0f,0f,0f,0f));
@@ -271,19 +275,22 @@ public class GameRunner extends JPanel implements KeyListener {
                         Graphics2D g2d = (Graphics2D)g;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
                         g2d.drawImage(ImageManager.getImage(67),0,0,this.getWidth(),this.getHeight(),null);
-                    }else if(time<7000)
+                    }
+                    else if(time<7000)
                     {
                         g.drawImage(ImageManager.getImage(67),0,0,this.getWidth(),this.getHeight(),null);
                         Graphics2D g2d = (Graphics2D)g;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
                         g2d.drawImage(ImageManager.getImage(68),0,0,this.getWidth(),this.getHeight(),null);
-                    }else if(time<10000)
+                    }
+                    else if(time<10000)
                     {
                         g.drawImage(ImageManager.getImage(68),0,0,this.getWidth(),this.getHeight(),null);
                         Graphics2D g2d = (Graphics2D)g;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-7000)/3000.0f)));
                         g2d.drawImage(ImageManager.getImage(69),0,0,this.getWidth(),this.getHeight(),null);
-                    }else if(time<13000)
+                    }
+                    else if(time<13000)
                     {
                         g.drawImage(ImageManager.getImage(69),0,0,this.getWidth(),this.getHeight(),null);
                         Graphics2D g2d = (Graphics2D)g;
@@ -291,25 +298,32 @@ public class GameRunner extends JPanel implements KeyListener {
                         g2d.drawImage(ImageManager.getImage(70),0,0,this.getWidth(),this.getHeight(),null);
                     }
                     else if(time<14000)
-                    { g.drawImage(ImageManager.getImage(70),0,0,this.getWidth(),this.getHeight(),null);}
+                    { 
+                        g.drawImage(ImageManager.getImage(70),0,0,this.getWidth(),this.getHeight(),null);
+                    }
                     else if(time<16000)
-                    { g.setColor(new Color(0f,0f,0f,0f));
+                    { 
+                        g.setColor(new Color(0f,0f,0f,0f));
                         g.fillRect(0, 0, this.getWidth(), this.getHeight());
                         Graphics2D g2d = (Graphics2D)g;
                         System.out.println(1.0f-(float)((time-30000)/10000.0f));
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-14000)/2000.0f)));
                         g2d.drawImage(ImageManager.getImage(70),0,0,this.getWidth(),this.getHeight(),null);}
                     
-                    else{
+                    else
+                    {
                         introPlaying = false;
                         startTime = System.currentTimeMillis();
                         updateTime = startTime;
                     }
-                }else if((level%11)==6)
+                }
+                else if((level%11)==6)
                 {
                     if(time<=1000)
-                    {g.setColor(new Color(0f,0f,0f));
-                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    {
+                        g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
                     else if(time<4000)
                     {
                         g.setColor(new Color(0f,0f,0f,0f));
@@ -317,13 +331,15 @@ public class GameRunner extends JPanel implements KeyListener {
                         Graphics2D g2d = (Graphics2D)g;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
                         g2d.drawImage(ImageManager.getImage(71),0,0,this.getWidth(),this.getHeight(),null);
-                    }else if(time<7000)
+                    }
+                    else if(time<7000)
                     {
                         g.drawImage(ImageManager.getImage(71),0,0,this.getWidth(),this.getHeight(),null);
                         Graphics2D g2d = (Graphics2D)g;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
                         g2d.drawImage(ImageManager.getImage(72),0,0,this.getWidth(),this.getHeight(),null);
-                    }else if(time<10000)
+                    }
+                    else if(time<10000)
                     {
                         g.drawImage(ImageManager.getImage(72),0,0,this.getWidth(),this.getHeight(),null);
                         Graphics2D g2d = (Graphics2D)g;
@@ -331,9 +347,12 @@ public class GameRunner extends JPanel implements KeyListener {
                         g2d.drawImage(ImageManager.getImage(73),0,0,this.getWidth(),this.getHeight(),null);
                     }
                     else if(time<11000)
-                    { g.drawImage(ImageManager.getImage(73),0,0,this.getWidth(),this.getHeight(),null);}
+                    { 
+                        g.drawImage(ImageManager.getImage(73),0,0,this.getWidth(),this.getHeight(),null);
+                    }
                     else if(time<13000)
-                    { g.setColor(new Color(0f,0f,0f,0f));
+                    { 
+                        g.setColor(new Color(0f,0f,0f,0f));
                         g.fillRect(0, 0, this.getWidth(), this.getHeight());
                         Graphics2D g2d = (Graphics2D)g;
                         System.out.println(1.0f-(float)((time-30000)/10000.0f));
@@ -440,21 +459,30 @@ public class GameRunner extends JPanel implements KeyListener {
                 }else if((level%11)==9)
                 {
                     if(time<7000)
-                    { if(100*(1.0f/time)<Math.random())
-                        g.drawImage(ImageManager.getImage(82),0,0,this.getWidth(),this.getHeight(),null);
-                    else{g.setColor(new Color(0f,0f,0f));
-                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                    }}
+                    { 
+                        if(100*(1.0f/time)<Math.random())
+                        {
+                            g.drawImage(ImageManager.getImage(82),0,0,this.getWidth(),this.getHeight(),null);
+                        }
+                        else
+                        {
+                            g.setColor(new Color(0f,0f,0f));
+                            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        }
+                    }
                     else{
                         introPlaying = false;
                         startTime = System.currentTimeMillis();
                         updateTime = startTime;
                     }
-                }else if((level%11)==10)
+                }
+                else if((level%11)==10)
                 {
                     if(time<=1000)
-                    {g.setColor(new Color(0f,0f,0f));
-                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    {
+                        g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }
                     else if(time<4000)
                     {
                         g.setColor(new Color(0f,0f,0f,0f));
@@ -462,15 +490,19 @@ public class GameRunner extends JPanel implements KeyListener {
                         Graphics2D g2d = (Graphics2D)g;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
                         g2d.drawImage(ImageManager.getImage(83),0,0,this.getWidth(),this.getHeight(),null);
-                    }else if(time<7000)
+                    }
+                    else if(time<7000)
                     {
-                        if(!played10){
-                        SoundFX.playFX("Gremlins in the Machine"); played10 = true;}
+                        if(!played10)
+                        {
+                            SoundFX.playFX("Gremlins in the Machine"); played10 = true;
+                        }
                         g.drawImage(ImageManager.getImage(83),0,0,this.getWidth(),this.getHeight(),null);
                         Graphics2D g2d = (Graphics2D)g;
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
                         g2d.drawImage(ImageManager.getImage(84),0,0,this.getWidth(),this.getHeight(),null);
-                    }else if(time<10000)
+                    }
+                    else if(time<10000)
                     {
                         g.drawImage(ImageManager.getImage(84),0,0,this.getWidth(),this.getHeight(),null);
                         Graphics2D g2d = (Graphics2D)g;
@@ -478,16 +510,20 @@ public class GameRunner extends JPanel implements KeyListener {
                         g2d.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);
                     }
                     else if(time<11000)
-                    { g.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);}
+                    { 
+                        g.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);
+                    }
                     else if(time<13000)
-                    { g.setColor(new Color(0f,0f,0f,0f));
+                    { 
+                        g.setColor(new Color(0f,0f,0f,0f));
                         g.fillRect(0, 0, this.getWidth(), this.getHeight());
                         Graphics2D g2d = (Graphics2D)g;
                         System.out.println(1.0f-(float)((time-30000)/10000.0f));
                         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-11000)/2000.0f)));
-                        g2d.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);}
-                    
-                    else{
+                        g2d.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else
+                    {
                         introPlaying = false;
                         startTime = System.currentTimeMillis();
                         updateTime = startTime;
@@ -517,16 +553,19 @@ public class GameRunner extends JPanel implements KeyListener {
                     update();
                 }
                 
-            if(failed){ //level failed
+            if(failed)
+            { //level failed
                 if(failTime==-1)
-                { failTime = System.currentTimeMillis(); BackgroundMusic.stop(); SoundFX.playFX("Endgame");}
-                
+                { 
+                    failTime = System.currentTimeMillis(); BackgroundMusic.stop(); SoundFX.playFX("Endgame");
+                }
                 if(System.currentTimeMillis()-failTime<1000)
                 {
                     Graphics2D g2d = (Graphics2D)g;
                     g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,((System.currentTimeMillis()-failTime)/1000f)));
                     g2d.drawImage(ImageManager.getImage(53),0,0,this.getWidth(),this.getHeight(),null);
-                }else
+                }
+                else
                 {
                     g.drawImage(ImageManager.getImage(53),0,0,this.getWidth(),this.getHeight(),null);
                 }
@@ -853,13 +892,15 @@ public class GameRunner extends JPanel implements KeyListener {
     * Unused keyListener method.
     * @param ke typed parameter
     */
-        public void keyTyped(KeyEvent ke)
+    @Override
+    public void keyTyped(KeyEvent ke)
     {}
     
    /**
     * Updates the screen in the event that a key is pressed to move a block down.
     * @param ke typed parameter.
     */
+    @Override
     public void keyPressed(KeyEvent ke)
     {
         if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_S)
@@ -875,6 +916,7 @@ public class GameRunner extends JPanel implements KeyListener {
     * Causes an movement to blocks or the character when a key has been released.
     * @param ke the key that was released.
     */
+    @Override
     public void keyReleased(KeyEvent ke)
     { 
         if(introPlaying)
@@ -896,8 +938,9 @@ public class GameRunner extends JPanel implements KeyListener {
             {
                 OptionsMenu o = new OptionsMenu(this);
             }
-            if(failed)
+            if(failed)//close current level
             {
+                closeFrame();
                 restartLevel();
             }
             if(!gameGrid.hasWon())//block phase

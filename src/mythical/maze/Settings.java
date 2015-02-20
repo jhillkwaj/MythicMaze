@@ -2,6 +2,7 @@ package mythical.maze;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -28,7 +29,6 @@ public class Settings
         String line; //read one line of file
         try
         {
-            
             FileReader reader = new FileReader(fileName);
             BufferedReader scanner = new BufferedReader(reader);
             while((line = scanner.readLine())!= null)
@@ -39,7 +39,8 @@ public class Settings
         }
         catch(FileNotFoundException ex)
         {
-            ErrorLogger.logIOError("Settings file not located", ex);
+            ErrorLogger.logIOError("Settings file not located.", ex);
+            
         }
         catch(IOException ex)
         {
