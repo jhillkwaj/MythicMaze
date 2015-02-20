@@ -58,7 +58,8 @@ public class MainMenu extends JPanel implements KeyListener
             //set title, exit and size buttons.
             menuFrame.setTitle("Mythical Maze");
             menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+            menuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            menuFrame.setIconImage(ImageManager.getImage(86));
             //start painting screen onto frame.
             menuFrame.getContentPane().add(this);
             startTime = System.currentTimeMillis();//have default start time for comparison

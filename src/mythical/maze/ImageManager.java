@@ -94,6 +94,7 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Hello World.png")));//83
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Hello World2.png")));//84
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Hello World3.png")));//85
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Logo.jpg")));//86
             Thread.sleep(100);    
             EventLogger.logEvent("Images successfully loaded");
         } 
