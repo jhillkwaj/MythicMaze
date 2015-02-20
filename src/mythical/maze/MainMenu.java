@@ -216,7 +216,7 @@ public class MainMenu extends JPanel implements KeyListener
     public void paintComponent(Graphics g)
     {
         draws = (int)(40*(System.currentTimeMillis()-startTime)/1000.0);
-        while(lastDraw<draws)
+        if(lastDraw<draws)
         {
             lastDraw++;
             try 
