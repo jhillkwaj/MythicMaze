@@ -169,7 +169,7 @@ public class Block
             }
             else if((level%11) == 8)
             { 
-                levelImage = 52;
+                levelImage = 8;
                 wallColor = new Color(250,00,00);
             }
             else if((level%11) == 9)

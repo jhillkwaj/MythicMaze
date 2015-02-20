@@ -845,7 +845,7 @@ public class Grid
             }
             else if((level%11) == 8)
             {
-                 g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
+                 g.drawImage(ImageManager.getImage(52), 0, 0, gridSizeX, gridSizeY, null);
             }
             else if((level%11)==9)
             {

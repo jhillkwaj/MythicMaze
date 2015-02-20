@@ -51,6 +51,7 @@ public class GameRunner extends JPanel implements KeyListener {
     
     private boolean failed = false;
     private long failTime = -1;
+    private boolean played10 = false;
     
    
     //NOTE::Due to the length of the class, methods in this class are organized
@@ -159,6 +160,338 @@ public class GameRunner extends JPanel implements KeyListener {
                         introPlaying = false;
                         startTime = System.currentTimeMillis();
                         updateTime = startTime;
+                    }
+                }
+                else if((level%11)==2)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(55),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<5000)
+                    { g.drawImage(ImageManager.getImage(55),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<7000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-5000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(55),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }
+                else if((level%11)==3)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(56),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<7000)
+                    {
+                        g.drawImage(ImageManager.getImage(56),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(57),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else if(time<8000)
+                    { g.drawImage(ImageManager.getImage(57),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<10000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-8000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(57),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }
+                else if((level%11)==4)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(58),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<7000)
+                    {
+                        g.drawImage(ImageManager.getImage(58),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(59),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else if(time<8000)
+                    { g.drawImage(ImageManager.getImage(59),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<10000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-8000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(59),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }else if((level%11)==5)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(67),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<7000)
+                    {
+                        g.drawImage(ImageManager.getImage(67),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(68),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<10000)
+                    {
+                        g.drawImage(ImageManager.getImage(68),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-7000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(69),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<13000)
+                    {
+                        g.drawImage(ImageManager.getImage(69),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-10000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(70),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else if(time<14000)
+                    { g.drawImage(ImageManager.getImage(70),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<16000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-14000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(70),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }else if((level%11)==6)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(71),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<7000)
+                    {
+                        g.drawImage(ImageManager.getImage(71),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(72),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<10000)
+                    {
+                        g.drawImage(ImageManager.getImage(72),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-7000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(73),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else if(time<11000)
+                    { g.drawImage(ImageManager.getImage(73),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<13000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-11000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(73),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }else if((level%11)==7)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(74),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<7000)
+                    {
+                        g.drawImage(ImageManager.getImage(74),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(75),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else if(time<8000)
+                    { g.drawImage(ImageManager.getImage(75),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<10000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-8000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(75),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }else if((level%11)==8)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(76),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<7000)
+                    {
+                        g.drawImage(ImageManager.getImage(76),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(77),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<10000)
+                    {
+                        g.drawImage(ImageManager.getImage(77),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-7000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(78),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<13000)
+                    {
+                        g.drawImage(ImageManager.getImage(78),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-10000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(79),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<16000)
+                    {
+                        g.drawImage(ImageManager.getImage(79),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-13000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(80),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<19000)
+                    {
+                        g.drawImage(ImageManager.getImage(80),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-16000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(81),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else if(time<20000)
+                    { g.drawImage(ImageManager.getImage(81),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<22000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-20000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(81),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }else if((level%11)==9)
+                {
+                    if(time<7000)
+                    { if(100*(1.0f/time)<Math.random())
+                        g.drawImage(ImageManager.getImage(82),0,0,this.getWidth(),this.getHeight(),null);
+                    else{g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    }}
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }else if((level%11)==10)
+                {
+                    if(time<=1000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<4000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-1000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(83),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<7000)
+                    {
+                        if(!played10){
+                        SoundFX.playFX("Gremlins in the Machine"); played10 = true;}
+                        g.drawImage(ImageManager.getImage(83),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-4000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(84),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<10000)
+                    {
+                        g.drawImage(ImageManager.getImage(84),0,0,this.getWidth(),this.getHeight(),null);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,(float)((time-7000)/3000.0f)));
+                        g2d.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);
+                    }
+                    else if(time<11000)
+                    { g.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<13000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-11000)/2000.0f)));
+                        g2d.drawImage(ImageManager.getImage(85),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                        BackgroundMusic.play("Background");
                     }
                 }
                 repaint();
@@ -355,7 +688,7 @@ public class GameRunner extends JPanel implements KeyListener {
                    BackgroundMusic.play("Lost"); }
             else if((level%11)==10)
             { BackgroundMusic.stop();
-                   BackgroundMusic.play("Background"); }
+                    }
             else if(level==-1){
                 BackgroundMusic.stop();
                    BackgroundMusic.play("Background");
@@ -374,12 +707,12 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         try
         {
+            introPlaying = true;
             if(level == -1)
             {
                 eventTime = (int)(900f / ((1)/3.0f));
                 startY = 2;
                 endY = 1;
-                introPlaying = true;
             }
             else
             {
@@ -389,11 +722,7 @@ public class GameRunner extends JPanel implements KeyListener {
                 {
                     eventTime = (int)(900f / ((1+(level))/3.0f));
                     startY = (level%11)+1;//add difficulty
-                    endY = (level%11)+1;
-                    if((level%11)==1)
-                    {
-                        introPlaying = true;
-                    }           
+                    endY = (level%11)+1;         
                 }
                 else if((level%11) == 2)
                 {

@@ -65,11 +65,11 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_GreatWall.png")));//52
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/GameOver.png")));//53
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/ThankYou.png")));//54
-            images.add(null);//55
-            images.add(null);//56
-            images.add(null);//57
-            images.add(null);//58
-            images.add(null);//59
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/GoHome.png")));//55
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Far1.png")));//56
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Far2.png")));//57
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Where1.png")));//58
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Where2.png")));//59
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Music_Button.png")));//60
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Muted_Music_Button.png")));
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Sound_Effects_Button.png")));
@@ -77,6 +77,23 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Main_Menu_Button.png")));
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Buttons/Restart_Level_Button.png")));//65
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/SelectPlayer_Screen.png")));//66
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Remember1.png")));//67
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Remember2.png")));//68
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Remember3.png")));//69
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Remember4.png")));//70
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Purpose1.png")));//71
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Purpose2.png")));//72
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Purpose3.png")));//73
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Blood.png")));//74
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Blood2.png")));//75
+            for(int i = 1; i <= 6; i++) //76-81
+            {
+                images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/ToBe" + i + ".png")));
+            }
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/See.png")));//82
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Hello World.png")));//83
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Hello World2.png")));//84
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/Hello World3.png")));//85
             Thread.sleep(100);    
             EventLogger.logEvent("Images successfully loaded");
         } 
