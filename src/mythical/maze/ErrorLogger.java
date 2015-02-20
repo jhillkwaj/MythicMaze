@@ -60,7 +60,7 @@ public class ErrorLogger
             JOptionPane.showMessageDialog(null, "A Runtime Exception occurred. Description:" + message,
                     "Error", JOptionPane.WARNING_MESSAGE);//display message to user, prompt for crash.
             int selectedOption = JOptionPane.showConfirmDialog(null, 
-                                  "A Runtime Exception occurred. Description:" + message+" - Press Yes to exit.",
+                                  "A Runtime Exception occurred. Description:" + message+" - Press OK to exit.",
                                   "Error", JOptionPane.WARNING_MESSAGE, 
                                   JOptionPane.YES_NO_OPTION); 
             if (selectedOption == JOptionPane.YES_OPTION) //select to shutdown

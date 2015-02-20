@@ -64,7 +64,7 @@ public class ImageManager
             }
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_GreatWall.png")));//52
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/GameOver.png")));//53
-            images.add(null);//54
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Story/ThankYou.png")));//54
             images.add(null);//55
             images.add(null);//56
             images.add(null);//57

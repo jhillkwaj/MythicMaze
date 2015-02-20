@@ -819,35 +819,35 @@ public class Grid
             {
                 g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level ==3)
+            else if((level%11) ==3)
             {
                  g.drawImage(ImageManager.getImage(15), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level == 1)
+            else if((level%11) == 1)
             {
                  g.drawImage(ImageManager.getImage(17), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level == 4)
+            else if((level%11) == 4)
             {
                  g.drawImage(ImageManager.getImage(21), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level == 5)
+            else if((level%11) == 5)
             {
                  g.drawImage(ImageManager.getImage(19), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level == 6)
+            else if((level%11) == 6)
             {
                  g.drawImage(ImageManager.getImage(20), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level == 7)
+            else if((level%11) == 7)
             {
                  g.drawImage(ImageManager.getImage(16), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level == 8)
+            else if((level%11) == 8)
             {
                  g.drawImage(ImageManager.getImage(14), 0, 0, gridSizeX, gridSizeY, null);
             }
-            else if(level==9)
+            else if((level%11)==9)
             {
                  g.drawImage(ImageManager.getImage(13), 0, 0, gridSizeX, gridSizeY, null);
             }

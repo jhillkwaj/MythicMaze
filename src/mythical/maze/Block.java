@@ -137,42 +137,42 @@ public class Block
             //set custom wall colors to complement the backgrounds to stand out.
             wallColor = new Color(0,230,50);
             int levelImage = 10;//default
-            if(level == 2)
+            if((level%11) == 2)
             { 
                 levelImage = 8;
                 wallColor = new Color(250,30,30);
             }
-            else if(level == 3)
+            else if((level%11) == 3)
             { 
                 levelImage = 11;
                 wallColor = new Color(30,250,30);
             }
-            else if(level == 4)
+            else if((level%11) == 4)
             { 
                 levelImage = 12;
                 wallColor = new Color(250,30,255);
             }
-            else if(level == 5)
+            else if((level%11) == 5)
             { 
                 levelImage = 9;
                 wallColor = new Color(30,250,255);
             }
-            else if(level == 6)
+            else if((level%11) == 6)
             { 
                 levelImage = 36;
                 wallColor = new Color(255,250,100);
             }
-            else if(level == 7)
+            else if((level%11) == 7)
             { 
                 levelImage = 12;
                 wallColor = new Color(255,150,60);
             }
-            else if(level == 8)
+            else if((level%11) == 8)
             { 
-                levelImage = 8;
+                levelImage = 52;
                 wallColor = new Color(250,00,00);
             }
-            else if(level == 9)
+            else if((level%11) == 9)
             { 
                 levelImage = 11;
                 wallColor = new Color(250,255,255);

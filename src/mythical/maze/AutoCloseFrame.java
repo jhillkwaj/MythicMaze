@@ -24,40 +24,31 @@ public class AutoCloseFrame extends JFrame implements WindowFocusListener,  Wind
         addWindowListener(this);
     }
    
-    @Override
     public void windowGainedFocus(WindowEvent e) 
     {}
 
-    @Override
-    public void windowLostFocus(WindowEvent e) {
+        public void windowLostFocus(WindowEvent e) {
         this.dispose();//dispose of window when focus is lost
     }
 
-    @Override
-    public void windowOpened(WindowEvent e) {
+        public void windowOpened(WindowEvent e) {
     }
 
-    @Override
-    public void windowClosing(WindowEvent e){
+        public void windowClosing(WindowEvent e){
     }
 
-    @Override
-    public void windowClosed(WindowEvent e) {
+        public void windowClosed(WindowEvent e) {
     }
 
-    @Override
-    public void windowIconified(WindowEvent e) {
+        public void windowIconified(WindowEvent e) {
     }
 
-    @Override
-    public void windowDeiconified(WindowEvent e) {
+        public void windowDeiconified(WindowEvent e) {
     }
 
-    @Override
-    public void windowActivated(WindowEvent e) {
+        public void windowActivated(WindowEvent e) {
     }
 
-    @Override
-    public void windowDeactivated(WindowEvent e) {
+        public void windowDeactivated(WindowEvent e) {
     }  
 }

@@ -35,7 +35,7 @@ public class MainMenu extends JPanel implements KeyListener
     private long startTime;
     private int lastDraw = 0;
     
-    private ArrayList<Shape> shapes = new ArrayList<>();
+
     
     /**
      * Creates the frame with correct dimensions, starts music and button controls.
@@ -290,11 +290,7 @@ public class MainMenu extends JPanel implements KeyListener
                 {
                     blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
                 }
-                //draw some pieces
-                for(Shape s : shapes)
-                {
-                    s.drawShape(g, this.getWidth(), this.getHeight(), 0, 0);
-                }
+               
                 if((blackStartFilter.getAlpha()/255.0f)-.002f<=.6f)//animation for title
                 {
                     //set font and color, get images
@@ -331,17 +327,14 @@ public class MainMenu extends JPanel implements KeyListener
         repaint();//refresh screen
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) 
+        public void keyTyped(KeyEvent e) 
     {
         draws = 300;//skip past main menu introduction.
         lastDraw = 300;
         blackStartFilter = new Color(0.0f,0.0f,0.0f,0.4f);//fade right into menu
     }
-    @Override
-    public void keyPressed(KeyEvent e) {}
-    @Override
-    public void keyReleased(KeyEvent e) {}
+        public void keyPressed(KeyEvent e) {}
+        public void keyReleased(KeyEvent e) {}
     
     /**
      * Closes the menu.

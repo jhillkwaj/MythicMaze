@@ -51,6 +51,7 @@ public class GameRunner extends JPanel implements KeyListener {
     
     private boolean failed = false;
     private long failTime = -1;
+    
    
     //NOTE::Due to the length of the class, methods in this class are organized
     //into the following categories from top to bottom: graphics, starting the game,
@@ -128,6 +129,33 @@ public class GameRunner extends JPanel implements KeyListener {
                     }
                     if(time>28000)
                     {
+                        introPlaying = false;
+                        startTime = System.currentTimeMillis();
+                        updateTime = startTime;
+                    }
+                }else if((level%11)==1)
+                {
+                    if(time<=2000)
+                    {g.setColor(new Color(0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());}
+                    else if(time<12000)
+                    {
+                        g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,(float)((time-2000)/10000.0f)));
+                        g2d.drawImage(ImageManager.getImage(54),0,0,this.getWidth(),this.getHeight(),null);
+                    }else if(time<30000)
+                    { g.drawImage(ImageManager.getImage(54),0,0,this.getWidth(),this.getHeight(),null);}
+                    else if(time<40000)
+                    { g.setColor(new Color(0f,0f,0f,0f));
+                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                        Graphics2D g2d = (Graphics2D)g;
+                        System.out.println(1.0f-(float)((time-30000)/10000.0f));
+                        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN,1.0f-(float)((time-30000)/10000.0f)));
+                        g2d.drawImage(ImageManager.getImage(54),0,0,this.getWidth(),this.getHeight(),null);}
+                    
+                    else{
                         introPlaying = false;
                         startTime = System.currentTimeMillis();
                         updateTime = startTime;
@@ -295,34 +323,37 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         try
         {
-            if(level==1)
+            if((level)==1)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Lost"); }
-            else if(level==2)
+            else if((level%11)==1)
+                { BackgroundMusic.stop();
+                   BackgroundMusic.play("TearsOfTheMachine"); }
+            else if((level%11)==2)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Moar Chinese"); }
-            else if(level==3)
+            else if((level%11)==3)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Dancing in the Halls of Pie.mscz"); }
-            else if(level==4)
+            else if((level%11)==4)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Chinese Theme"); }
-            else if(level==5)
+            else if((level%11)==5)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("RR_1_RichardW.mscz"); }
-            else if(level==6)
+            else if((level%11)==6)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Race_Car_Music"); }
-            else if(level==7)
+            else if((level%11)==7)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Moar Chinese"); }
-            else if(level==8)
+            else if((level%11)==8)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Chinese Theme"); }
-            if(level==9)
+            if((level%11)==9)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Lost"); }
-            else if(level==10)
+            else if((level%11)==10)
             { BackgroundMusic.stop();
                    BackgroundMusic.play("Background"); }
             else if(level==-1){
@@ -351,44 +382,46 @@ public class GameRunner extends JPanel implements KeyListener {
                 introPlaying = true;
             }
             else
-            {       
-                if(level % 2 == 1)
+            {
+                if((level%11)==0)
+                { level++; }
+                if((level%11) % 2 == 1)
                 {
                     eventTime = (int)(900f / ((1+(level))/3.0f));
-                    startY = level+1;//add difficulty
-                    endY = level+1;
-                    if(level==1)
+                    startY = (level%11)+1;//add difficulty
+                    endY = (level%11)+1;
+                    if((level%11)==1)
                     {
                         introPlaying = true;
                     }           
                 }
-                else if(level == 2)
+                else if((level%11) == 2)
                 {
                     eventTime = (int)(900f / ((1+(level))/3.0f));
                     startY = 3;
                     endY = 2;
                 }
-                else if(level == 4)
+                else if((level%11) == 4)
                 {
-                    eventTime = (int)(900f / ((1+3.5)/3.0f));
+                    eventTime = (int)(900f / (((level-3)+3.5)/3.0f));
                     startY = 4;
                     endY = 3;
                 }
-                else if(level == 6)
+                else if((level%11) == 6)
                 {
-                    eventTime = (int)(900f / ((1+3.5)/3.0f));
+                    eventTime = (int)(900f / (((level-5)+3.5)/3.0f));
                     startY = 2;
                     endY = 6;
                 }
-                else if(level == 8)
+                else if((level%11) == 8)
                 {
-                    eventTime = (int)(900f / ((1+4.5)/3.0f));
+                    eventTime = (int)(900f / (((level-7)+4.5)/3.0f));
                     startY = 6;
                     endY = 8;
                 }
-                else if(level == 10)
+                else if((level%11) == 10)
                 {
-                    eventTime = (int)(900f / ((1+5)/3.0f));
+                    eventTime = (int)(900f / (((level-9)+5)/3.0f));
                     startY = 1;
                     endY = 11;
                 }
@@ -490,15 +523,13 @@ public class GameRunner extends JPanel implements KeyListener {
     * Unused keyListener method.
     * @param ke typed parameter
     */
-    @Override
-    public void keyTyped(KeyEvent ke)
+        public void keyTyped(KeyEvent ke)
     {}
     
    /**
     * Updates the screen in the event that a key is pressed to move a block down.
     * @param ke typed parameter.
     */
-    @Override
     public void keyPressed(KeyEvent ke)
     {
         if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_S)
@@ -514,7 +545,6 @@ public class GameRunner extends JPanel implements KeyListener {
     * Causes an movement to blocks or the character when a key has been released.
     * @param ke the key that was released.
     */
-    @Override
     public void keyReleased(KeyEvent ke)
     { 
         if(introPlaying)
@@ -526,6 +556,8 @@ public class GameRunner extends JPanel implements KeyListener {
             else
             {
                 introPlaying = false;//end of tutorial, end intro
+                startTime = System.currentTimeMillis();
+                updateTime = startTime;
             }  
         }
         else
