@@ -27,7 +27,6 @@ import javax.swing.plaf.FontUIResource;
 public class MainMenu extends JPanel implements KeyListener 
 {
     private static JFrame menuFrame = new JFrame();
-    private JPanel menuPanel;
     private JButton play, tutorial, credits, highScore, exit;  
     private Color blackStartFilter = new Color(0.0f,0.0f,0.0f,1.0f);
     private double draws = 0;
@@ -49,7 +48,6 @@ public class MainMenu extends JPanel implements KeyListener
             ErrorLogger.setupError();
             CrashLogger.setupCrash();
             ImageManager.importAll();//import all images
-            menuPanel = this;
             this.removeAll();//remove anything from frame, clean slate.
             menuFrame = new JFrame();
             //set correct dimmensions.
@@ -219,12 +217,13 @@ public class MainMenu extends JPanel implements KeyListener
         draws = (int)(40*(System.currentTimeMillis()-startTime)/1000.0);
         while(lastDraw<draws)
         {
+            lastDraw++;
             try 
             {
                 //fills a black background with background image
                 g.setColor(new Color(0,0,0));
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                switch (((int)(draws-200)/300)%7)
+                switch (((int)(lastDraw-200)/300)%7)
                 {
                     case 0:
                         g.drawImage(ImageManager.getImage(16),0,0, this.getWidth(), this.getHeight(), this);
@@ -253,11 +252,11 @@ public class MainMenu extends JPanel implements KeyListener
                         g.drawImage(ImageManager.getImage(52),0,0, this.getWidth(), this.getHeight(), this);
                     break;   
                 }
-                if(draws>300&&(int)(draws-200)%300>270)
+                if(lastDraw>300&&(int)(lastDraw-200)%300>270)
                 {
                     blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)+.02f);
                 }
-                else if(draws>300&&(int)(draws-200)%300<29)
+                else if(lastDraw>300&&(int)(lastDraw-200)%300<29)
                 {
                     if((blackStartFilter.getAlpha()/255.0f)-.02f>0)
                     {
@@ -272,7 +271,7 @@ public class MainMenu extends JPanel implements KeyListener
                 //fade in main menu elements
                 g.setColor(blackStartFilter);
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                if(draws<100)
+                if(lastDraw<100)
                 {
                     g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
                     g.setColor(new Color(255,144,0));
@@ -280,14 +279,14 @@ public class MainMenu extends JPanel implements KeyListener
                     g.drawImage(ImageManager.getImage(3), this.getWidth()/4, this.getHeight()/2, this.getWidth()/2, this.getWidth()/10, null);
 
                 }
-                else if(draws<200)//continuing fade in...
+                else if(lastDraw<200)//continuing fade in...
                 {
                     g.setFont(new Font("WLM Carton", Font.PLAIN, 50));
                     g.setColor(new Color(255,144,0));
                     g.drawImage(ImageManager.getImage(1), this.getWidth()/4, this.getHeight()/6, this.getWidth()/2, this.getWidth()/10, null);
                     g.drawImage(ImageManager.getImage(0), this.getWidth()/3, (int)(this.getHeight()/2.5f), this.getWidth()/3, (int)(((this.getWidth()/3.0f)/800.0f)*600.0f), null);
                 }
-                if(draws>200&&draws<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)//complete fade in at end
+                if(lastDraw>200&&lastDraw<1000&&(blackStartFilter.getAlpha()/255.0f)-.002f>0)//complete fade in at end
                 {
                     blackStartFilter = new Color(0.0f,0.0f,0.0f,(blackStartFilter.getAlpha()/255.0f)-.002f);
                 }
@@ -307,12 +306,12 @@ public class MainMenu extends JPanel implements KeyListener
                     {
                         addButtons();
                     }
-                    if(draws%400 < 100)//move around title in pattern back and forth
+                    if(lastDraw%400 < 100)//move around title in pattern back and forth
                     {
                         mythicPos+=this.getWidth()/350.0f;
                         mazePos-=this.getWidth()/300.0f;
                     }
-                    else if(draws%400 >= 200 && draws%400 < 300)
+                    else if(lastDraw%400 >= 200 && lastDraw%400 < 300)
                     {
                         mythicPos-=this.getWidth()/350.0f;
                         mazePos+=this.getWidth()/300.0f;
@@ -328,7 +327,6 @@ public class MainMenu extends JPanel implements KeyListener
             {
                 ErrorLogger.logRuntimeError("Unknown exception in displaying menu",ex);
             }
-                lastDraw++;
         }
         repaint();//refresh screen
     }

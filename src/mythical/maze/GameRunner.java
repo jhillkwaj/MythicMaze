@@ -1,5 +1,6 @@
 package mythical.maze;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -47,6 +48,9 @@ public class GameRunner extends JPanel implements KeyListener {
     private String playerName;
     private int slot, highScore;    
     private int imageNum = 0;
+    
+    private boolean failed = false;
+    private long failTime = -1;
    
     //NOTE::Due to the length of the class, methods in this class are organized
     //into the following categories from top to bottom: graphics, starting the game,
@@ -69,6 +73,7 @@ public class GameRunner extends JPanel implements KeyListener {
     {
         try
         {
+            
             if(introPlaying)//paints intro animation
             {
                 double time = System.currentTimeMillis()-startTime;
@@ -150,7 +155,22 @@ public class GameRunner extends JPanel implements KeyListener {
                 {
                     update();
                 }
-                repaint();//redo again in loop
+                
+            if(failed){ //level failed
+                if(failTime==-1)
+                { failTime = System.currentTimeMillis(); BackgroundMusic.stop(); SoundFX.playFX("Endgame");}
+                
+                if(System.currentTimeMillis()-failTime<1000)
+                {
+                    Graphics2D g2d = (Graphics2D)g;
+                    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,((System.currentTimeMillis()-failTime)/1000f)));
+                    g2d.drawImage(ImageManager.getImage(53),0,0,this.getWidth(),this.getHeight(),null);
+                }else
+                {
+                    g.drawImage(ImageManager.getImage(53),0,0,this.getWidth(),this.getHeight(),null);
+                }
+            }
+            repaint();//redo again in loop
             }
         }
         catch(Exception ex)
@@ -375,6 +395,7 @@ public class GameRunner extends JPanel implements KeyListener {
             }
                 startY = 21 - startY;
                 endY = 21 - endY;
+                failed = false;
               
         }
         catch(Exception ex)
@@ -424,12 +445,13 @@ public class GameRunner extends JPanel implements KeyListener {
     */
     public void endLevel()
     {
-        if(level!=-1)
-        {
-            gameFrame.dispose();//new frame for new level
-        }   
+         
         if(gameGrid.hasWonLevel())//level won
         {
+            if(level!=-1)
+            {
+                gameFrame.dispose();//new frame for new level
+            }  
             if(level!=-1)
             {
                 level++;//level up
@@ -452,7 +474,7 @@ public class GameRunner extends JPanel implements KeyListener {
         {
             if(level!=-1)
             {
-                restartLevel();
+                failed = true;
             }
             else{
                 gameGrid.clearDeadBlocks();
@@ -511,6 +533,10 @@ public class GameRunner extends JPanel implements KeyListener {
             if (ke.getKeyCode() == KeyEvent.VK_ESCAPE)//pull up options menu
             {
                 OptionsMenu o = new OptionsMenu(this);
+            }
+            if(failed)
+            {
+                restartLevel();
             }
             if(!gameGrid.hasWon())//block phase
             {
