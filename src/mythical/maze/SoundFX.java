@@ -23,31 +23,33 @@ public class SoundFX
     {
         if(Settings.soundEffectsOn)
         {
-        final String clipName = name;
-        Thread thread;
-        thread = new Thread(new Runnable()
-        {
-            @Override
-            public void run() 
+            final String clipName = name;
+            Thread thread;
+            thread = new Thread(new Runnable()
             {
-                AudioInputStream audioIn = null;//initiates audio stream
-                try 
+                @Override
+                public void run() 
                 {
-                    audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+clipName+".wav"));//set path
-                    clip = AudioSystem.getClip();//gets clip
-                    clip.open(audioIn);//opens clip
-                    clip.start();//plays sound
-                    EventLogger.logEvent("Sound effect successful load");
-                } 
-                catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
-                {
-                    ErrorLogger.logIOError("Cannot play sound effect",ex);
+                    AudioInputStream audioIn = null;//initiates audio stream
+                    try 
+                    {
+                        audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+clipName+".wav"));//set path
+                        clip = AudioSystem.getClip();//gets clip
+                        clip.open(audioIn);//opens clip
+                        clip.start();//plays sound
+                        EventLogger.logEvent("Sound effect successful load");
+                    } 
+                    catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
+                    {
+                        ErrorLogger.logIOError("Cannot play sound effect",ex);
+                    }
+                    catch(Exception ex)
+                    {
+                        ErrorLogger.logRuntimeError("Unknown error in playing sound effect",ex);
+                    }
                 }
-                catch(Exception ex)
-                {}
-            }
-        });
-        thread.start();//runs the sound creating thread
-    }
+            });
+            thread.start();//runs the sound creating thread
+        }
     }
 }

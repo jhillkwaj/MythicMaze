@@ -24,38 +24,40 @@ public class BackgroundMusic
     public static void play(String name)
     {
         if(clip!=null)
-        { clip.stop(); }
+        { 
+            clip.stop(); 
+        }
         lastSong = name;
         if(Settings.musicOn)
         {
-        final String songName = name;
-        Thread thread;
-        thread = new Thread(new Runnable()
-        {
-            @Override
-            public void run() 
+            final String songName = name;
+            Thread thread;
+            thread = new Thread(new Runnable()
             {
-                AudioInputStream audioIn = null;//initiates audio stream
-                try 
+                @Override
+                public void run() 
                 {
-                    audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+songName+".wav"));//set path
-                    clip = AudioSystem.getClip();//gets clip
-                    clip.open(audioIn);//opens clip
-                    clip.start();//plays song
-                    clip.loop(Clip.LOOP_CONTINUOUSLY);
-                } 
-                catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
-                {
-                    ErrorLogger.logIOError("Music could not load: IOException",ex);
+                    AudioInputStream audioIn = null;//initiates audio stream
+                    try 
+                    {
+                        audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+songName+".wav"));//set path
+                        clip = AudioSystem.getClip();//gets clip
+                        clip.open(audioIn);//opens clip
+                        clip.start();//plays song
+                        clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    } 
+                    catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
+                    {
+                        ErrorLogger.logIOError("Music could not load: IOException",ex);
+                    }
+                    catch(Exception ex)
+                    {
+                        ErrorLogger.logRuntimeError("Unknown error: sound effects did not load",ex);
+                    }
                 }
-                catch(Exception ex)
-                {
-                    ErrorLogger.logRuntimeError("Unknown error: sound effects did not load",ex);
-                }
-            }
-        });
-        EventLogger.logEvent("Music successfully loaded and played");
-        thread.start();//runs the music playing thread
+            });
+            EventLogger.logEvent("Music successfully loaded and played");
+            thread.start();//runs the music playing thread
         }
     }
     

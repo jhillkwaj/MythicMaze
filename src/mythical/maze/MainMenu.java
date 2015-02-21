@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -328,13 +327,16 @@ public class MainMenu extends JPanel implements KeyListener
         repaint();//refresh screen
     }
 
-        public void keyTyped(KeyEvent e) 
+    @Override
+    public void keyTyped(KeyEvent e) 
     {
         draws = 300;//skip past main menu introduction.
         lastDraw = 300;
         blackStartFilter = new Color(0.0f,0.0f,0.0f,0.4f);//fade right into menu
     }
+    @Override
         public void keyPressed(KeyEvent e) {}
+    @Override
         public void keyReleased(KeyEvent e) {}
     
     /**

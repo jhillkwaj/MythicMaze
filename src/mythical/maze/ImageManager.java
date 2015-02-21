@@ -43,14 +43,14 @@ public class ImageManager
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Chichen Itza.png"))); //17
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_ChichenItza.png"))); //18
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_EiffelTower.png")));//19
-            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_SydneyoperaHouse.png")));//20
-            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Tajmahal.png")));//21
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_SydneyOperaHouse.png")));//20
+            images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_TajMahal.png")));//21
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Block_Wood_Crate_Enlarged_Three.png")));//22
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Background_Chichen Itza Happy.png")));//23
             
             for(int i = 1; i <= 7; i++) //24-30
             {
-                images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Slide" + i + ".png")));
+                images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Slide" + i + ".PNG")));
             }
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob.png")));//31
             images.add(ImageIO.read(ImageManager.class.getResource("Graphics/Bob1.png")));//32
