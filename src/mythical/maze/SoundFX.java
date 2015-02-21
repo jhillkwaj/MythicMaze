@@ -33,7 +33,7 @@ public class SoundFX
                     AudioInputStream audioIn = null;//initiates audio stream
                     try 
                     {
-                        audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+clipName+".wav"));//set path
+                        audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResource("Graphics/"+clipName+".wav"));//set path
                         clip = AudioSystem.getClip();//gets clip
                         clip.open(audioIn);//opens clip
                         clip.start();//plays sound

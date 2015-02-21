@@ -40,7 +40,7 @@ public class BackgroundMusic
                     AudioInputStream audioIn = null;//initiates audio stream
                     try 
                     {
-                        audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResourceAsStream("Graphics/"+songName+".wav"));//set path
+                        audioIn = AudioSystem.getAudioInputStream(BackgroundMusic.class.getResource("Graphics/"+songName+".wav"));//set path
                         clip = AudioSystem.getClip();//gets clip
                         clip.open(audioIn);//opens clip
                         clip.start();//plays song
