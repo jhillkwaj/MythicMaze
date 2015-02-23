@@ -965,7 +965,6 @@ public class GameRunner extends JPanel implements KeyListener {
     * Unused keyListener method.
     * @param ke typed parameter
     */
-    @Override
     public void keyTyped(KeyEvent ke)
     {}
     
@@ -973,7 +972,6 @@ public class GameRunner extends JPanel implements KeyListener {
     * Updates the screen in the event that a key is pressed to move a block down.
     * @param ke typed parameter.
     */
-    @Override
     public void keyPressed(KeyEvent ke)
     {
         if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_S)
@@ -989,7 +987,6 @@ public class GameRunner extends JPanel implements KeyListener {
     * Causes an movement to blocks or the character when a key has been released.
     * @param ke the key that was released.
     */
-    @Override
     public void keyReleased(KeyEvent ke)
     { 
         if(introPlaying)
