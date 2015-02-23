@@ -68,7 +68,6 @@ public class GameRunner extends JPanel implements KeyListener {
     * Creates the canvas; calls out to object classes to paint grid, blocks, 
     * heads up display, character, and much more.
     * @param g the <code>Graphics</code> to paint onto
-    * @see Graphics.
     */
     @Override
     public void paint(Graphics g)
@@ -637,6 +636,7 @@ public class GameRunner extends JPanel implements KeyListener {
      * then moves to start creating a game frame.
      * @param data an array containing saved statistics
      * @param name the name of the player
+     * @param slot reference to player id
      */
     public void start(String[] data, String name, int slot)
     {
