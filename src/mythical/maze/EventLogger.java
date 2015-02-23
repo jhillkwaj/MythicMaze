@@ -25,7 +25,7 @@ public class EventLogger
     { 
         try 
         {
-            fhEvent = new FileHandler("SystemEvent.txt",999999,1,true);
+            fhEvent = new FileHandler("logs/SystemEvent.txt",999999,1,true);
             fhEvent.setFormatter(sf);
             logEvent.addHandler(fhEvent);
         } 

@@ -24,7 +24,7 @@ public class SaveLoad
         ArrayList<String> profileNames = new ArrayList<>();
         try 
         {
-            File f = new File("profiles.dat");//set path to file
+            File f = new File("profiles/profiles.dat");//set path to file
             if(f.exists())
             {
                 Scanner in = new Scanner(new FileReader(f));
@@ -68,7 +68,7 @@ public class SaveLoad
         ArrayList<String> profileNames = new ArrayList<>();
         try 
         {
-            File f = new File("profiles.dat");//set file path
+            File f = new File("profiles/profiles.dat");//set file path
             if(f.exists())
             {
                 Scanner in = new Scanner(new FileReader(f));
@@ -78,7 +78,7 @@ public class SaveLoad
                 }
                 in.close();
             }
-            BufferedWriter out = new BufferedWriter(new FileWriter(new File("profiles.dat")));//set file path
+            BufferedWriter out = new BufferedWriter(new FileWriter(new File("profiles/profiles.dat")));//set file path
             for(String s : profileNames)
             {
                 out.write(s);//write in original lines
@@ -112,7 +112,7 @@ public class SaveLoad
         try 
         {
             String profileData = "";
-            File data = new File(name+slot+".dat");
+            File data = new File("profiles/"+name+slot+".dat");
             if(data.exists())
             {
                 Scanner inData = new Scanner(new FileReader(data));
@@ -155,7 +155,7 @@ public class SaveLoad
         BufferedWriter out;
         try 
         {
-            out = new BufferedWriter(new FileWriter(new File(name+slot+".dat")));//set file path.
+            out = new BufferedWriter(new FileWriter(new File("profiles/"+name+slot+".dat")));//set file path.
             out.write(data);//writes in data
             out.close();
             EventLogger.logEvent("New profile successfully saved");
@@ -180,7 +180,7 @@ public class SaveLoad
         TreeMap<Integer, String> scores = new TreeMap<>();//creates a treemap of score and name keys
         try 
         {
-            File f = new File("highScores.dat");//sets file path.
+            File f = new File("profiles/highScores.dat");//sets file path.
             if(f.exists())
             {
                 Scanner in = new Scanner(new FileReader(f));
@@ -220,7 +220,7 @@ public class SaveLoad
         TreeMap<Integer, String> scores = new TreeMap<>();
         try 
         {
-            File f = new File("highScores.dat");//sets file path.
+            File f = new File("profiles/highScores.dat");//sets file path.
             if(f.exists())
             {
                 Scanner in = new Scanner(new FileReader(f));

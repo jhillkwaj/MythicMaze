@@ -124,6 +124,7 @@ public class OptionsMenu extends JPanel {
             {
                 if(confirmAction())
                 {
+                    
                     reference.closeFrame();//close game menu
                     MainMenu m = new MainMenu();//create new menu
                     m.start();

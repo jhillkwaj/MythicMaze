@@ -26,7 +26,7 @@ public class ErrorLogger
     {
         try 
         {
-            fhError = new FileHandler("ErrorLogger.txt",999999,1,true);
+            fhError = new FileHandler("logs/ErrorLogger.txt",999999,1,true);
             fhError.setFormatter(sf);
             logError.addHandler(fhError);   
         } 

@@ -25,7 +25,7 @@ public class CrashLogger
     {
         try 
         {  
-            fhCrash = new FileHandler("CrashHandler.txt",999999,1,true);
+            fhCrash = new FileHandler("logs/CrashHandler.txt",999999,1,true);
             fhCrash.setFormatter(sf);
             logCrash.addHandler(fhCrash);   
         } 
