@@ -23,6 +23,12 @@ public class SoundFX
     {
         if(Settings.soundEffectsOn)
         {
+            if(clip!=null)
+            {
+                clip.stop(); 
+                clip.close();
+                clip = null;
+            }
             final String clipName = name;
             Thread thread;
             thread = new Thread(new Runnable()
